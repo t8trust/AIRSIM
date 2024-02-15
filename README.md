@@ -72,7 +72,7 @@ Les rendus se font sur le wiki de projet gitlab
     - Page de équipe créée avec la liste des membres du projet (Nom, prénom, email, _téléphone_) + lien vers le Discord
   - Enseignants de l'UE rajoutés comme rapporteurs au projet Gitlab.
 
-### Semaine 2 (4/03) - Organisation et conception (12h de travail attendu)
+### Semaine 2 (4/03) - Organisation et conception (10h de travail attendu)
 
 - Organisation du travail de groupe
 - Phase de conception orientée usages
@@ -86,7 +86,7 @@ Les rendus se font sur le wiki de projet gitlab
     - Maquettes écrans de l'application (restez simple, il faudra le coder plus tard)
   - Des issues décrivant les users story (si ce n'est pas sur le wiki).
 
-### Semaine 3 (25/03) - Stack et démarrage (15h de travail attendu)
+### Semaine 3 (25/03) - Stack et démarrage (10h de travail attendu)
 
 - Mise en place de la VM
 - Démarrage technique
@@ -98,7 +98,7 @@ Les rendus se font sur le wiki de projet gitlab
     - Outils et frameworks/bibliothèques utilisées par le groupe
     - 1e jet d’architecture (qui sera mis à jour au fur et à mesure)
 
-### Semaine 4 (1/04) - Proto 1 “[MVP](https://en.wikipedia.org/wiki/Minimum_viable_product)” (20h de travail attendu)
+### Semaine 4 (1/04) - Proto 1 “[MVP](https://en.wikipedia.org/wiki/Minimum_viable_product)” (15h de travail attendu)
 
 - Une version 0 de l'application est testable sur la VM
 - Jalon 3 :
@@ -106,11 +106,11 @@ Les rendus se font sur le wiki de projet gitlab
   - Sonarqube mis en place
   - UNE fonctionnalité de base est implémentée et intégrée.
 
-### Semaine 5 (22/04) (20h de travail attendu)
+### Semaine 5 (22/04) (15h de travail attendu)
 
 - Développement et tests
 
-### Semaine 6 (29/04) — Livraison et présentation (15h de travail attendu)
+### Semaine 6 (29/04) — Livraison et présentation (10h de travail attendu)
 
 - Finalisation (pas d’ajout de fonctionnalités)
 - Livraison du code
@@ -118,7 +118,7 @@ Les rendus se font sur le wiki de projet gitlab
 - Soutenances
 - Jalon 4 :
   - Guide d'utilisation sur le wiki
-  - MaJ de l'architecture
+  - MàJ de l'architecture
   - Documentation technique
 
 Rendus et soutenances voir plus bas.
