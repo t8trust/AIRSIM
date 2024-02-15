@@ -30,6 +30,7 @@ Pendant les semaines de projet il y aura trois créneaux résevés par semaine d
 - Mardi 9h45-13h
 - Jeudi 14h-17h15
 - Vendredi 14h-17h15
+
 La présence n'est pas obligatoire, mais c'est l'occasion de nous rencontrer.
 
 
