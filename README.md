@@ -31,7 +31,7 @@ Pendant les semaines de projet il y aura trois créneaux résevés par semaine d
 - Jeudi 14h-17h15
 - Vendredi 14h-17h15
 
-![Créneaux](Mif01_2023_créneaux.png)
+![Créneaux](Mif01_2023_creneaux.png)
 
 La présence n'est pas obligatoire, mais c'est l'occasion de nous rencontrer.
 
