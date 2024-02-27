@@ -10,7 +10,7 @@ Encadrants :
 
 ## Organisation de l'UE
 
-Il s'agit de mener un projet de développement Web en groupe de 6 personnes. Le temps de travail attendu par étudiant est de **60h** réparties sur 6 semaines
+Il s'agit de mener un projet de développement Web en groupe de 6 personnes. Le temps de travail attendu par étudiant est de **60 heures** réparties sur 6 semaines
 
 L'UE se déroule pendant les périodes "creuses". Nous avons bloqué des créneaux, mais vous êtes libres dans votre organisation.
 L'UE se déroulera en présentiel, vous devrez vous rencontrer pour travailler en groupe, tout en permettant que des personnes à distance puissent participer de manière fluide au projet.
@@ -20,16 +20,16 @@ Si vous avez des questions techniques ou organisationelles, elles se discuteront
 Nous offrons une séance de permanence plusieurs fois par semaine (voir le calendrier), idéalement pour un groupe tout entier. Cela peut être l'occasion de discuter d'organisation, du cadrage du projet, de l'architecture, ou de problèmes techniques spécifiques.
 
 Nous n'utiliserons pas l'email ou le chat pour répondre aux questions techniques. Vous pouvez toutefois m'envoyer un email :
-- Si une réponse tarde à arriver dans les issues (pas de réponse après 36h).
+- Si une réponse tarde à arriver dans les issues (pas de réponse après 36h, WE et jours fériés exclus),
 - Si vous souhaitez discuter de l'organisation de votre groupe ou de points plus personnels (difficulté à suivre, tensions dans le groupe, attitude de personnes dans le groupe).
 
 
 ## Permanences
 
 Pendant les semaines de projet il y aura trois créneaux résevés par semaine dans une salle du Nautibus, partiellement avec permanences :
-- Mardi 9h45-13h
-- Jeudi 14h-17h15
-- Vendredi 14h-17h15
+- Mardi 9h45-13h,
+- Jeudi 14h-17h15,
+- Vendredi 14h-17h15.
 
 ![Créneaux](Mif01_2023_creneaux.png)
 
