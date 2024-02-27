@@ -36,9 +36,9 @@ Pendant les semaines de projet il y aura trois créneaux résevés par semaine d
 
 ## Cours
 
-- Intro à l'UE [supports pdf](https://forge.univ-lyon1.fr/mif10-2023/projet-transversal/-/blob/main/cours/Projet_Transversal-2023.pdf)
-- Intro à [Gitlab pour la gestion de projet (vidéo 15min)](https://www.youtube.com/watch?v=Dfc6c7TmmA0)
-- [Gestion de projet à distance (vidéo 35min)](https://youtu.be/x9fDOf5KFAg)
+- Intro à l'UE [supports pdf](https://forge.univ-lyon1.fr/mif10-2023/projet-transversal/-/blob/main/cours/Mif10.pdf)
+- Intro à Gitlab pour la gestion de projet
+- Gestion de projet à distance
 
 
 ## Projet
