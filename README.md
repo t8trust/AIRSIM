@@ -65,28 +65,28 @@ Les rendus se font sur le wiki de projet gitlab
 - Création des groupes
 - Mise en place des outils de collaboration
 - Choix du sujet
-- Jalon 0 :
+- Jalon 1 :
   - Groupe Gitlab créé
   - Projet Gitlab créé
-  - Wiki:
+  - Wiki :
     - Page de garde créée qui organisera le contenu au fur et à mesure du projet
-    - Page de équipe créée avec la liste des membres du projet (Nom, prénom, email, _téléphone_) + lien vers le salon privé de l'équipe
-  - Enseignants de l'UE rajoutés comme rapporteurs au projet Gitlab.
+    - Page de l'équipe créée avec la liste des membres du projet (Nom, prénom, email, _téléphone_) + lien vers le salon privé de l'équipe
+  - Enseignants de l'UE rajoutés comme rapporteurs au projet Gitlab
 
 ### Semaine 2 (4/03) - Organisation et conception (10h de travail attendu)
 
 - Organisation du travail de groupe
 - Phase de conception orientée-usages
 - Choix technologiques et mise en place des environnements de développements sur vos machines personnelles
-- Jalon 1 :
+- Jalon 2 :
   - Modalité de travail en groupe (page équipe du wiki mise à jour en fonction)
     - Rôles dans l’équipe,
     - Organisation interne définie
-  - Objectifs et cible utilisateur définie (2 ou 3 paragraphe sur la page d'accueil du wiki)
-  - Partie UX sur le wiki:
+  - Objectifs et cible utilisateur définie (2 ou 3 paragraphes sur la page d'accueil du wiki)
+  - Partie UX sur le wiki :
     - Cas d’utilisations principaux de l'application (ensemble de user stories)
     - Maquettes écrans de l'application (restez simple, il faudra les coder plus tard)
-  - Des issues décrivant les user stories (si ce n'est pas sur le wiki).
+  - Des issues décrivant les user stories (si ce n'est pas sur le wiki)
 
 ### Semaine 3 (25/03) - Stack et démarrage (10h de travail attendu)
 
@@ -94,7 +94,7 @@ Les rendus se font sur le wiki de projet gitlab
 - Mise en place de la VM
 - Mise en place des scripts de CI/CD
 - Mise en place de SonarQube
-- Jalon 2 :
+- Jalon 3 :
   - Test individuel (manuel) de chaque élément de l'architecture
   - Déploiement d'un "Hello world" permettant d'afficher une entrée (simple) de la base de données dans l'interface web.
   - Maj du wiki avec pointeurs techniques
@@ -105,13 +105,16 @@ Les rendus se font sur le wiki de projet gitlab
 ### Semaine 4 (1/04) - Proto 1 “[MVP](https://en.wikipedia.org/wiki/Minimum_viable_product)” (15h de travail attendu)
 
 - Une version 0 de l'application est testable sur la VM
-- Jalon 3 :
+- Jalon 4 :
   - Chaîne d’outillage fonctionnelle (Intégration continue : construction, tests, qualité, déploiement)
   - UNE fonctionnalité de base est implémentée et intégrée.
 
-### Semaine 5 (22/04) (15h de travail attendu)
+### Semaine 5  Développement et tests (22/04) (15h de travail attendu)
 
 - Développement et tests
+- Jalon 5 :
+  - Màj du wiki avec écrans des tickets traités et extrait SonarQube
+
 
 ### Semaine 6 (29/04) — Livraison et présentation (10h de travail attendu)
 
@@ -119,7 +122,7 @@ Les rendus se font sur le wiki de projet gitlab
 - Livraison du code
 - Démo sur VM
 - Soutenances
-- Jalon 4 :
+- Jalon 6 :
   - Guide d'utilisation sur le wiki
   - MàJ de l'architecture
   - Documentation technique
