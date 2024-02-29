@@ -38,6 +38,7 @@ Pendant les semaines de projet il y aura trois créneaux résevés par semaine d
 
 - Intro à l'UE [supports pdf](https://forge.univ-lyon1.fr/mif10/2023/-/blob/main/Mif10.pdf)
 - Intro à Gitlab pour la gestion de projet
+- [Gestion de groupe](gestion-groupe.md)
 
 
 ## Projet
