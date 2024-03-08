@@ -5,6 +5,8 @@
 
 ## Installation
 
+Installez NodeJS (minimum v16) puis dans le dossier mif10
+
 ```bash
 $ npm install
 ```
