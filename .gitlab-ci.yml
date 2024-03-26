@@ -1,0 +1,23 @@
+# Cache downloaded dependencies and plugins between builds.
+# Not strictly necessary, but speeds up the builds.
+
+deploy:
+  only:
+    - master
+  image: node:20.11.1 # docker image with Node
+  before_script:
+    # The runners on the forge need a proxy to access the web. mvn
+    # ignores the $http_proxy & friends variable => write a
+    # configuration file that does this for us.
+    - chmod 400 $CI_SSH_KEY
+    # Useful only for debugging
+  script:
+    - cd mif10-frontend/
+    - npm run build
+    - scp -o StrictHostKeyChecking=no -i $CI_SSH_KEY ./dist/ gitlabci@192.168.75.63:/usr/share/nginx/html
+    - cd ../mif10-backend
+    - npm run build
+    - scp -o StrictHostKeyChecking=no -i $CI_SSH_KEY ./dist/ gitlabci@192.168.75.63:~/backend
+    - ssh gitlabci@192.168.75.63 killall node
+    - ssh gitlabci@192.168.75.63 node backend/main.js
+
