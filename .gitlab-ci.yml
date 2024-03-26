@@ -17,11 +17,11 @@ deploy:
     - cd mif10-frontend/
     - npm install
     - npm run build
-    - scp -o StrictHostKeyChecking=no -i $CI_SSH_KEY ./dist/ gitlabci@192.168.75.63:/usr/share/nginx/html
+    - scp -o StrictHostKeyChecking=no -i -r $CI_SSH_KEY ./dist/ gitlabci@192.168.75.63:/usr/share/nginx/html
     - cd ../mif10-backend
     - npm install
     - npm run build
-    - scp -o StrictHostKeyChecking=no -i $CI_SSH_KEY ./dist/ gitlabci@192.168.75.63:~/backend
+    - scp -o StrictHostKeyChecking=no -i -r $CI_SSH_KEY ./dist/ gitlabci@192.168.75.63:~/backend
     - ssh gitlabci@192.168.75.63 killall node
     - ssh gitlabci@192.168.75.63 node backend/main.js
 
