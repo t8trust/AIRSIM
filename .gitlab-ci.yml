@@ -3,7 +3,7 @@
 
 deploy:
   only:
-    - master
+    - main
   image: node:20.11.1 # docker image with Node
   
   before_script:
