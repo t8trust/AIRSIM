@@ -22,7 +22,7 @@ deploy:
     - npm install
     - npm run build
     - scp -r -o StrictHostKeyChecking=no -i $CI_SSH_KEY ./dist/ gitlabci@192.168.75.63:~/backend
-    - ssh -o StrictHostKeyChecking=no gitlabci@192.168.75.63 killall -q node
-    - ssh -o StrictHostKeyChecking=no gitlabci@192.168.75.63 node backend/main.js
+    - ssh -o StrictHostKeyChecking=no -i $CI_SSH_KEY gitlabci@192.168.75.63 killall -q node
+    - ssh -o StrictHostKeyChecking=no -i $CI_SSH_KEY gitlabci@192.168.75.63 node backend/main.js
 
 
