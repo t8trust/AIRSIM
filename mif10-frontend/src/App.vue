@@ -1,15 +1,18 @@
 <template>
   <img alt="Vue logo" src="./assets/logo.png">
   <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <MyButton> ou </MyButton>
 </template>
 
 <script>
 import HelloWorld from './components/HelloWorld.vue'
+import MyButton from './components/MyButton.vue'
 
 export default {
   name: 'App',
   components: {
-    HelloWorld
+    HelloWorld,
+    MyButton
   }
 }
 </script>
@@ -23,4 +26,4 @@ export default {
   color: #2c3e50;
   margin-top: 60px;
 }
-</style>
+</style>./components/MyButton.vue./components/HelloWorld.vue
