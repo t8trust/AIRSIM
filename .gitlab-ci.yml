@@ -27,7 +27,7 @@ deploy:
     - scp -r -o StrictHostKeyChecking=no -i $CI_SSH_KEY ./mif10-frontend/dist/* gitlabci@192.168.75.63:/usr/share/nginx/html/
     - scp -r -o StrictHostKeyChecking=no -i $CI_SSH_KEY ./mif10-backend/dist/* gitlabci@192.168.75.63:/usr/share/nodejs-backend/server/
     # Copy package json for backend to work 
-    - scp -o StrictHostKeyChecking=no -i $CI_SSH_KEY ./package.json gitlabci@192.168.75.63:/usr/share/nodejs-backend/server/
+    - scp -o StrictHostKeyChecking=no -i $CI_SSH_KEY ./mif10-backend/package.json gitlabci@192.168.75.63:/usr/share/nodejs-backend/server/
     - ssh -o StrictHostKeyChecking=no -i $CI_SSH_KEY gitlabci@192.168.75.63 "cd /usr/share/nodejs-backend/server/; npm install" # Install the necessary packages
     # Launch start script (node /usr/share/nodejs-backend/server/main.js)
     - ssh -o StrictHostKeyChecking=no -i $CI_SSH_KEY gitlabci@192.168.75.63 "source ~/.nvm/nvm.sh; nohup /usr/share/nodejs-backend/start.sh </dev/null >/dev/null 2>&1 &; exit 0"
