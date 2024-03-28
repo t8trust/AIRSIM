@@ -1,13 +1,18 @@
 <template>
-    <Button label="Cliquez-moi" @click="handleClick"/>
+    <a-button type = "primary" @click="handleClick">{{ label }}</a-button>
   </template>
   
   <script>
-  import Button from 'primevue/button';
-  
+  import { Button } from 'ant-design-vue';
   export default {
     components: {
-      Button
+      AButton: Button,
+    },
+    data() {
+      return {
+        // Définition de la propriété label
+        label: 'Cliquez-moi',
+      };
     },
     methods: {
       handleClick() {
