@@ -8,9 +8,10 @@ import configuration from './configuration';
 @Module({
   imports: [
     ConfigModule.forRoot({
-      load: [configuration]
+      load: [configuration],
+      envFilePath: ['.env', '../.env'],
     }),
-    TypeOrmModule.forRootAsync( {
+    TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
       inject: [ConfigService],
       useFactory: (config: ConfigService) => ({
@@ -22,7 +23,7 @@ import configuration from './configuration';
         database: config.get('db.database'),
         synchronize: true,
         autoLoadEntities: true,
-      })
+      }),
     }),
   ],
   controllers: [AppController],
