@@ -29,6 +29,6 @@ deploy:
     # Unfortunately, the server has not enough ram to install npm packages itself
     - scp -r -o StrictHostKeyChecking=no -i $CI_SSH_KEY ./mif10-backend/node_modules/ gitlabci@192.168.75.63:/usr/share/nodejs-backend/server/
     # Launch start script (node /usr/share/nodejs-backend/server/main.js)
-    - ssh -o StrictHostKeyChecking=no -i $CI_SSH_KEY gitlabci@192.168.75.63 "source ~/.nvm/nvm.sh; nohup /usr/share/nodejs-backend/start.sh </dev/null >/dev/null 2>&1 &; exit 0"
+    - ssh -o StrictHostKeyChecking=no -i $CI_SSH_KEY gitlabci@192.168.75.63 "source ~/.nvm/nvm.sh; nohup /usr/share/nodejs-backend/start.sh </dev/null >/dev/null 2>&1 & exit 0"
 
 
