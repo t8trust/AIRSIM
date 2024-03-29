@@ -4,6 +4,9 @@ import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import configuration from './configuration';
+import { Avion } from './db_models/avion.entity';
+import { AvionsController } from './db_models/avions.controller';
+import { AvionsService } from './db_models/avions.service';
 
 @Module({
   imports: [
@@ -20,12 +23,14 @@ import configuration from './configuration';
         username: config.get('db.username'),
         password: config.get('db.password'),
         database: config.get('db.database'),
+        entities: [Avion],
         synchronize: true,
         autoLoadEntities: true,
       })
     }),
   ],
-  controllers: [AppController],
-  providers: [AppService],
+  controllers: [AppController, AvionsController],
+  providers: [AppService, AvionsService],
 })
+
 export class AppModule {}
