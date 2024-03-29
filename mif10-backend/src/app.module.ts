@@ -7,6 +7,7 @@ import configuration from './configuration';
 import { Avion } from './db_models/avion.entity';
 import { AvionsController } from './db_models/avions.controller';
 import { AvionsService } from './db_models/avions.service';
+import { AvionsModule } from './db_models/avions.module';
 
 @Module({
   imports: [
@@ -29,6 +30,7 @@ import { AvionsService } from './db_models/avions.service';
         autoLoadEntities: true,
       }),
     }),
+    AvionsModule
   ],
   controllers: [AppController, AvionsController],
   providers: [AppService, AvionsService],
