@@ -1,6 +1,8 @@
 # Cache downloaded dependencies and plugins between builds.
 # Not strictly necessary, but speeds up the builds.
 
+variables:
+  IMAGE_VAR: "node:20.11.1"
 
 stages:
     - test-run
@@ -14,7 +16,7 @@ deploy:
   stage: deploy
   only:
     - main
-  image: node:20.11.1 # docker image with Node
+  image: 'IMAGE_VAR' # docker image with Node
   needs:
     - ["test-run"]
   before_script:
@@ -44,6 +46,7 @@ deploy:
 
 test-run:
   stage: test-run
+  image: 'IMAGE_VAR'
   only: 
     - main
   script:
