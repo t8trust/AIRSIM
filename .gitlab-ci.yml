@@ -1,11 +1,16 @@
 # Cache downloaded dependencies and plugins between builds.
 # Not strictly necessary, but speeds up the builds.
 
+before_script:
+  - npm install
+
 stages:
-    - sonarqube-check
-    - sonarqube-vulnerability-report
     - deploy
     - test-run
+    - sonarqube-check
+    - sonarqube-vulnerability-report
+    
+    
 
 deploy:
   stage: deploy
@@ -22,10 +27,10 @@ deploy:
 
   script:
     - cd mif10-frontend/
-    - npm install
+    #- npm install
     - npm run build
     - cd ../mif10-backend
-    - npm install
+    #- npm install
     - npm run build
     - cd ..
     # Only after everything is built correctly, transfer the files 
