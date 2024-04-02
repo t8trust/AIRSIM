@@ -46,7 +46,7 @@ deploy:
 
 test-run:
   stage: test-run
-  #image: 'IMAGE_VAR'
+  image: $IMAGE_VAR
   only: 
     - main
   script:
