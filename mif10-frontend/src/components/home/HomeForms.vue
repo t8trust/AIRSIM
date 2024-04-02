@@ -3,7 +3,7 @@
     <a-row :gutter="4" class="full-height-row">
       <a-col :span="24">
         <div class="sidebar">
-          <h2 class="centered-heading">Infos de vols</h2>
+          <h2 class="centered-heading info-vols-title">Infos de vols</h2>
           <a-form>
             <a-form-item label="Départ" class="form-item">
               <a-input placeholder="Entrez votre point de départ" />
@@ -86,7 +86,7 @@
    }
 
   .full-height-container {
-    height: 100vh;
+    height: 86vh;
    }
 
    .form-item {
@@ -102,6 +102,9 @@
     margin-top: 20px;
   }
 
+  .info-vols-title {
+    margin-top: 40px; /* Ajoute de la marge au titre */
+  }
   
 </style>
   
