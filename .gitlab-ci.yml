@@ -2,6 +2,7 @@
 # Not strictly necessary, but speeds up the builds.
 
 deploy:
+  stage: deploy
   only:
     - main
   image: node:20.11.1 # docker image with Node
@@ -34,6 +35,7 @@ deploy:
 stages:
     - sonarqube-check
     - sonarqube-vulnerability-report
+    - deploy
 
 sonarqube-check:
   stage: sonarqube-check
