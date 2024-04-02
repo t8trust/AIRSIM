@@ -3,7 +3,7 @@
       <a-row align="middle" justify="space-between">
         <a-col>
           <a-avatar :src="imagePath" size="small" style="margin-right: 0.5rem;"></a-avatar>
-          <span style="vertical-align: middle;">SAAVC02</span>
+          <span style="vertical-align: middle;">AIRSIM</span>
         </a-col>
         <a-button type="primary" shape="round">Favori</a-button>
       </a-row>
