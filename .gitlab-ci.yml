@@ -46,10 +46,11 @@ deploy:
 
 test-run:
   stage: test-run
-  image: 'IMAGE_VAR'
+  #image: 'IMAGE_VAR'
   only: 
     - main
   script:
+    - echo $IMAGE_VAR
     - npm install
     - npm run test:e2e
 
