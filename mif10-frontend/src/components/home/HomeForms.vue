@@ -93,11 +93,11 @@
    }
 
    .form-item {
-    margin-bottom: 45px; /* Ajoute de la marge entre les éléments */
+    margin-bottom: 25px; 
   }
 
   .fo-item {
-    margin-bottom: 75px;
+    margin-bottom: 35px;
   }
 
   .section-title {
@@ -106,7 +106,7 @@
   }
 
   .info-vols-title {
-    margin-top: 40px; /* Ajoute de la marge au titre */
+    margin-top: 10px; 
   }
   
 </style>
