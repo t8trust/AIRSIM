@@ -4,6 +4,10 @@ import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import configuration from './configuration';
+import { Utilisateur } from './db_models/utilisateur.entity';
+import { UtilisateursController } from './db_models/utilisateurs.controller';
+import { UtilisateursService } from './db_models/utilisateurs.service';
+import { UtilisateursModule } from './db_models/utilisateurs.module';
 
 @Module({
   imports: [
@@ -21,12 +25,15 @@ import configuration from './configuration';
         username: config.get('db.username'),
         password: config.get('db.password'),
         database: config.get('db.database'),
+        entities: [Utilisateur],
         synchronize: true,
         autoLoadEntities: true,
       }),
     }),
+    UtilisateursModule
   ],
-  controllers: [AppController],
-  providers: [AppService],
+  controllers: [AppController, UtilisateursController],
+  providers: [AppService, UtilisateursService],
 })
+
 export class AppModule {}
