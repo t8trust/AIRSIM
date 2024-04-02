@@ -47,29 +47,29 @@ export default {
 
 .flex-container {
   display: flex;
-  flex-wrap: wrap; /* Permet aux éléments de s'enrouler sur une nouvelle ligne */
+  flex-wrap: wrap; 
 }
 
 .home-forms-container {
   flex: 1;
-  min-width: 300px; /* Largeur minimale pour éviter le rétrécissement excessif */
-  max-width: 20%; /* Limite la largeur pour assurer la lisibilité */
+  min-width: 300px; 
+  max-width: 20%; 
 }
 
 .map-container {
   flex: 1;
-  min-width: 300px; /* Largeur minimale pour éviter le rétrécissement excessif */
-  max-width: 80%; /* Limite la largeur pour assurer la lisibilité */
+  min-width: 300px; 
+  max-width: 80%; 
 }
 
 footer {
   margin-top: auto; 
 }
 
-/* Media queries pour des ajustements spécifiques aux écrans de petite taille */
+
 @media only screen and (max-width: 768px) {
   .flex-container {
-    flex-direction: column; /* Réorganiser les éléments en colonne */
+    flex-direction: column; 
   }
 }
 </style>
