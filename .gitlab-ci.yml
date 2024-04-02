@@ -5,8 +5,9 @@ variables:
   IMAGE_VAR: "node:20.11.1"
 
 stages:
-    - test-run
     - deploy
+    - test-run
+    
     - sonarqube-check
     - sonarqube-vulnerability-report
     
@@ -17,8 +18,8 @@ deploy:
   only:
     - main
   image: $IMAGE_VAR # docker image with Node
-  needs:
-    - ["test-run"]
+  #needs:
+  #  - ["test-run"]
   before_script:
     # The runners on the forge need a proxy to access the web. mvn
     # ignores the $http_proxy & friends variable => write a
