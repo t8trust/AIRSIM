@@ -1,12 +1,10 @@
 # Cache downloaded dependencies and plugins between builds.
 # Not strictly necessary, but speeds up the builds.
 
-before_script:
-  - npm install
 
 stages:
-    - deploy
     - test-run
+    - deploy
     - sonarqube-check
     - sonarqube-vulnerability-report
     
@@ -17,7 +15,8 @@ deploy:
   only:
     - main
   image: node:20.11.1 # docker image with Node
-  
+  needs:
+    - ["test-run"]
   before_script:
     # The runners on the forge need a proxy to access the web. mvn
     # ignores the $http_proxy & friends variable => write a
@@ -30,7 +29,7 @@ deploy:
     - npm install
     - npm run build
     - cd ../mif10-backend
-    #- npm install
+    - npm install
     - npm run build
     - cd ..
     # Only after everything is built correctly, transfer the files 
@@ -48,6 +47,7 @@ test-run:
   only: 
     - main
   script:
+    - npm install
     - npm run test:e2e
 
 sonarqube-check:
