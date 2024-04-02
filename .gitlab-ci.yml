@@ -16,7 +16,7 @@ deploy:
   stage: deploy
   only:
     - main
-  image: 'IMAGE_VAR' # docker image with Node
+  image: $IMAGE_VAR # docker image with Node
   needs:
     - ["test-run"]
   before_script:
@@ -46,7 +46,7 @@ deploy:
 
 test-run:
   stage: test-run
-  image: $IMAGE_VAR
+  image: node:20.11.1
   only: 
     - main
   script:
