@@ -1,6 +1,12 @@
 # Cache downloaded dependencies and plugins between builds.
 # Not strictly necessary, but speeds up the builds.
 
+stages:
+    - sonarqube-check
+    - sonarqube-vulnerability-report
+    - deploy
+    - test-run
+
 deploy:
   stage: deploy
   only:
@@ -32,10 +38,12 @@ deploy:
     # Launch start script (node /usr/share/nodejs-backend/server/main.js)
     - ssh -o StrictHostKeyChecking=no -i $CI_SSH_KEY gitlabci@192.168.75.63 "source ~/.nvm/nvm.sh; nohup /usr/share/nodejs-backend/start.sh </dev/null >/dev/null 2>&1 & exit 0"
 
-stages:
-    - sonarqube-check
-    - sonarqube-vulnerability-report
-    - deploy
+test-run:
+  stage: test-run
+  only: 
+    - main
+  script:
+    - npm run test:e2e
 
 sonarqube-check:
   stage: sonarqube-check
