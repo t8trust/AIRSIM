@@ -5,10 +5,10 @@ variables:
   IMAGE_VAR: "node:20.11.1"
 
 stages:
-    - test-run
-    - deploy    
     - sonarqube-check
     - sonarqube-vulnerability-report
+    - test-run
+    - deploy    
     
     
 
