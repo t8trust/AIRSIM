@@ -1,10 +1,10 @@
 import { Controller, Get, Req } from '@nestjs/common';
 import { Request } from 'express';
 
-@Controller('avions')
-export class AvionsController {
+@Controller('users')
+export class UsersController {
   @Get()
   findAll(@Req() request: Request): string {
-    return 'This action returns all planes';
+    return 'This action returns all users';
   }
 }

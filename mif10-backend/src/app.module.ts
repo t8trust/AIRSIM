@@ -4,10 +4,10 @@ import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import configuration from './configuration';
-import { Avion } from './db_models/avion.entity';
-import { AvionsController } from './db_models/avions.controller';
-import { AvionsService } from './db_models/avions.service';
-import { AvionsModule } from './db_models/avions.module';
+import { User } from './db_models/user.entity';
+import { UsersController } from './db_models/users.controller';
+import { UsersService } from './db_models/users.service';
+import { UsersModule } from './db_models/users.module';
 
 @Module({
   imports: [
@@ -25,15 +25,15 @@ import { AvionsModule } from './db_models/avions.module';
         username: config.get('db.username'),
         password: config.get('db.password'),
         database: config.get('db.database'),
-        entities: [Avion],
+        entities: [User],
         synchronize: true,
         autoLoadEntities: true,
       }),
     }),
-    AvionsModule
+    UsersModule
   ],
-  controllers: [AppController, AvionsController],
-  providers: [AppService, AvionsService],
+  controllers: [AppController, UsersController],
+  providers: [AppService, UsersService],
 })
 
 export class AppModule {}

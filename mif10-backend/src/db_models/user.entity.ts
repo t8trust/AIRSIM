@@ -1,10 +1,10 @@
 import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
-export class Avion {
+export class User {
   @PrimaryGeneratedColumn()
-  id_avion: number;
+  login: string;
 
   @Column()
-  type: string;
+  mot_de_passe: string;
 }
