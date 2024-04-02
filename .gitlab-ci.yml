@@ -50,7 +50,8 @@ test-run:
   only: 
     - main
   script:
-    - cd mif10-backtend/test
+    - cd mif10-backtend/
+    - ls
     - npm install
     - npm run test:e2e
 
