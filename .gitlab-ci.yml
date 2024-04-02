@@ -27,7 +27,7 @@ deploy:
 
   script:
     - cd mif10-frontend/
-    #- npm install
+    - npm install
     - npm run build
     - cd ../mif10-backend
     #- npm install
