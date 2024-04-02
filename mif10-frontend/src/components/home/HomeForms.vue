@@ -8,8 +8,11 @@
             <a-form-item label="Départ" class="form-item">
               <a-input placeholder="Entrez votre point de départ" />
             </a-form-item>
-            <a-form-item label="Arrivée" class="form-item">
+            <a-form-item label="Arrivée">
               <a-input placeholder="Entrez votre destination" />
+            </a-form-item>
+            <a-form-item>
+              <a-button type="primary" html-type="submit" class="centered-button">Submit</a-button>
             </a-form-item>
             <a-form-item label="Émission de CO2" class="form-item">
               <a-input placeholder="CO2" readonly />
