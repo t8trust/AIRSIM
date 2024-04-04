@@ -5,10 +5,10 @@ variables:
   IMAGE_VAR: "node:20.11.1"
 
 stages:
-    - sonarqube-check
-    - sonarqube-vulnerability-report
     - test-run
     - test-run-e2e
+    - sonarqube-check
+    - sonarqube-vulnerability-report
     - deploy    
     
     
@@ -62,7 +62,7 @@ test-run-e2e:
   only: 
     - main
   script:
-    - mv $ENV ./.env
+    #- mv $ENV ./.env
     - cd mif10-backend
     - npm install
     - npm run test:e2e
