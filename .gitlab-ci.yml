@@ -5,8 +5,7 @@ variables:
   IMAGE_VAR: "node:20.11.1"
 
 stages:
-    - test-run
-    - test-run-e2e
+    - test
     - sonarqube-check
     - sonarqube-vulnerability-report
     - deploy    
@@ -46,7 +45,7 @@ deploy:
     - ssh -o StrictHostKeyChecking=no -i $CI_SSH_KEY gitlabci@192.168.75.63 "source ~/.nvm/nvm.sh; nohup /usr/share/nodejs-backend/start.sh </dev/null >/dev/null 2>&1 & exit 0"
 
 test-run:
-  stage: test-run
+  stage: test
   image: node:20.11.1
   only: 
     - main
@@ -57,7 +56,7 @@ test-run:
     - npm run test
 
 test-run-e2e:
-  stage: test-run-e2e
+  stage: test
   image: node:20.11.1
   only: 
     - main
