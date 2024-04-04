@@ -8,6 +8,7 @@ import { Utilisateur } from './db_models/utilisateur.entity';
 import { UtilisateursController } from './db_models/utilisateurs.controller';
 import { UtilisateursService } from './db_models/utilisateurs.service';
 import { UtilisateursModule } from './db_models/utilisateurs.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -26,11 +27,12 @@ import { UtilisateursModule } from './db_models/utilisateurs.module';
         password: config.get('db.password'),
         database: config.get('db.database'),
         entities: [Utilisateur],
-        synchronize: true,
+        synchronize: false,
         autoLoadEntities: true,
       }),
     }),
-    UtilisateursModule
+    UtilisateursModule,
+    AuthModule
   ],
   controllers: [AppController, UtilisateursController],
   providers: [AppService, UtilisateursService],
