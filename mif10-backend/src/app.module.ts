@@ -26,7 +26,7 @@ import { AvionsModule } from './db_models/avions.module';
         password: config.get('db.password'),
         database: config.get('db.database'),
         entities: [Avion],
-        synchronize: true,
+        synchronize: false,
         autoLoadEntities: true,
       }),
     }),
