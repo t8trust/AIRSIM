@@ -1,15 +1,16 @@
 <template>
-  <RouterLink to="/map">Go to About</RouterLink>
+  <!--<RouterLink to="/map">Go to About</RouterLink>-->
     <a-layout-footer class="footer">
       <a-row :gutter="16">
         <a-col :span="8" class="text-left">
-          <a-button type="primary" shape="round" @click="$router.push('map')">Login</a-button>
+          <a-button type="primary" shape="round">Login</a-button>
         </a-col>
         <a-col :span="8" class="text-center">
-          <p>&copy; 2024 Groupe 15. Tous droits réservés.</p>
+          <p>&copy; 2024 Groupe 15 AIRSIM. Tous droits réservés.</p>
         </a-col>
         <a-col :span="8" class="text-right">
             <!--Autre contenu-->
+            <!--<a-button type="primary" shape="round">Login</a-button>-->
         </a-col>
       </a-row>
     </a-layout-footer>
