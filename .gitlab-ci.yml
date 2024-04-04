@@ -8,6 +8,7 @@ stages:
     - sonarqube-check
     - sonarqube-vulnerability-report
     - test-run
+    - test-run-e2e
     - deploy    
     
     
@@ -46,6 +47,16 @@ deploy:
 
 test-run:
   stage: test-run
+  image: node:20.11.1
+  only: 
+    - main
+  script:
+    - cd mif10-backend/test
+    - npm install
+    - npm run test
+
+test-run-e2e:
+  stage: test-run-e2e
   image: node:20.11.1
   only: 
     - main
