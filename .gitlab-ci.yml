@@ -6,8 +6,7 @@ variables:
 
 stages:
     - test
-    - sonarqube-check
-    - sonarqube-vulnerability-report
+    - sonarqube
     - deploy    
     
     
@@ -67,7 +66,7 @@ test-run-e2e:
     - npm run test:e2e
 
 sonarqube-check:
-  stage: sonarqube-check
+  stage: sonarqube
   image: 
     name: sonarsource/sonar-scanner-cli:5.0
     entrypoint: [""]
@@ -88,7 +87,7 @@ sonarqube-check:
     - develop
 
 sonarqube-vulnerability-report:
-  stage: sonarqube-vulnerability-report
+  stage: sonarqube
   image: $IMAGE_VAR
   script:
     - 'curl -u "${SONAR_TOKEN}:" "${SONAR_HOST_URL}/api/issues/gitlab_sast_export?projectKey=mif10-gr15-2023&branch=${CI_COMMIT_BRANCH}&pullRequest=${CI_MERGE_REQUEST_IID}" -o gl-sast-sonar-report.json'
