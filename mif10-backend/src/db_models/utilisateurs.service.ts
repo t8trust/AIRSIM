@@ -29,8 +29,8 @@ export class UtilisateursService {
     return this.utilisateursRepository.findOneBy({ login });
   }
 
-  update( id: string, updateUtilisateurDto: UpdateUtilisateurDto) {
-    return this.utilisateursRepository.update(id, updateUtilisateurDto);
+  update(login: string, updateUtilisateurDto: UpdateUtilisateurDto){
+    return this.utilisateursRepository.update(login, updateUtilisateurDto);
   }
 
   async remove(login: string): Promise<void> {
