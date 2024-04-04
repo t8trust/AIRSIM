@@ -62,7 +62,8 @@ test-run-e2e:
   only: 
     - main
   script:
-    - cd mif10-backend/test
+    - mv $ENV ./.env
+    - cd mif10-backend
     - npm install
     - npm run test:e2e
 
