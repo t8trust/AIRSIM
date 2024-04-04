@@ -2,15 +2,11 @@
   <div class="app-container">
     <HeaderComponent></HeaderComponent>
     <div class="content">
-      <div class="container-fluid">
-        <div class="flex-container">
-          <div class="home-forms-container">
-            <HomeForms></HomeForms>
-          </div>
-          <div id="mapid" class="map-container">
-            <TestMap></TestMap>
-          </div>
-        </div>
+      <div id="mapid" class="map-container">
+        <TestMap></TestMap>
+      </div>
+      <div class="home-forms-container">
+        <HomeForms></HomeForms>
       </div>
     </div>
     <FooterComponent></FooterComponent>
@@ -35,31 +31,32 @@ export default {
 </script>
 
 <style>
+@import url("../node_modules/ol/ol.css");
+
 .app-container {
   display: flex;
   flex-direction: column;
-  min-height: 100vh; 
+  min-height: 100vh;
+
 }
 
 .content {
-  flex: 1; 
-}
-
-.flex-container {
-  display: flex;
-  flex-wrap: wrap; 
+  position: relative;
 }
 
 .home-forms-container {
-  flex: 1;
-  min-width: 300px; 
-  max-width: 20%; 
+  position: absolute;
+  left: 0; 
+  top: 0;
+  height: 100%;
 }
 
 .map-container {
   flex: 1;
   min-width: 300px; 
-  max-width: 80%; 
+  max-width: 100%; 
+  position: relative;
+
 }
 
 footer {
@@ -72,4 +69,6 @@ footer {
     flex-direction: column; 
   }
 }
+
+
 </style>

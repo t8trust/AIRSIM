@@ -3,7 +3,9 @@
     <a-layout-footer class="footer">
       <a-row :gutter="16">
         <a-col :span="8" class="text-left">
-          <a-button type="primary" shape="round">Login</a-button>
+          <a-button type="primary" shape="round" :icon="h(LoginOutlined)">
+            Login
+          </a-button>
         </a-col>
         <a-col :span="8" class="text-center">
           <p>&copy; 2024 Groupe 15 AIRSIM. Tous droits réservés.</p>
@@ -16,9 +18,14 @@
     </a-layout-footer>
   </template>
   
+  <script setup>
+    import { h } from 'vue';
+    import { LoginOutlined } from '@ant-design/icons-vue';
+  </script>
+
   <script>
   import { Layout, Row, Col, Button } from 'ant-design-vue';
-  
+
   export default {
     components: {
       'a-layout-footer': Layout.Footer,
