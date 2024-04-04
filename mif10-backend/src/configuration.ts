@@ -11,6 +11,6 @@ export default () => ({
     pepper: process.env.PWD_PEPPER || "yazeghazyebaznc",
   },
   jwt: {
-    pepper: process.env.JWT_SECRET || "ayeaebycnazecba"
+    secret: process.env.JWT_SECRET || "ayeaebycnazecba"
   }
 });

@@ -7,4 +7,7 @@ export class Utilisateur {
 
   @Column()
   mot_de_passe: string;
+  
+  @Column()
+  salt: string;
 }
