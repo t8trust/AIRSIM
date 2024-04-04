@@ -1,23 +1,31 @@
 <template>
-    <div class="flight-options">
-      <div class="flight-option">
-        <a-tag color="green">Moins polluant</a-tag>
-        Option de vol 1
-      </div>
-      <div class="flight-option">
-        <a-tag color="red">Plus polluant</a-tag>
-        Option de vol 2
-      </div>
-    </div>
+  <div class="flight-options">
+    <Card v-for="(option, index) in flightOptions" :key="index" :title="option.title" :hoverable="true" style="width: 300px">
+      {{ option.content }}
+      <Tag :color="option.pollution === 'Moins' ? 'green' : 'red'">{{ option.pollution }} polluant</Tag>
+    </Card>
+  </div>
 </template>
-  
+
 <script>
-  export default {
-    name: 'FlightOptions',
-  };
+import { Card, Tag } from 'ant-design-vue';
+
+export default {
+  name: 'FlightOptions',
+  components: {
+    Card,
+    Tag,
+  },
+  data() {
+    return {
+      flightOptions: [
+        { title: 'Option de vol 1', content: 'Contenu option  1', pollution: 'Moins' },
+        { title: 'Option de vol 2', content: 'Contenu option 2', pollution: 'Plus' },
+      ]
+    };
+  }
+};
 </script>
-  
+
 <style scoped>
-  /* Styles spécifiques pour les options de vol si nécessaire */
 </style>
-  
