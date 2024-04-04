@@ -49,6 +49,7 @@ export default {
   left: 0; 
   top: 0;
   height: 100%;
+  width: 0;
 }
 
 .map-container {

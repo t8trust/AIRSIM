@@ -44,7 +44,7 @@
     import { Row as ARow, Col as ACol, Form as AForm, Input as AInput, Button as AButton } from 'ant-design-vue'
     import { h, ref } from "vue"
 
-    let menuToggle = ref(true);
+    let menuToggle = ref(false);
 
 </script>
 
