@@ -1,4 +1,4 @@
-import { Controller, Get, Req } from '@nestjs/common';
+import { Controller, Get, Post, Req } from '@nestjs/common';
 import { Request } from 'express';
 import { UtilisateursService } from './utilisateurs.service';
 
@@ -6,9 +6,14 @@ import { UtilisateursService } from './utilisateurs.service';
 export class UtilisateursController {
   constructor(private readonly utilisateursService: UtilisateursService) {}
 
+  @Post()
+  async create(@Req() request: Request) {
+    console.log(request)
+    //return await this.utilisateursService.create();
+  }
+
   @Get()
   async findAll(@Req() request: Request) {
-    let result = await this.utilisateursService.findAll();
-    return result;
+    return await this.utilisateursService.findAll();
   }
 }
