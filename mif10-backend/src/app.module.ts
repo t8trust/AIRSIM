@@ -6,6 +6,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import configuration from './configuration';
 import { Utilisateur } from './db_models/utilisateur.entity';
 import { Vol } from './db_models/vol.entity';
+import { Aeroport } from './db_models/aeroport.entity';
 import { UtilisateursController } from './db_models/utilisateurs.controller';
 import { UtilisateursService } from './db_models/utilisateurs.service';
 import { UtilisateursModule } from './db_models/utilisateurs.module';
@@ -13,6 +14,8 @@ import { AuthModule } from './auth/auth.module';
 import { VolsModule } from './db_models/vols.module';
 import { VolsController } from './db_models/vols.controller';
 import { VolsService } from './db_models/vols.service';
+import { AeroportsModule } from './db_models/aeroports.module';
+import { AeroportsController } from './db_models/aeroports.controller';
 
 @Module({
   imports: [
@@ -30,17 +33,18 @@ import { VolsService } from './db_models/vols.service';
         username: config.get('db.username'),
         password: config.get('db.password'),
         database: config.get('db.database'),
-        entities: [Utilisateur, Vol],
+        entities: [Utilisateur, Vol, Aeroport],
         synchronize: false,
         autoLoadEntities: true,
       }),
     }),
     UtilisateursModule,
     VolsModule,
+    AeroportsModule,
     AuthModule
   ],
-  controllers: [AppController, UtilisateursController, VolsController],
-  providers: [AppService, UtilisateursService, VolsService],
+  controllers: [AppController, UtilisateursController, VolsController, AeroportsController],
+  providers: [AppService, UtilisateursService, VolsService, AeroportsModule],
 })
 
 export class AppModule {}
