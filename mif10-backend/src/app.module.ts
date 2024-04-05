@@ -16,6 +16,7 @@ import { VolsController } from './db_models/controller/vols.controller';
 import { VolsService } from './db_models/service/vols.service';
 import { AeroportsModule } from './db_models/module/aeroports.module';
 import { AeroportsController } from './db_models/controller/aeroports.controller';
+import { JwtService } from '@nestjs/jwt';
 
 @Module({
   imports: [
@@ -44,7 +45,7 @@ import { AeroportsController } from './db_models/controller/aeroports.controller
     AuthModule
   ],
   controllers: [AppController, UtilisateursController, VolsController, AeroportsController],
-  providers: [AppService, UtilisateursService, VolsService, AeroportsModule],
+  providers: [AppService, UtilisateursService, VolsService, AeroportsModule, JwtService],
 })
 
 export class AppModule {}
