@@ -21,12 +21,14 @@ export class VolsService {
     return this.volsRepository.save(volData);
   }
 
-  findAll(): Promise<Vol[]> {
-    return this.volsRepository.find();
-  }
 
-  findOne(id_vol: number): Promise<Vol | null> {
-    return this.volsRepository.findOneBy({ id_vol });
+  async findTravels(depart: string, destination: string): Promise<Vol[] | null> {
+    const res = await this.volsRepository
+      .createQueryBuilder("vol")
+      .where("vol.depart = :dep", { dep: depart }).andWhere("vol.destination = :dest", { dest: destination })
+      .getMany();
+
+      return res;
   }
 
   update(id_vol: number, updateVolDto: UpdateVolDto){

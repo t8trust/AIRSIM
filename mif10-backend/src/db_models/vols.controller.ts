@@ -15,14 +15,9 @@ export class VolsController {
     return await this.volsService.create(createVolDto);
   }
 
-  @Get()
-  async findAll(@Query() @Req() request: Request) {
-    return await this.volsService.findAll();
-  }
-
-  @Get(':id_vol')
-  async findOne(@Param('id_vol') id_vol: number) {
-    return await this.volsService.findOne(id_vol);
+  @Get(':depart/:destination')
+  async findOne(@Param('depart') depart: string, @Param('destination')destination: string) {
+    return await this.volsService.findTravels(depart, destination);
   }
 
   @Put(':id_vol')
