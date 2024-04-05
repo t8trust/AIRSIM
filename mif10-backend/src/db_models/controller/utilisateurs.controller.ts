@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Req, Param, Query, Delete, Put, Body, UseGuards } from '@nestjs/common';
+import { Controller, Get, Post, Req, Param, Delete, Put, Body, UseGuards } from '@nestjs/common';
 import { Request } from 'express';
 import { UtilisateursService } from '../service/utilisateurs.service';
 import { CreateUtilisateurDto } from '../dto/create-utilisateur-dto';
@@ -33,12 +33,14 @@ export class UtilisateursController {
   }
 
   @Put(':login')
+  @UseGuards(AuthGuard)
   async update(@Param('login') login: string, @Body() updateUserDto: UpdateUtilisateurDto) {
     console.log(login, updateUserDto)
     return await this.utilisateursService.update(login, updateUserDto);
   }
 
   @Delete(':login')
+  @UseGuards(AuthGuard)
   remove(@Param('login') login: string) {
     return this.utilisateursService.remove(login);
   }

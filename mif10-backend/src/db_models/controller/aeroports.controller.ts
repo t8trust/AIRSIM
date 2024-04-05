@@ -1,14 +1,16 @@
-import { Controller, Get, Post, Req, Param, Query, Delete, Put, Body } from '@nestjs/common';
+import { Controller, Get, Post, Req, Param, Delete, Put, Body, UseGuards } from '@nestjs/common';
 import { Request } from 'express';
 import { AeroportsService } from '../service/aeroports.service';
 import { CreateAeroportDto } from '../dto/create-aeroport-dto';
 import { UpdateAeroportDto } from '../dto/update-aeroport-dto';
+import { AuthGuard } from 'src/auth/auth.guard';
 
 @Controller('aeroports')
 export class AeroportsController {
   constructor(private readonly aeroportsService: AeroportsService) {}
 
   @Post()
+  @UseGuards(AuthGuard)
   async create(@Req() request: Request) {
     let body = request.body
     let dto = new CreateAeroportDto();
@@ -33,11 +35,13 @@ export class AeroportsController {
   }
 
   @Put(':iata')
+  @UseGuards(AuthGuard)
   async update(@Param('iata') iata: string, @Body() updateAeroportDto: UpdateAeroportDto) {
     return await this.aeroportsService.update(iata, updateAeroportDto);
   }
 
   @Delete(':iata')
+  @UseGuards(AuthGuard)
   remove(@Param('iata') iata: string) {
     return this.aeroportsService.remove(iata);
   }
