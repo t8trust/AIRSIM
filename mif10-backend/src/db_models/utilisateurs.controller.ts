@@ -21,7 +21,7 @@ export class UtilisateursController {
   }
 
   @Get()
-  async findAll(@Query() @Req() request: Request) {
+  async findAll() {
     return await this.utilisateursService.findAll();
   }
 
