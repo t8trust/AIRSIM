@@ -1,8 +1,9 @@
-import { Controller, Get, Post, Req, Param, Query, Delete, Put, Body } from '@nestjs/common';
+import { Controller, Get, Post, Req, Param, Delete, Put, Body, UseGuards } from '@nestjs/common';
 import { Request } from 'express';
-import { UtilisateursService } from './utilisateurs.service';
-import { CreateUtilisateurDto } from './dto/create-utilisateur-dto';
-import { UpdateUtilisateurDto } from './dto/update-utilisateur-dto';
+import { UtilisateursService } from '../service/utilisateurs.service';
+import { CreateUtilisateurDto } from '../dto/create-utilisateur-dto';
+import { UpdateUtilisateurDto } from '../dto/update-utilisateur-dto';
+import { AuthGuard } from 'src/auth/auth.guard';
 
 @Controller('utilisateurs')
 export class UtilisateursController {
@@ -21,7 +22,8 @@ export class UtilisateursController {
   }
 
   @Get()
-  async findAll(@Query() @Req() request: Request) {
+  @UseGuards(AuthGuard)
+  async findAll() {
     return await this.utilisateursService.findAll();
   }
 
@@ -31,12 +33,14 @@ export class UtilisateursController {
   }
 
   @Put(':login')
+  @UseGuards(AuthGuard)
   async update(@Param('login') login: string, @Body() updateUserDto: UpdateUtilisateurDto) {
     console.log(login, updateUserDto)
     return await this.utilisateursService.update(login, updateUserDto);
   }
 
   @Delete(':login')
+  @UseGuards(AuthGuard)
   remove(@Param('login') login: string) {
     return this.utilisateursService.remove(login);
   }
