@@ -1,9 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { Vol } from './vol.entity';
-import { CreateVolDto } from './dto/create-vol-dto';
-import { UpdateVolDto } from './dto/update-vol-dto';
+import { Vol } from '../entity/vol.entity';
+import { CreateVolDto } from '../dto/create-vol-dto';
+import { UpdateVolDto } from '../dto/update-vol-dto';
 
 
 @Injectable()

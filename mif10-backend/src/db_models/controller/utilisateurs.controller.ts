@@ -1,8 +1,8 @@
 import { Controller, Get, Post, Req, Param, Query, Delete, Put, Body } from '@nestjs/common';
 import { Request } from 'express';
-import { UtilisateursService } from './utilisateurs.service';
-import { CreateUtilisateurDto } from './dto/create-utilisateur-dto';
-import { UpdateUtilisateurDto } from './dto/update-utilisateur-dto';
+import { UtilisateursService } from '../service/utilisateurs.service';
+import { CreateUtilisateurDto } from '../dto/create-utilisateur-dto';
+import { UpdateUtilisateurDto } from '../dto/update-utilisateur-dto';
 
 @Controller('utilisateurs')
 export class UtilisateursController {

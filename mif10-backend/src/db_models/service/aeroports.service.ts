@@ -1,9 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { Aeroport } from './aeroport.entity';
-import { CreateAeroportDto } from './dto/create-aeroport-dto';
-import { UpdateAeroportDto } from './dto/update-aeroport-dto';
+import { Aeroport } from '../entity/aeroport.entity';
+import { CreateAeroportDto } from '../dto/create-aeroport-dto';
+import { UpdateAeroportDto } from '../dto/update-aeroport-dto';
 
 
 @Injectable()

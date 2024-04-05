@@ -1,8 +1,8 @@
 import { Controller, Get, Post, Req, Param, Query, Delete, Put, Body } from '@nestjs/common';
 import { Request } from 'express';
-import { AeroportsService } from './aeroports.service';
-import { CreateAeroportDto } from './dto/create-aeroport-dto';
-import { UpdateAeroportDto } from './dto/update-aeroport-dto';
+import { AeroportsService } from '../service/aeroports.service';
+import { CreateAeroportDto } from '../dto/create-aeroport-dto';
+import { UpdateAeroportDto } from '../dto/update-aeroport-dto';
 
 @Controller('aeroports')
 export class AeroportsController {

@@ -1,8 +1,8 @@
 import { Controller, Get, Post, Req, Param, Query, Delete, Put, Body } from '@nestjs/common';
 import { Request } from 'express';
-import { VolsService } from './vols.service';
-import { CreateVolDto } from './dto/create-vol-dto';
-import { UpdateVolDto } from './dto/update-vol-dto';
+import { VolsService } from '../service/vols.service';
+import { CreateVolDto } from '../dto/create-vol-dto';
+import { UpdateVolDto } from '../dto/update-vol-dto';
 
 @Controller('vols')
 export class VolsController {

@@ -1,8 +1,8 @@
 
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { Aeroport } from './aeroport.entity';
-import { AeroportsService } from './aeroports.service';
+import { Aeroport } from '../entity/aeroport.entity';
+import { AeroportsService } from '../service/aeroports.service';
 
 @Module({
   imports: [TypeOrmModule.forFeature([Aeroport])],
