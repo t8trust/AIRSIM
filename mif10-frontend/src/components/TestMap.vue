@@ -15,8 +15,7 @@ import { Vector as VectorSource } from 'ol/source.js';
 import { Icon, Style } from 'ol/style.js';
 import { LineString } from 'ol/geom.js';
 import { Stroke} from 'ol/style.js';
-//import arc from 'arc';
-
+import arc from 'arc';
 
 export default {
   name: 'MapContainer',
@@ -61,10 +60,6 @@ export default {
       this.addAirportMarker(map, airportSource, airport.lon, airport.lat, airport.name);
     });
 
-
-    const lineCoordinates = this.airports.map(airport => fromLonLat([airport.lon, airport.lat]));
-    const line = new LineString(lineCoordinates);
-
     const lineStyle = new Style({
       stroke: new Stroke({
         color: 'blue',
@@ -72,48 +67,12 @@ export default {
       }),
     });
 
-    const lineLayer = new VectorLayer({
-      source: new VectorSource({
-        features: [new Feature({ geometry: line })],
-      }),
-      style: lineStyle,
-    });
-
-    map.addLayer(lineLayer);
-    
-    /*function generateArcLine(from, to) {
-      const arcGenerator = new arc.GreatCircle(
-        { x: from[1], y: from[0] },
-        { x: to[1], y: to[0] }
-      );
-
-      const arcLine = arcGenerator.Arc(100, { offset: 10 });
-      
-      const features = [];
-      arcLine.geometries.forEach(geometry => {
-        const line = new LineString(geometry.coords.map(coord => fromLonLat([coord[0], coord[1]])));
-        features.push(
-          new Feature({
-            geometry: line,
-            finished: true,
-          })
-        );
-      });
-
-      return features;
-    }
-
-    const arcFeatures = generateArcLine(
+    const arcFeatures = this.generateArcLine(
       [this.airports[0].lon, this.airports[0].lat],
       [this.airports[1].lon, this.airports[1].lat]
     );
 
-    const lineStyle = new Style({
-      stroke: new Stroke({
-        color: 'blue',
-        width: 2,
-      }),
-    });
+    console.log(arcFeatures)
 
     const arcLayer = new VectorLayer({
       source: new VectorSource({
@@ -123,7 +82,7 @@ export default {
     });
 
 
-    map.addLayer(arcLayer);*/
+    map.addLayer(arcLayer);
 
   },
   methods: {
@@ -134,6 +93,33 @@ export default {
       });
       source.addFeature(iconFeature);
     },
+
+    generateArcLine(from, to) {
+      const arcGenerator = new arc.GreatCircle(
+        { x: from[0], y: from[1] },
+        { x: to[0], y: to[1] }
+      );
+
+      const arcLine = arcGenerator.Arc(100, { offset: 10 });
+      
+      const features = [];
+      console.log(arcLine.geometries)
+      arcLine.geometries.forEach(geometry => {
+        const line = new LineString(geometry.coords);
+        line.transform('EPSG:4326', 'EPSG:3857');
+
+        features.push(
+          new Feature({
+            geometry: line,
+            finished: true,
+          }),
+        );
+
+      });
+
+      return features;
+    }
   },
+  
 };
 </script>
