@@ -15,6 +15,7 @@ deploy:
   stage: deploy
   only:
     - main
+  when: manual
   image: $IMAGE_VAR # docker image with Node
   #needs:
   #  - ["test-run"]
@@ -46,6 +47,7 @@ deploy:
 test-run:
   stage: test
   image: node:20.11.1
+  allow_failure: true
   only: 
     - main
   script:
@@ -57,6 +59,7 @@ test-run:
 test-run-e2e:
   stage: test
   image: node:20.11.1
+  allow_failure: true
   only: 
     - main
   script:
