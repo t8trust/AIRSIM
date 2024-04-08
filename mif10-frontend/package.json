@@ -8,8 +8,12 @@
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
+    "@ant-design/icons": "^5.3.6",
+    "@ant-design/icons-vue": "^7.0.1",
     "ant-design-vue": "^4.1.2",
+    "arc": "^0.1.4",
     "core-js": "^3.8.3",
+    "ol": "^9.1.0",
     "vue": "^3.2.13",
     "vue-router": "^4.3.0"
   },

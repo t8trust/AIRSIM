@@ -1,0 +1,47 @@
+import { Controller, Get, Post, Req, Param, Delete, Put, Body, UseGuards } from '@nestjs/common';
+import { Request } from 'express';
+import { UtilisateursService } from '../service/utilisateurs.service';
+import { CreateUtilisateurDto } from '../dto/create-utilisateur-dto';
+import { UpdateUtilisateurDto } from '../dto/update-utilisateur-dto';
+import { AuthGuard } from 'src/auth/auth.guard';
+
+@Controller('utilisateurs')
+export class UtilisateursController {
+  constructor(private readonly utilisateursService: UtilisateursService) {}
+
+  @Post()
+  async create(@Req() request: Request) {
+    let body = request.body
+
+    let createUserDto = new CreateUtilisateurDto();
+    createUserDto.login = body.login;
+    createUserDto.mot_de_passe = body.mot_de_passe;
+    createUserDto.salt = body.salt;
+
+    return await this.utilisateursService.create(createUserDto);
+  }
+
+  @Get()
+  @UseGuards(AuthGuard)
+  async findAll() {
+    return await this.utilisateursService.findAll();
+  }
+
+  @Get(':login')
+  async findOne(@Param('login') login: string) {
+    return await this.utilisateursService.findOne(login);
+  }
+
+  @Put(':login')
+  @UseGuards(AuthGuard)
+  async update(@Param('login') login: string, @Body() updateUserDto: UpdateUtilisateurDto) {
+    console.log(login, updateUserDto)
+    return await this.utilisateursService.update(login, updateUserDto);
+  }
+
+  @Delete(':login')
+  @UseGuards(AuthGuard)
+  remove(@Param('login') login: string) {
+    return this.utilisateursService.remove(login);
+  }
+}
