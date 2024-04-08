@@ -5,9 +5,8 @@ variables:
   IMAGE_VAR: "node:20.11.1"
 
 stages:
-    - sonarqube-check
-    - sonarqube-vulnerability-report
-    - test-run
+    - test
+    - sonarqube
     - deploy    
     
     
@@ -45,17 +44,29 @@ deploy:
     - ssh -o StrictHostKeyChecking=no -i $CI_SSH_KEY gitlabci@192.168.75.63 "source ~/.nvm/nvm.sh; nohup /usr/share/nodejs-backend/start.sh </dev/null >/dev/null 2>&1 & exit 0"
 
 test-run:
-  stage: test-run
+  stage: test
   image: node:20.11.1
   only: 
     - main
   script:
-    - cd mif10-backend/test
+    - mv $ENV ./.env
+    - cd mif10-backend
+    - npm install
+    - npm run test
+
+test-run-e2e:
+  stage: test
+  image: node:20.11.1
+  only: 
+    - main
+  script:
+    #- mv $ENV ./.env
+    - cd mif10-backend
     - npm install
     - npm run test:e2e
 
 sonarqube-check:
-  stage: sonarqube-check
+  stage: sonarqube
   image: 
     name: sonarsource/sonar-scanner-cli:5.0
     entrypoint: [""]
@@ -76,7 +87,7 @@ sonarqube-check:
     - develop
 
 sonarqube-vulnerability-report:
-  stage: sonarqube-vulnerability-report
+  stage: sonarqube
   image: $IMAGE_VAR
   script:
     - 'curl -u "${SONAR_TOKEN}:" "${SONAR_HOST_URL}/api/issues/gitlab_sast_export?projectKey=mif10-gr15-2023&branch=${CI_COMMIT_BRANCH}&pullRequest=${CI_MERGE_REQUEST_IID}" -o gl-sast-sonar-report.json'
