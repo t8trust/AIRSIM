@@ -19,12 +19,12 @@
                 <a-select-option v-for="airport in airports" :key="airport.value" :value="airport.value">{{ airport.label }}</a-select-option>
               </a-select>
             </a-form-item>
-            <a-form-item>
+            <!--<a-form-item>
               <a-button type="primary" html-type="submit" class="centered-button">Submit</a-button>
-            </a-form-item>
-            <a-form-item label="Émission de CO2" class="form-item">
+            </a-form-item>-->
+            <!--<a-form-item label="Émission de CO2" class="form-item">
               <a-input placeholder="CO2" readonly />
-            </a-form-item>
+            </a-form-item>-->
             <div class="flight-options fo-item">
                 <h3 class="section-title fo-item">Meilleures options de vol</h3>
               <FlightOptions></FlightOptions>
@@ -47,7 +47,7 @@
 </template>
 
 <script setup>
-    import { Row as ARow, Col as ACol, Form as AForm, Input as AInput, Button as AButton, Select as ASelect } from 'ant-design-vue'
+    import { Row as ARow, Col as ACol, Form as AForm, Button as AButton, Select as ASelect } from 'ant-design-vue'
     import { h, ref } from "vue"
 
     let menuToggle = ref(false);
@@ -70,7 +70,7 @@
     ACol,
     AForm,
     AFormItem: AForm.Item,
-    AInput,
+    //AInput,
     //AButton,
     FlightOptions,
     AButton,

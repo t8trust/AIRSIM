@@ -21,6 +21,12 @@ export default {
   name: 'MapContainer',
   data() {
     return {
+      /** @type {Map} */
+      map: {},
+      /** @type {VectorSource<any>} */
+      arcSource: new VectorSource(),
+      /** @type {VectorSource<any>} */
+      airportSource: new VectorSource(),
       airports: [
         { name: 'Dakar', lon: -17.4479, lat: 14.6928 },
         { name: 'Londres', lon: -0.1276, lat: 51.5074 }
@@ -28,7 +34,19 @@ export default {
     };
   },
   mounted() {
-    const airportSource = new VectorSource();
+    this.map = new Map({
+      target: this.$refs['map-root'],
+      layers: [
+        new TileLayer({
+          source: new OSM(),
+        }),
+      ],
+      view: new View({
+        center: fromLonLat([0, 0]),
+        zoom: 2,
+      }),
+    });
+
     const markerStyle = new Style({
       image: new Icon({
         anchor: [0.5, 1],
@@ -36,28 +54,6 @@ export default {
         width: 18,
         eight: 18
       }),
-    });
-    const airportLayer = new VectorLayer({
-      source: airportSource,
-      style: markerStyle,
-    });
-
-    const map = new Map({
-      target: this.$refs['map-root'],
-      layers: [
-        new TileLayer({
-          source: new OSM(),
-        }),
-        airportLayer,
-      ],
-      view: new View({
-        center: fromLonLat([0, 0]),
-        zoom: 2,
-      }),
-    });
- 
-    this.airports.forEach(airport => {
-      this.addAirportMarker(map, airportSource, airport.lon, airport.lat, airport.name);
     });
 
     const lineStyle = new Style({
@@ -67,31 +63,32 @@ export default {
       }),
     });
 
-    const arcFeatures = this.generateArcLine(
-      [this.airports[0].lon, this.airports[0].lat],
-      [this.airports[1].lon, this.airports[1].lat]
-    );
-
-    console.log(arcFeatures)
+    const airportLayer = new VectorLayer({
+      source: this.airportSource,
+      style: markerStyle,
+    });
 
     const arcLayer = new VectorLayer({
-      source: new VectorSource({
-        features: arcFeatures,
-      }),
+      source: this.arcSource,
       style: lineStyle,
     });
 
 
-    map.addLayer(arcLayer);
+    this.airports.forEach(airport => {
+      this.addAirportMarker(airport);
+    });
+
+    this.map.addLayer(airportLayer);
+    this.map.addLayer(arcLayer);
 
   },
   methods: {
-    addAirportMarker(map, source, lon, lat, name) {
+    addAirportMarker(airport) {
       const iconFeature = new Feature({
-        geometry: new Point(fromLonLat([lon, lat])),
-        name: name,
+        geometry: new Point(fromLonLat([airport.lon, airport.lat])),
+        name: airport.name,
       });
-      source.addFeature(iconFeature);
+      this.airportSource.addFeature(iconFeature);
     },
 
     generateArcLine(from, to) {
@@ -118,7 +115,17 @@ export default {
       });
 
       return features;
-    }
+    },
+
+    traceArc(from, to) {
+      this.arcSource.addFeatures(
+        this.generateArcLine([from.lon, from.lat], [to.lon, to.lat])
+      )
+    },
+
+    clearArcs(){
+      this.arcSource.clear();
+    },
   },
   
 };

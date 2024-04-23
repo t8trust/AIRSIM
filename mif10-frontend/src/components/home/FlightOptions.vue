@@ -21,6 +21,7 @@ export default {
       flightOptions: [
         { title: 'Option de vol 1', content: 'Contenu option  1', pollution: 'Moins' },
         { title: 'Option de vol 2', content: 'Contenu option 2', pollution: 'Plus' },
+        { title: 'Option de vol 3', content: 'Contenu option 2', pollution: 'Plus' },
       ]
     };
   }
