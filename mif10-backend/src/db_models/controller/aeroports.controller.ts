@@ -24,9 +24,9 @@ export class AeroportsController {
     return await this.aeroportsService.create(dto);
   }
 
-  @Get(':iata')
-  async findAll(@Param('iata') iata: string) {
-    return await this.aeroportsService.findAll(iata);
+  @Get(':iata/:page')
+  async findAll(@Param('iata') iata: string, @Param('page') page: number) {
+    return await this.aeroportsService.findAll(iata, page);
   }
 
   @Put(':iata')

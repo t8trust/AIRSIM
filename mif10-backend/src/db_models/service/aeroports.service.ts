@@ -22,12 +22,14 @@ export class AeroportsService {
     return this.aeroportsRepository.save(aeroportData);
   }
 
-  async findAll(iata: string): Promise<Aeroport[] | null> {
+  async findAll(iata: string, page: number): Promise<Aeroport[] | null> {
     iata = iata.toUpperCase();
 
     const res = await this.aeroportsRepository
       .createQueryBuilder("aeroport")
       .where("aeroport.iata like :IATA", { IATA:`${iata}%` })
+      .skip(page * 10)
+      .take(10)
       .getMany();
 
     return res;
