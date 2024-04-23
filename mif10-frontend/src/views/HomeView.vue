@@ -26,8 +26,12 @@ export default {
   },
   methods: {
     map() { return this.$refs.map },
-    onTravel(airport_a, airport_b){ 
-      this.map().traceArc(airport_a, airport_b) 
+    onTravel(airport_a, airport_b){
+      // const test = [{ name: 'Dakar', longitude: -17.4479, latitude: 14.6928 },
+      //   { name: 'Londres', longitude: -0.1276, latitude: 51.5074 }]
+      this.map().clearArcs()
+      this.map().traceArc(airport_a, airport_b)
+      this.map().move(airport_a, airport_b)
     },
     async onMoveEnd(){
       const extents = this.map().getExtents()

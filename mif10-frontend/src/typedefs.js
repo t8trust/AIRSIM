@@ -8,3 +8,7 @@
  *  longitude: number
  * }} Airport
  */
+
+/**
+ * @typedef {{ longitude: number, latitude: number}} MapLocation
+ */

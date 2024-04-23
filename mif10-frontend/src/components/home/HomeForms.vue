@@ -33,7 +33,7 @@ export default {
       ]
     }
   },
-  
+
   methods: {
     /**
      * @param {Airport} airport 
