@@ -14,6 +14,7 @@ export class AeroportsService {
   ) {}
 
   async create(createAeroportDto: CreateAeroportDto): Promise<Aeroport> {
+
     const aeroportData =
       await this.aeroportsRepository.create(
         createAeroportDto,
@@ -21,8 +22,15 @@ export class AeroportsService {
     return this.aeroportsRepository.save(aeroportData);
   }
 
-  findAll(): Promise<Aeroport[]> {
-    return this.aeroportsRepository.find();
+  async findAll(iata: string): Promise<Aeroport[] | null> {
+    iata = iata.toUpperCase();
+
+    const res = await this.aeroportsRepository
+      .createQueryBuilder("aeroport")
+      .where("aeroport.iata like :IATA", { IATA:`${iata}%` })
+      .getMany();
+
+    return res;
   }
 
   findOne(iata: string): Promise<Aeroport | null> {

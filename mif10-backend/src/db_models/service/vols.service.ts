@@ -22,10 +22,12 @@ export class VolsService {
   }
 
 
-  async findTravels(depart: string, destination: string): Promise<Vol[] | null> {
+  async findTravel(depart: string, destination: string): Promise<Vol[] | null> {
     const res = await this.volsRepository
       .createQueryBuilder("vol")
       .where("vol.depart = :dep", { dep: depart }).andWhere("vol.destination = :dest", { dest: destination })
+      .orderBy("vol.co2_emissions")
+      .limit(10)
       .getMany();
 
       return res;

@@ -13,13 +13,23 @@ export class VolsController {
   @UseGuards(AuthGuard)
   async create(@Req() request: Request) {
     let body = request.body
+    
     let createVolDto = new CreateVolDto();
+    createVolDto.depart = body.depart;
+    createVolDto.destination = body.destination;
+    createVolDto.heure_depart = body.heure_depart;
+    createVolDto.heure_destination = body.heure_destination;
+    createVolDto.co2_average = body.co2_average;
+    createVolDto.co2_emissions = body.co2_emissions;
+    createVolDto.duree = body.duree;
+    createVolDto.avion_id = body.avion_id;
+    
     return await this.volsService.create(createVolDto);
   }
 
   @Get(':depart/:destination')
   async findOne(@Param('depart') depart: string, @Param('destination')destination: string) {
-    return await this.volsService.findTravels(depart, destination);
+    return await this.volsService.findTravel(depart, destination);
   }
 
   @Put(':id_vol')
