@@ -49,7 +49,7 @@ export default {
         anchor: [0.5, 1],
         src: './marker_icon.png',
         width: 18,
-        eight: 18
+        height: 18
       }),
     });
 
