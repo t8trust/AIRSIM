@@ -14,12 +14,13 @@ export class VolsController {
   async create(@Req() request: Request) {
     let body = request.body
     let createVolDto = new CreateVolDto();
+    
     return await this.volsService.create(createVolDto);
   }
 
   @Get(':depart/:destination')
   async findOne(@Param('depart') depart: string, @Param('destination')destination: string) {
-    return await this.volsService.findTravels(depart, destination);
+    return await this.volsService.findTravel(depart, destination);
   }
 
   @Put(':id_vol')

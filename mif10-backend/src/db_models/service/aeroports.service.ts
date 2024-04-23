@@ -21,8 +21,14 @@ export class AeroportsService {
     return this.aeroportsRepository.save(aeroportData);
   }
 
-  findAll(): Promise<Aeroport[]> {
-    return this.aeroportsRepository.find();
+  async findAll(iata: string): Promise<Aeroport[] | null> {
+
+    const res = await this.aeroportsRepository
+      .createQueryBuilder("aeroport")
+      .where("aeoport.iata like :IATA", { IATA: {iata} })
+      .getMany();
+
+    return res;
   }
 
   findOne(iata: string): Promise<Aeroport | null> {
