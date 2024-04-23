@@ -1,51 +1,36 @@
-<script setup>
-    import { Row as ARow, Col as ACol, Form as AForm, Button as AButton, Select as ASelect } from 'ant-design-vue'
-    import { h, ref } from "vue"
-    // import { Airports } from "../../api.js"
-
-    let menuToggle = ref(false);
-
-</script>
-
 <script>
-    import FlightOptions from './FlightOptions.vue'
-    import { MenuOutlined } from "@ant-design/icons-vue"
+import FlightOptions from './FlightOptions.vue'
+import { Row as ARow, Col as ACol, Form as AForm, Button as AButton, Select as ASelect } from 'ant-design-vue'
+import { MenuOutlined } from "@ant-design/icons-vue"
+import { ref } from "vue"
+
+export default {
+  components: {
+    ARow,
+    ACol,
+    AForm,
+    AFormItem: AForm.Item,
+    FlightOptions,
+    AButton,
+    ASelect,
+    MenuOutlined,
+    ASelectOption: ASelect.Option,
+  },
   
-    export default {
-      data(){
-        return {
-          map2: {}
-        }
-      },
+  setup() {
+    return {
+      menuToggle: ref(false),
+    }
+  },
+  
+  async mounted() {
+    const a = { name: 'Dakar', lon: -17.4479, lat: 14.6928 };
+    const b = { name: 'Londres', lon: -0.1276, lat: 51.5074 };
+    this.$emit("onTravel", a, b)
+  },
 
-      props: ["on-valid-travel"],
-
-      components: {
-        ARow,
-        ACol,
-        AForm,
-        AFormItem: AForm.Item,
-        //AInput,
-        //AButton,
-        FlightOptions,
-        AButton,
-        //ATag,
-        ASelect,
-        ASelectOption: ASelect.Option,
-      },
-
-      async mounted() {
-        // this.map.value.traceArc(
-        //   { name: 'Dakar', lon: -17.4479, lat: 14.6928 },
-        //   { name: 'Londres', lon: -0.1276, lat: 51.5074 }
-        // )
-      },
-
-      // methods: {
-      //   getMap: () => this.map.value
-      // }
-    
-    };
+  emits: ["onTravel"],
+};
 </script>
 
 
@@ -92,7 +77,7 @@
     </a-row>
   </div>
   <div class="menu-open-button">
-    <a-button shape="circle" :icon="h(MenuOutlined)" size="large" @click="menuToggle = ! menuToggle"></a-button>
+    <a-button shape="circle" size="large" @click="menuToggle = ! menuToggle"><MenuOutlined/></a-button>
   </div>
   </div>
 </template>

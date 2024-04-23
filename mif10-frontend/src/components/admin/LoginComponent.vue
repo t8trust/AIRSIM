@@ -37,8 +37,8 @@
 </template>
 
 <script>
-import HeaderComponent from '../headerfooter/HeaderComponent.vue'
-import FooterComponent from '../headerfooter/FooterComponent.vue'
+import HeaderComponent from '../HeaderComponent.vue'
+import FooterComponent from '../FooterComponent.vue'
 import DeletePopup from './popup/DeletePopup.vue'
 import { message } from 'ant-design-vue';
 

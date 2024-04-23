@@ -18,14 +18,12 @@ import { Stroke} from 'ol/style.js';
 import arc from 'arc';
 
 export default {
-  name: 'MapContainer',
+  name: 'MapComponent',
   data() {
     return {
       /** @type {Map} */
       map: {},
-      /** @type {VectorSource<any>} */
       arcSource: new VectorSource(),
-      /** @type {VectorSource<any>} */
       airportSource: new VectorSource(),
       airports: [
         { name: 'Dakar', lon: -17.4479, lat: 14.6928 },
