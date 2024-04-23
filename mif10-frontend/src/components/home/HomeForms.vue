@@ -8,10 +8,16 @@
           <h2 class="centered-heading info-vols-title">Infos de vols</h2>
           <a-form>
             <a-form-item label="Départ" class="form-item">
-              <a-input placeholder="Entrez votre point de départ" />
+              <!--<a-input placeholder="Entrez votre point de départ" />-->
+              <a-select placeholder="Entrez votre point de départ" mode="search" show-search>
+                <a-select-option v-for="airport in airports" :key="airport.value" :value="airport.value">{{ airport.label }}</a-select-option>
+              </a-select>
             </a-form-item>
             <a-form-item label="Arrivée">
-              <a-input placeholder="Entrez votre destination" />
+              <!--<a-input placeholder="Entrez votre destination" />-->
+              <a-select placeholder="Entrez votre destination" mode="search" show-search>
+                <a-select-option v-for="airport in airports" :key="airport.value" :value="airport.value">{{ airport.label }}</a-select-option>
+              </a-select>
             </a-form-item>
             <a-form-item>
               <a-button type="primary" html-type="submit" class="centered-button">Submit</a-button>
@@ -41,10 +47,16 @@
 </template>
 
 <script setup>
-    import { Row as ARow, Col as ACol, Form as AForm, Input as AInput, Button as AButton } from 'ant-design-vue'
+    import { Row as ARow, Col as ACol, Form as AForm, Input as AInput, Button as AButton, Select as ASelect } from 'ant-design-vue'
     import { h, ref } from "vue"
 
     let menuToggle = ref(false);
+
+    const airports = [
+      { label: "Mexico", value: "mexico" },
+      { label: "France", value: "france" },
+      { label: "Londres", value: "londres" }
+    ]
 
 </script>
 
@@ -61,8 +73,10 @@
     AInput,
     //AButton,
     FlightOptions,
-    AButton
-    //ATag
+    AButton,
+    //ATag,
+    ASelect,
+    ASelectOption: ASelect.Option,
   }
     
   };
