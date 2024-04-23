@@ -34,12 +34,6 @@ export default {
     }
   },
   
-  async mounted() {
-    const a = { name: 'Dakar', lon: -17.4479, lat: 14.6928 };
-    const b = { name: 'Londres', lon: -0.1276, lat: 51.5074 };
-    this.$emit("onTravel", a, b)
-  },
-
   methods: {
     /**
      * @param {Airport} airport 
