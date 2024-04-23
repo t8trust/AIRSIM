@@ -9,6 +9,7 @@ import TileLayer from 'ol/layer/Tile.js';
 import OSM from 'ol/source/OSM.js';
 import Feature from 'ol/Feature.js';
 import Point from 'ol/geom/Point.js';
+import { transformExtent } from "ol/proj"
 import { fromLonLat } from 'ol/proj.js';
 import { Vector as VectorLayer } from 'ol/layer.js';
 import { Vector as VectorSource } from 'ol/source.js';
@@ -19,6 +20,7 @@ import arc from 'arc';
 
 export default {
   name: 'MapComponent',
+  emits: ["moveEnd"],
   data() {
     return {
       /** @type {Map} */
@@ -78,6 +80,7 @@ export default {
 
     this.map.addLayer(airportLayer);
     this.map.addLayer(arcLayer);
+    this.map.addEventListener("moveend", e => this.$emit("moveEnd", e))
 
   },
   methods: {
@@ -113,6 +116,11 @@ export default {
       });
 
       return features;
+    },
+
+    getExtents(){
+      const extent = this.map.getView().calculateExtent(this.map.getSize());
+      return transformExtent(extent, 'EPSG:3857', 'EPSG:4326')
     },
 
     traceArc(from, to) {

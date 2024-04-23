@@ -1,7 +1,9 @@
 <template>
   <div class="content">
     <div id="mapid" class="map-container">
-      <MapComponent ref="map"/>
+      <MapComponent ref="map"
+        @move-end="onMoveEnd"
+        />
     </div>
     <div class="home-forms-container">
       <HomeForms 
@@ -12,8 +14,9 @@
 </template>
 
 <script>
+import { Airports } from '@/api'
 import HomeForms from '../components/home/HomeForms.vue'
-import MapComponent from '../components/MapComponent.vue';
+import MapComponent from '../components/MapComponent.vue'
 
 export default {
   name: 'HomeView',
@@ -23,7 +26,21 @@ export default {
   },
   methods: {
     map() { return this.$refs.map },
-    onTravel(airport_a, airport_b){ this.map().traceArc(airport_a, airport_b) } 
+    onTravel(airport_a, airport_b){ 
+      this.map().traceArc(airport_a, airport_b) 
+    },
+    async onMoveEnd(){
+      const extents = this.map().getExtents()
+      const airports = await Airports.searchByRegion(extents);
+      this.map().clearArcs();
+      airports.forEach((airport) => {
+        this.map().addAirportMarker(airport);
+      });
+    },
+    reset() { 
+      this.map().clearArcs();
+    }
+
   }
 }
 </script>
