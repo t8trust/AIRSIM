@@ -31,7 +31,7 @@ export default {
     },
     async onMoveEnd(){
       const extents = this.map().getExtents()
-      const airports = await Airports.searchByRegion(extents);
+      const airports = await Airports.findByRegion(extents);
       this.map().clearArcs();
       airports.forEach((airport) => {
         this.map().addAirportMarker(airport);

@@ -27,10 +27,7 @@ export default {
       map: {},
       arcSource: new VectorSource(),
       airportSource: new VectorSource(),
-      airports: [
-        { name: 'Dakar', lon: -17.4479, lat: 14.6928 },
-        { name: 'Londres', lon: -0.1276, lat: 51.5074 }
-      ]
+      airports: []
     };
   },
   mounted() {
@@ -71,11 +68,6 @@ export default {
     const arcLayer = new VectorLayer({
       source: this.arcSource,
       style: lineStyle,
-    });
-
-
-    this.airports.forEach(airport => {
-      this.addAirportMarker(airport);
     });
 
     this.map.addLayer(airportLayer);
@@ -123,9 +115,13 @@ export default {
       return transformExtent(extent, 'EPSG:3857', 'EPSG:4326')
     },
 
+    /**
+     * @param {Airport} from 
+     * @param {Airport} to 
+     * */
     traceArc(from, to) {
       this.arcSource.addFeatures(
-        this.generateArcLine([from.lon, from.lat], [to.lon, to.lat])
+        this.generateArcLine([from.longitude, from.latitude], [to.longitude, to.latitude])
       )
     },
 

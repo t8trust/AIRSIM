@@ -63,14 +63,14 @@ export const Airports = {
     return await fetchJSON(this.url)
   },
 
-  async searchByName(str){
+  async findByName(str){
     return await fetchJSON(this.url + "/" + str)
   },
 
   /**
    * @param {[minlon: number, minlat: number, maxlon: number, maxlat: number]} extents
    */
-  async searchByRegion(extents){
+  async findByRegion(extents){
     return await fetchJSON(this.url + "/" + extents[0] + "/" + extents[1] + "/" + extents[2] + "/" + extents[3])
   }
 }

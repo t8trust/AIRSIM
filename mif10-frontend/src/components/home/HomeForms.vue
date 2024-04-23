@@ -3,6 +3,7 @@ import FlightOptions from './FlightOptions.vue'
 import { Row as ARow, Col as ACol, Form as AForm, Button as AButton, Select as ASelect } from 'ant-design-vue'
 import { MenuOutlined } from "@ant-design/icons-vue"
 import { ref } from "vue"
+import { Airports } from '@/api';
 
 export default {
   components: {
@@ -16,10 +17,20 @@ export default {
     MenuOutlined,
     ASelectOption: ASelect.Option,
   },
+  emits: ["onTravel"],
   
   setup() {
     return {
       menuToggle: ref(false),
+    }
+  },
+
+  data(){
+    return {
+      input: [
+        { search: "", airport: {}, valid: false, fetchCallback: null, fetchData: [] },
+        { search: "", airport: {}, valid: false, fetchCallback: null, fetchData: [] },
+      ]
     }
   },
   
@@ -29,7 +40,47 @@ export default {
     this.$emit("onTravel", a, b)
   },
 
-  emits: ["onTravel"],
+  methods: {
+    /**
+     * @param {Airport} airport 
+     * */
+    onValueSelected(id, airport){
+      const current = this.input[id]
+      current.nom = airport.nom
+      current.airport = airport
+      current.valid = true
+      this.checkValidTravel()
+    },
+
+    onSearchChange(id, str){
+      const current = this.input[id]
+      current.search = str
+      current.valid = false
+
+      const airport = current.fetchData.find(airport => airport.name === current.search);
+      if (airport){
+        current.valid = true
+        current.airport = airport
+        this.checkValidTravel()
+      }
+
+      clearTimeout(current.fetchCallback)
+
+      current.fetchCallback = setTimeout(async () => {
+        if (current.search.length >= 3){
+          current.fetchData = await Airports.findByName(current.search)
+          this.checkValidTravel()
+        }
+      }, 1000)
+    },
+
+    checkValidTravel() {
+      if (!this.input[0].valid || !this.input[1].valid) return;
+      this.$emit("onTravel", this.input[0].airport, this.input[1].airport)
+    }
+
+  }
+
 };
 </script>
 
@@ -45,14 +96,14 @@ export default {
           <a-form>
             <a-form-item label="Départ" class="form-item">
               <!--<a-input placeholder="Entrez votre point de départ" />-->
-              <a-select placeholder="Entrez votre point de départ" mode="search" show-search>
-                <a-select-option v-for="airport in airports" :key="airport.value" :value="airport.value">{{ airport.label }}</a-select-option>
+              <a-select @search="(str) => onSearchChange(0, str)" @select="(airport) => onValueSelected(0, airport)" placeholder="Entrez votre point de départ" mode="search" show-search>
+                <a-select-option v-for="airport in input[0].fetchData" :key="airport" :value="airport">{{ airport.name }}</a-select-option>
               </a-select>
             </a-form-item>
             <a-form-item label="Arrivée">
               <!--<a-input placeholder="Entrez votre destination" />-->
-              <a-select placeholder="Entrez votre destination" mode="search" show-search>
-                <a-select-option v-for="airport in airports" :key="airport.value" :value="airport.value">{{ airport.label }}</a-select-option>
+              <a-select @search="(str) => onSearchChange(1, str)" @select="(airport) => onValueSelected(1, airport)" placeholder="Entrez votre destination" mode="search" show-search>
+                <a-select-option v-for="airport in input[1].fetchData" :key="airport" :value="airport">{{ airport.name }}</a-select-option>
               </a-select>
             </a-form-item>
             <!--<a-form-item>
