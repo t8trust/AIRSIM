@@ -1,13 +1,14 @@
 <template>
-    <div>
+    <div class="page-container">
         <HeaderComponent :showFavorisButton="false"></HeaderComponent>
 
         <div class="login-container">
             <a-card class="login-card">
+              <h2 class="card-title">Connexion administrateur</h2>
                 <div class="form-container">
                   <a-form ref="loginForm" :rules="rules" @finish="handleSubmit">
-                    <a-form-item label="Email" name="email">
-                        <a-input prefix-icon="mail" placeholder="Email"/>
+                    <a-form-item label="Login" name="login">
+                        <a-input prefix-icon="login" placeholder="Login"/>
                     </a-form-item>
                     <a-form-item label="Mot de passe" name="password">
                         <a-input type="password" prefix-icon="lock" placeholder="Password"/>
@@ -38,7 +39,7 @@ export default {
   data() {
     return {
         rules: {
-            email: [{ required: true, message: 'Veuillez saisir votre email', trigger: 'blur' }],
+            login: [{ required: true, message: 'Veuillez saisir votre login', trigger: 'blur' }],
             password: [{ required: true, message: 'Veuillez saisir votre mot de passe', trigger: 'blur' }]
         }
     }
@@ -78,5 +79,14 @@ export default {
 
 .form-container {
   width: 100%; 
+}
+
+.page-container {
+  background-color: #dbecfd;
+}
+
+.card-title {
+  text-align: center;
+  margin-bottom: 20px; 
 }
 </style>
