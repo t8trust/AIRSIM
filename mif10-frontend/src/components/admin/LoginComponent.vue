@@ -2,6 +2,10 @@
     <div class="page-container">
         <HeaderComponent :showFavorisButton="false"></HeaderComponent>
 
+        <!-- Popup de suppression -->
+    <DeletePopup :visible="deletePopupVisible" @update:visible="val => deletePopupVisible = val" @delete="confirmDelete" />
+
+
         <div class="login-container">
             <a-card class="login-card">
               <h2 class="card-title">Connexion administrateur</h2>
@@ -18,6 +22,12 @@
                             Connexion
                         </a-button>
                     </a-form-item>
+                    <!-- test Popup de suppression -->
+                    <a-form-item style="text-align: center;">
+                      <a-button type="danger" @click="showDeletePopup">
+                        Supprimer mon compte
+                      </a-button>
+                    </a-form-item>
                   </a-form>
                 </div>
             </a-card>
@@ -29,19 +39,22 @@
 <script>
 import HeaderComponent from '../headerfooter/HeaderComponent.vue'
 import FooterComponent from '../headerfooter/FooterComponent.vue'
+import DeletePopup from './popup/DeletePopup.vue'
 import { message } from 'ant-design-vue';
 
 export default {
   components: {
     HeaderComponent,
     FooterComponent,
+    DeletePopup
   },
   data() {
     return {
         rules: {
             login: [{ required: true, message: 'Veuillez saisir votre login', trigger: 'blur' }],
             password: [{ required: true, message: 'Veuillez saisir votre mot de passe', trigger: 'blur' }]
-        }
+        },
+        deletePopupVisible: false
     }
   },
   methods: {
@@ -54,6 +67,14 @@ export default {
           return false;
         }
       });
+    },
+    //Méthode pour tester le popup de suppression (à enleverr)
+    showDeletePopup() {
+      this.deletePopupVisible = true;
+    },
+    confirmDelete() {
+      console.log("Compte utilisateur supprimé");
+      this.deletePopupVisible = false;
     }
   }
 }
