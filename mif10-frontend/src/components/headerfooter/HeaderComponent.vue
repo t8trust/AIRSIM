@@ -5,7 +5,7 @@
           <a-avatar :src="imagePath" size="small" style="margin-right: 0.5rem;"></a-avatar>
           <span style="vertical-align: middle;">AIRSIM</span>
         </a-col>
-        <a-button type="primary" shape="round">Favori</a-button>
+        <a-button v-if="showFavorisButton" type="primary" shape="round">Favori</a-button>
       </a-row>
     </a-layout-header>
   </template>
@@ -14,6 +14,12 @@
   import { Layout, Row, Col, Avatar, Button } from 'ant-design-vue';
   
   export default {
+    props: {
+      showFavorisButton: {
+        type: Boolean,
+        default: true
+      }
+    },
     components: {
       'a-layout-header': Layout.Header,
       'a-row': Row,

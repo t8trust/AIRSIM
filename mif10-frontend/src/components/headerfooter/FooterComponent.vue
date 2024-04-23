@@ -3,7 +3,7 @@
     <a-layout-footer class="footer">
       <a-row :gutter="16">
         <a-col :span="8" class="text-left">
-          <a-button type="primary" shape="round" :icon="h(LoginOutlined)">
+          <a-button v-if="showLoginButton" type="primary" shape="round" :icon="h(LoginOutlined)">
             Login
           </a-button>
         </a-col>
@@ -27,6 +27,12 @@
   import { Layout, Row, Col, Button } from 'ant-design-vue';
 
   export default {
+    props: {
+      showLoginButton: {
+        type: Boolean,
+        default: true
+      }
+    },
     components: {
       'a-layout-footer': Layout.Footer,
       'a-row': Row,
