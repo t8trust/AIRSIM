@@ -6,7 +6,7 @@
         <TestMap></TestMap>
       </div>
       <div class="home-forms-container">
-        <HomeForms></HomeForms>
+        <HomeForms on-valid-travel></HomeForms>
       </div>
     </div>
     <FooterComponent></FooterComponent>
@@ -18,9 +18,16 @@ import HeaderComponent from './components/headerfooter/HeaderComponent.vue'
 import FooterComponent from './components/headerfooter/FooterComponent.vue'
 import HomeForms from './components/home/HomeForms.vue'
 import TestMap from './components/TestMap.vue';
+import { ref } from "vue"
+
 
 export default {
   name: 'App',
+  setup() {
+    return {
+      map: ref(null)
+    }
+  },
   components: {
     HeaderComponent,
     FooterComponent,

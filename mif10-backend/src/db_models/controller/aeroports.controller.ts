@@ -24,9 +24,22 @@ export class AeroportsController {
     return await this.aeroportsService.create(dto);
   }
 
-  @Get(':iata')
-  async findAll(@Param('iata') iata: string) {
-    return await this.aeroportsService.findAll(iata);
+  @Get()
+  async findAll() {
+    return await this.aeroportsService.findAll();
+  }
+
+  @Get(':iata/:page')
+  async findAllPagination(@Param('iata') iata: string, @Param('page') page: number) {
+    return await this.aeroportsService.findAllPage(iata, page);
+  }
+
+  @Get(':minlat/:minlong/:maxlat/:maxlong')
+  async findAllArea(@Param('minlat') minlat: number, 
+  @Param('minlong') minlong: number,
+  @Param('maxlat') maxlat: number,
+  @Param('maxlong') maxlong: number,) {
+    return await this.aeroportsService.findAllInArea(minlat, minlong, maxlat, maxlong);
   }
 
   @Put(':iata')

@@ -57,8 +57,9 @@ export const Users = {
 }
 
 export const Airports = {
+  url: burl + "/aeroports",
   async findAll() {
-    return await fetchJSON("/airports")
+    return await fetchJSON(this.url)
   }
 }
 

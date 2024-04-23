@@ -1,3 +1,54 @@
+<script setup>
+    import { Row as ARow, Col as ACol, Form as AForm, Button as AButton, Select as ASelect } from 'ant-design-vue'
+    import { h, ref } from "vue"
+    // import { Airports } from "../../api.js"
+
+    let menuToggle = ref(false);
+
+</script>
+
+<script>
+    import FlightOptions from './FlightOptions.vue'
+    import { MenuOutlined } from "@ant-design/icons-vue"
+  
+    export default {
+      data(){
+        return {
+          map2: {}
+        }
+      },
+
+      props: ["on-valid-travel"],
+
+      components: {
+        ARow,
+        ACol,
+        AForm,
+        AFormItem: AForm.Item,
+        //AInput,
+        //AButton,
+        FlightOptions,
+        AButton,
+        //ATag,
+        ASelect,
+        ASelectOption: ASelect.Option,
+      },
+
+      async mounted() {
+        // this.map.value.traceArc(
+        //   { name: 'Dakar', lon: -17.4479, lat: 14.6928 },
+        //   { name: 'Londres', lon: -0.1276, lat: 51.5074 }
+        // )
+      },
+
+      // methods: {
+      //   getMap: () => this.map.value
+      // }
+    
+    };
+</script>
+
+
 <template>
   <div class="menu-container" :class="{folded: menuToggle}">
   <div class="full-height-container container-fluid background-light-gray">
@@ -45,42 +96,6 @@
   </div>
   </div>
 </template>
-
-<script setup>
-    import { Row as ARow, Col as ACol, Form as AForm, Button as AButton, Select as ASelect } from 'ant-design-vue'
-    import { h, ref } from "vue"
-
-    let menuToggle = ref(false);
-
-    const airports = [
-      { label: "Mexico", value: "mexico" },
-      { label: "France", value: "france" },
-      { label: "Londres", value: "londres" }
-    ]
-
-</script>
-
-<script>
-    import FlightOptions from './FlightOptions.vue'
-    import { MenuOutlined } from "@ant-design/icons-vue"
-  
-  export default {
-    components: {
-    ARow,
-    ACol,
-    AForm,
-    AFormItem: AForm.Item,
-    //AInput,
-    //AButton,
-    FlightOptions,
-    AButton,
-    //ATag,
-    ASelect,
-    ASelectOption: ASelect.Option,
-  }
-    
-  };
-</script>
   
 <style scoped>
   /** ====== Menu principal  ======= */
