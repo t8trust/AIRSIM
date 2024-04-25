@@ -1,18 +1,14 @@
 <template>
     <div class="page-container">
-        <HeaderComponent :showFavorisButton="false"></HeaderComponent>
-
-        <!-- Popup de suppression -->
-    <DeletePopup :visible="deletePopupVisible" @update:visible="val => deletePopupVisible = val" @delete="confirmDelete" />
-
+        <!--<HeaderComponent :showFavorisButton="false"></HeaderComponent>-->
 
         <div class="login-container">
             <a-card class="login-card">
               <h2 class="card-title">Connexion administrateur</h2>
                 <div class="form-container">
                   <a-form ref="loginForm" :rules="rules" @finish="handleSubmit">
-                    <a-form-item label="Login" name="login">
-                        <a-input prefix-icon="login" placeholder="Login"/>
+                    <a-form-item label="Login" name="email">
+                        <a-input type="email" prefix-icon="login" placeholder="Login"/>
                     </a-form-item>
                     <a-form-item label="Mot de passe" name="password">
                         <a-input type="password" prefix-icon="lock" placeholder="Password"/>
@@ -22,36 +18,28 @@
                             Connexion
                         </a-button>
                     </a-form-item>
-                    <!-- test Popup de suppression -->
-                    <a-form-item style="text-align: center;">
-                      <a-button type="danger" @click="showDeletePopup">
-                        Supprimer mon compte
-                      </a-button>
-                    </a-form-item>
                   </a-form>
                 </div>
             </a-card>
         </div>
-        <FooterComponent :showLoginButton="false"/>
+        <!--<FooterComponent :showLoginButton="false"/>-->
     </div>
 </template>
 
 <script>
-import HeaderComponent from '../HeaderComponent.vue'
-import FooterComponent from '../FooterComponent.vue'
-import DeletePopup from './popup/DeletePopup.vue'
+//import HeaderComponent from '../HeaderComponent.vue'
+//import FooterComponent from '../FooterComponent.vue'
 import { message } from 'ant-design-vue';
 
 export default {
   components: {
-    HeaderComponent,
-    FooterComponent,
-    DeletePopup
+    //HeaderComponent,
+    //FooterComponent,
   },
   data() {
     return {
         rules: {
-            login: [{ required: true, message: 'Veuillez saisir votre login', trigger: 'blur' }],
+            email: [{ required: true, message: 'Veuillez saisir votre login', trigger: 'blur' }],
             password: [{ required: true, message: 'Veuillez saisir votre mot de passe', trigger: 'blur' }]
         },
         deletePopupVisible: false
@@ -67,14 +55,6 @@ export default {
           return false;
         }
       });
-    },
-    //Méthode pour tester le popup de suppression (à enleverr)
-    showDeletePopup() {
-      this.deletePopupVisible = true;
-    },
-    confirmDelete() {
-      console.log("Compte utilisateur supprimé");
-      this.deletePopupVisible = false;
     }
   }
 }
