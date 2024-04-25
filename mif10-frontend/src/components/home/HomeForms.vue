@@ -15,7 +15,6 @@ export default {
     AButton,
     ASelect,
     MenuOutlined,
-    ASelectOption: ASelect.Option,
   },
   emits: ["onTravel"],
   
@@ -28,8 +27,8 @@ export default {
   data(){
     return {
       input: [
-        { search: "", airport: {}, valid: false, fetchCallback: null, fetchData: [] },
-        { search: "", airport: {}, valid: false, fetchCallback: null, fetchData: [] },
+        { search: "", airport: {}, valid: false, fetchCallback: null, options: ref([])},
+        { search: "", airport: {}, valid: false, fetchCallback: null, options: ref([]) },
       ]
     }
   },
@@ -51,7 +50,7 @@ export default {
       current.search = str
       current.valid = false
 
-      const airport = current.fetchData.find(airport => airport.name === current.search);
+      const airport = current.options.find(opt => opt.value.name === current.search);
       if (airport){
         current.valid = true
         current.airport = airport
@@ -62,7 +61,11 @@ export default {
 
       current.fetchCallback = setTimeout(async () => {
         if (current.search.length >= 3){
-          current.fetchData = await Airports.findByName(current.search)
+          const fetchData = await Airports.findAll({ name: current.search, limits: 10 })
+          current.options = fetchData.map((airport) => ({
+            value: airport,
+            label: airport.nom
+          }))
           this.checkValidTravel()
         }
       }, 1000)
@@ -90,14 +93,24 @@ export default {
           <a-form>
             <a-form-item label="Départ" class="form-item">
               <!--<a-input placeholder="Entrez votre point de départ" />-->
-              <a-select @search="(str) => onSearchChange(0, str)" @select="(airport) => onValueSelected(0, airport)" placeholder="Entrez votre point de départ" mode="search" show-search>
-                <a-select-option v-for="airport in input[0].fetchData" :key="airport" :value="airport">{{ airport.name }}</a-select-option>
+              <a-select 
+                @search="(str) => onSearchChange(0, str)" 
+                @select="(airport) => onValueSelected(0, airport)" 
+                :options="$data.input[0].options"
+                placeholder="Entrez votre point de départ" 
+                mode="search" 
+                show-search>
               </a-select>
             </a-form-item>
             <a-form-item label="Arrivée">
               <!--<a-input placeholder="Entrez votre destination" />-->
-              <a-select @search="(str) => onSearchChange(1, str)" @select="(airport) => onValueSelected(1, airport)" placeholder="Entrez votre destination" mode="search" show-search>
-                <a-select-option v-for="airport in input[1].fetchData" :key="airport" :value="airport">{{ airport.name }}</a-select-option>
+              <a-select 
+                @search="(str) => onSearchChange(1, str)" 
+                @select="(airport) => onValueSelected(1, airport)" 
+                :options="$data.input[1].options"
+                placeholder="Entrez votre destination" 
+                mode="search" 
+                show-search>
               </a-select>
             </a-form-item>
             <!--<a-form-item>
