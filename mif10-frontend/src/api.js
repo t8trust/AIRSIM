@@ -17,7 +17,7 @@ function appendParamsToUrl(url, params){
     if (Array.isArray(value))
       value = JSON.stringify(value)
 
-    url + `?${key}=${value}` 
+    url += `?${key}=${value}` 
   }
   
   return url;
@@ -82,7 +82,7 @@ export const Airports = {
   *  page: number
   * }} params
   */
-  async findAll(params = {}) {
+  async findAll(params) {
     return await fetchJSON(appendParamsToUrl(this.url, params))
   },
 }
