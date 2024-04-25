@@ -29,7 +29,6 @@ export class AeroportsController {
     return await this.aeroportsService.findAll(name, page, limit, bounds);
   }
 
-
   @Put(':iata')
   @UseGuards(AuthGuard)
   async update(@Param('iata') iata: string, @Body() updateAeroportDto: UpdateAeroportDto) {

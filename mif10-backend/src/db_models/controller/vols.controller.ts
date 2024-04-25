@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Req, Param, Delete, Put, Body, UseGuards } from '@nestjs/common';
+import { Controller, Get, Post, Req, Param, Query, Delete, Put, Body, UseGuards } from '@nestjs/common';
 import { Request } from 'express';
 import { VolsService } from '../service/vols.service';
 import { CreateVolDto } from '../dto/create-vol-dto';
@@ -27,8 +27,8 @@ export class VolsController {
     return await this.volsService.create(createVolDto);
   }
 
-  @Get(':depart/:destination/:page')
-  async findOne(@Param('depart') depart: string, @Param('destination')destination: string,  @Param('page') page: number) {
+  @Get()
+  async findOne(@Query('depart') depart: string, @Query('destination')destination: string, @Query('page') page: number) {
     return await this.volsService.findTravel(depart, destination, page);
   }
 
