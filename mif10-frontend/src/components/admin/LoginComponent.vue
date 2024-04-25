@@ -1,13 +1,14 @@
 <template>
-    <div>
-        <HeaderComponent :showFavorisButton="false"></HeaderComponent>
+    <div class="page-container">
+        <!--<HeaderComponent :showFavorisButton="false"></HeaderComponent>-->
 
         <div class="login-container">
             <a-card class="login-card">
+              <h2 class="card-title">Connexion administrateur</h2>
                 <div class="form-container">
                   <a-form ref="loginForm" :rules="rules" @finish="handleSubmit">
-                    <a-form-item label="Email" name="email">
-                        <a-input prefix-icon="mail" placeholder="Email"/>
+                    <a-form-item label="Login" name="email">
+                        <a-input type="email" prefix-icon="login" placeholder="Login"/>
                     </a-form-item>
                     <a-form-item label="Mot de passe" name="password">
                         <a-input type="password" prefix-icon="lock" placeholder="Password"/>
@@ -21,26 +22,27 @@
                 </div>
             </a-card>
         </div>
-        <FooterComponent :showLoginButton="false"/>
+        <!--<FooterComponent :showLoginButton="false"/>-->
     </div>
 </template>
 
 <script>
-import HeaderComponent from '../headerfooter/HeaderComponent.vue'
-import FooterComponent from '../headerfooter/FooterComponent.vue'
+//import HeaderComponent from '../HeaderComponent.vue'
+//import FooterComponent from '../FooterComponent.vue'
 import { message } from 'ant-design-vue';
 
 export default {
   components: {
-    HeaderComponent,
-    FooterComponent,
+    //HeaderComponent,
+    //FooterComponent,
   },
   data() {
     return {
         rules: {
-            email: [{ required: true, message: 'Veuillez saisir votre email', trigger: 'blur' }],
+            email: [{ required: true, message: 'Veuillez saisir votre login', trigger: 'blur' }],
             password: [{ required: true, message: 'Veuillez saisir votre mot de passe', trigger: 'blur' }]
-        }
+        },
+        deletePopupVisible: false
     }
   },
   methods: {
@@ -78,5 +80,14 @@ export default {
 
 .form-container {
   width: 100%; 
+}
+
+.page-container {
+  background-color: #dbecfd;
+}
+
+.card-title {
+  text-align: center;
+  margin-bottom: 20px; 
 }
 </style>

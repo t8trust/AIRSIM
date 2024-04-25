@@ -4,7 +4,9 @@
       <a-row :gutter="16">
         <a-col :span="8" class="text-left">
           <a-button v-if="showLoginButton" type="primary" shape="round" :icon="h(LoginOutlined)">
-            Login
+            <router-link to="/login">
+              Login
+            </router-link>
           </a-button>
         </a-col>
         <a-col :span="8" class="text-center">

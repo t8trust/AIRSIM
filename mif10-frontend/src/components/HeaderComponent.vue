@@ -3,7 +3,7 @@
       <a-row align="middle" justify="space-between">
         <a-col>
           <a-avatar :src="imagePath" size="small" style="margin-right: 0.5rem;"></a-avatar>
-          <span style="vertical-align: middle;">AIRSIM</span>
+          <span style="vertical-align: middle;"><router-link to="/">AIRSIM</router-link></span>
         </a-col>
         <a-button v-if="showFavorisButton" type="primary" shape="round">Favori</a-button>
       </a-row>
