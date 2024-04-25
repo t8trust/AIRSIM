@@ -34,11 +34,13 @@ export default {
       this.map().move(airport_a, airport_b)
     },
     async onMoveEnd(){
-      const extents = this.map().getExtents()
+      const map = this.map();
+      const extents = map.getExtents()
       const airports = await Airports.findAll({ bounds: extents, limits: 100 });
-      this.map().clearArcs();
+      map.clearArcs()
+      map.clearMarkers()
       airports.forEach((airport) => {
-        this.map().addAirportMarker(airport);
+        map.addAirportMarker(airport);
       });
     },
     reset() { 

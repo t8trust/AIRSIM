@@ -116,12 +116,12 @@ export default {
     this.map.addEventListener("moveend", e => this.$emit("moveEnd", e))
   },
   methods: {
+    /** @param { Airport } airport */
     addAirportMarker(airport) {
-      const iconFeature = new Feature({
-        geometry: new Point(fromLonLat([airport.lon, airport.lat])),
-        name: airport.name,
-      });
-      this.airportSource.addFeature(iconFeature);
+      this.airportSource.addFeature(new Feature({
+        geometry: new Point(fromLonLat([airport.longitude, airport.latitude])),
+        name: airport.nom,
+      }));
     },
 
     _generateArcLine(from, to) {
@@ -189,6 +189,10 @@ export default {
 
     clearArcs(){
       this.arcSource.clear();
+    },
+    
+    clearMarkers(){
+      this.airportSource.clear();
     },
   },
   
