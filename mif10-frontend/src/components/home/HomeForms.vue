@@ -62,7 +62,7 @@ export default {
 
       current.fetchCallback = setTimeout(async () => {
         if (current.search.length >= 3){
-          current.fetchData = await Airports.findByName(current.search)
+          current.fetchData = await Airports.findAll({ name: current.search, limits: 10 })
           this.checkValidTravel()
         }
       }, 1000)

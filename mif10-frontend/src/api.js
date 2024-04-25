@@ -10,6 +10,19 @@ export class StatusError extends Error {
   }
 }
 
+function appendParamsToUrl(url, params){
+  for (const key in params){
+    let value = params[key]
+    
+    if (Array.isArray(value))
+      value = JSON.stringify(value)
+
+    url + `?${key}=${value}` 
+  }
+  
+  return url;
+}
+
 /**
  * @param {string} url 
  * @param {RequestInit?} params
@@ -57,22 +70,21 @@ export const Users = {
 }
 
 
+
 export const Airports = {
   url: burl + "/aeroports",
-  async findAll() {
-    return await fetchJSON(this.url)
-  },
-
-  async findByName(str){
-    return await fetchJSON(this.url + "/" + str)
-  },
-
+  
   /**
-   * @param {[minlon: number, minlat: number, maxlon: number, maxlat: number]} extents
-   */
-  async findByRegion(extents){
-    return await fetchJSON(this.url + "/" + extents[0] + "/" + extents[1] + "/" + extents[2] + "/" + extents[3])
-  }
+   * @param {{
+  *  name: string,
+  *  limits: number,
+  *  bounds: import("ol/extent").Extent,
+  *  page: number
+  * }} params
+  */
+  async findAll(params = {}) {
+    return await fetchJSON(appendParamsToUrl(this.url, params))
+  },
 }
 
 export const Flights = {
