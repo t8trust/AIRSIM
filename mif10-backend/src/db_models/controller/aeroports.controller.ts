@@ -25,33 +25,10 @@ export class AeroportsController {
   }
 
   @Get()
-  async findAll(@Query('name') name : string, @Query('page') page : number, @Query('limit') limit : number) {
-
-    if (page == null) {
-      page = 0
-    }
-    if(limit == null){
-      limit = 300
-    }else if(limit > 300){
-      limit = 300
-    }
-    if(name == null){
-      return await this.aeroportsService.findAllWithoutName(page, limit);
-    }else{
-      name = name.toLowerCase()
-      name = name.charAt(0).toUpperCase() + name.slice(1);
-      return await this.aeroportsService.findAllWithName(name, page, limit);
-    }
+  async findAll(@Query('name') name : string, @Query('page') page : number, @Query('limit') limit : number, @Query('bounds') bounds : string) {
+    return await this.aeroportsService.findAll(name, page, limit, bounds);
   }
 
-
-  @Get(':minlat/:minlong/:maxlat/:maxlong')
-  async findAllArea(@Param('minlat') minlat: number, 
-  @Param('minlong') minlong: number,
-  @Param('maxlat') maxlat: number,
-  @Param('maxlong') maxlong: number,) {
-    return await this.aeroportsService.findAllInArea(minlat, minlong, maxlat, maxlong);
-  }
 
   @Put(':iata')
   @UseGuards(AuthGuard)
