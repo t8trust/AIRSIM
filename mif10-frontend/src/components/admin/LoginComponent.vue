@@ -6,12 +6,12 @@
             <a-card class="login-card">
               <h2 class="card-title">Connexion administrateur</h2>
                 <div class="form-container">
-                  <a-form ref="loginForm" :rules="rules" @finish="handleSubmit">
-                    <a-form-item label="Login" name="email">
-                        <a-input type="email" prefix-icon="login" placeholder="Login"/>
+                  <a-form>
+                    <a-form-item label="Login" name="login" :validateStatus="loginError ? 'error' : ''" :help="loginError">
+                        <a-input v-model:value="login" prefix-icon="login" placeholder="Login"/>
                     </a-form-item>
-                    <a-form-item label="Mot de passe" name="password">
-                        <a-input type="password" prefix-icon="lock" placeholder="Password"/>
+                    <a-form-item label="Mot de passe" name="password" :validateStatus="passwordError ? 'error' : ''" :help="passwordError">
+                        <a-input v-model:value="password" type="password" prefix-icon="lock" placeholder="Password"/>
                     </a-form-item>
                     <a-form-item style="text-align: center;">
                         <a-button type="primary" class="login-form-button" @click="submitForm">
@@ -30,31 +30,41 @@
 //import HeaderComponent from '../HeaderComponent.vue'
 //import FooterComponent from '../FooterComponent.vue'
 import { message } from 'ant-design-vue';
+import { Auth } from '@/api';
+import { ref } from 'vue';
 
 export default {
   components: {
     //HeaderComponent,
     //FooterComponent,
   },
+  setup(){
+    return {
+      login: ref(''),
+      password: ref(''),
+      loginError: ref(''),
+      passwordError: ref('')
+    }
+  },
   data() {
     return {
-        rules: {
-            email: [{ required: true, message: 'Veuillez saisir votre login', trigger: 'blur' }],
-            password: [{ required: true, message: 'Veuillez saisir votre mot de passe', trigger: 'blur' }]
-        },
-        deletePopupVisible: false
     }
   },
   methods: {
-    handleSubmit() {
-        this.$refs.loginForm.validate(valid => {
-        if (valid) {
-          message.success('Connexion réussie');
-        } else {
-          message.error('Veuillez remplir tous les champs');
-          return false;
-        }
-      });
+    async submitForm() {
+      this.loginError = '';
+      this.passwordError = '';
+      if(!this.login) {
+        this.loginError = 'Le login est obligatoire'
+      }
+      if(!this.password) {
+        this.passwordError = 'Le mot de passe est obligatoire'
+      }
+      else {
+        await Auth.login(this.login, this.password);
+        message.success('Connexion réussie');
+        this.$router.push({name: 'dashboard'});
+      }
     }
   }
 }

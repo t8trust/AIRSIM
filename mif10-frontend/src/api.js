@@ -43,7 +43,7 @@ export const Auth = {
   token: "",
 
   async login(login, password) {
-    const resp = await postJSON("/auth/login", { login, password })
+    const resp = await postJSON(burl + "/auth/login", { login, password })
     this.token = resp.access_token
   },
 
