@@ -11,13 +11,24 @@ export class StatusError extends Error {
 }
 
 function appendParamsToUrl(url, params){
-  for (const key in params){
+  function getUrlFragment(key){
     let value = params[key]
     
     if (Array.isArray(value))
       value = JSON.stringify(value)
 
-    url += `?${key}=${value}` 
+    return `${key}=${value}` 
+  }
+
+  const keys = Object.keys(params)
+  console.log(Object.keys(params))
+
+  if (keys.length >= 1) {
+    url += `?${getUrlFragment(keys[0])}`
+  }
+
+  for (let i = 1; i < keys.length; i++){
+    url += `&${getUrlFragment(keys[i])}`
   }
   
   return url;
@@ -54,6 +65,7 @@ export async function postJSON(url, body, params) {
 
 export const Auth = {
   token: "",
+
 
   async login(login, password) {
     const resp = await postJSON("/auth/login", { login, password })
