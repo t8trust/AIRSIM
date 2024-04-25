@@ -28,21 +28,22 @@
           </a-row>
           <a-list
               item-layout="horizontal"
-              :dataSource="data"
+              :data-source="airports"
               class="list"
           >
             <a-list-item
-                v-for="(item, index) in data"
+                v-for="(airport, index) in airports"
                 :key="index"
             >
               <a-list-item-meta
-                  :title="item.departureAirport"
-                  :description="'Vers ' + item.arrivalAirport"
+                  :title="airport.nom"
+                  :description="airport.pays + ', ' + airport.ville"
               />
+
               <!-- Utilisez item pour accéder aux données du vol ici -->
               <a-space>
-                <a-button @click="showModal('edit', item)">Modifier</a-button>
-                <a-button @click="showDeleteModal(item)" danger>Supprimer</a-button>
+                <a-button @click="showModal('edit', airport)">Modifier</a-button>
+                <a-button @click="showDeleteModal(airport)" danger>Supprimer</a-button>
               </a-space>
             </a-list-item>
           </a-list>
@@ -179,6 +180,11 @@ export default {
         arrivalAirport: 'lyon',
         arrivalCountry: ''
       },
+      airports: [
+        { iata: "ABC", nom: "Airport 1", pays: "Country 1", ville: "City 1" },
+        { iata: "DEF", nom: "Airport 2", pays: "Country 2", ville: "City 2" },
+        // Add more airports as needed
+      ],
       isNewAirport: true,
     };
   },

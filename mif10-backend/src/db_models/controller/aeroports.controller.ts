@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Req, Param, Delete, Put, Body, UseGuards } from '@nestjs/common';
+import { Controller, Get, Post, Req, Query, Param, Delete, Put, Body, UseGuards } from '@nestjs/common';
 import { Request } from 'express';
 import { AeroportsService } from '../service/aeroports.service';
 import { CreateAeroportDto } from '../dto/create-aeroport-dto';
@@ -25,21 +25,8 @@ export class AeroportsController {
   }
 
   @Get()
-  async findAll() {
-    return await this.aeroportsService.findAll();
-  }
-
-  @Get(':iata/:page')
-  async findAllPagination(@Param('iata') iata: string, @Param('page') page: number) {
-    return await this.aeroportsService.findAllPage(iata, page);
-  }
-
-  @Get(':minlat/:minlong/:maxlat/:maxlong')
-  async findAllArea(@Param('minlat') minlat: number, 
-  @Param('minlong') minlong: number,
-  @Param('maxlat') maxlat: number,
-  @Param('maxlong') maxlong: number,) {
-    return await this.aeroportsService.findAllInArea(minlat, minlong, maxlat, maxlong);
+  async findAll(@Query('name') name : string, @Query('page') page : number, @Query('limit') limit : number, @Query('bounds') bounds : string) {
+    return await this.aeroportsService.findAll(name, page, limit, bounds);
   }
 
   @Put(':iata')

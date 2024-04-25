@@ -1,0 +1,26 @@
+import { Utilisateur } from "src/db_models/entity/utilisateur.entity";
+import { UtilisateursService } from "../src/db_models/service/utilisateurs.service";
+import { DataSourceOptions } from "typeorm";
+
+
+describe('Create user test', () => {
+
+    beforeAll(async () => {
+        
+    });
+    
+    afterAll(() => {
+        TestHelper.instance.teardownTestDB();
+    });
+
+
+    test('should create a user in db', async () => {
+        let user = new Utilisateur();
+        user.login = "abc"
+        user.mot_de_passe = "mdp"
+        user.salt = "123"
+
+        const res = await UtilisateursService.prototype.create(user);
+        expect(res.login).toBe('abc');
+    });
+});

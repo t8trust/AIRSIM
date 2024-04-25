@@ -22,21 +22,35 @@ export class AeroportsService {
     return this.aeroportsRepository.save(aeroportData);
   }
 
-  async findAll(): Promise<Aeroport[] | null> {
-    return this.aeroportsRepository.find();
-  }
+  async findAll(name : string, page : number, limit : number, bounds : string): Promise<Aeroport[] | null> {
+    
+    const query = this.aeroportsRepository
+    .createQueryBuilder("aeroport");
 
-  async findAllPage(iata: string, page: number): Promise<Aeroport[] | null> {
-    iata = iata.toUpperCase();
+    if(name != null){
+      name = name.toLowerCase()
+      name = name.charAt(0).toUpperCase() + name.slice(1);
+      query.where("aeroport.nom like :NOM", { NOM:`${name}%` });
+    }
 
-    const res = await this.aeroportsRepository
-      .createQueryBuilder("aeroport")
-      .where("aeroport.iata like :IATA", { IATA:`${iata}%` })
-      .skip(page * 10)
-      .take(10)
-      .getMany();
+    if(bounds != null){
+      bounds = JSON.parse(bounds);
+      if(bounds.length == 4){
+        query.andWhere("aeroport.latitude >= :MINLAT", { MINLAT: bounds[0] })
+        query.andWhere("aeroport.longitude >= :MINLONG", { MINLONG: bounds[1] })
+        query.andWhere("aeroport.latitude <= :MAXLAT", { MAXLAT: bounds[2] })
+        query.andWhere("aeroport.longitude <= :MAXLONG", { MAXLONG: bounds[3] })
+      }
+    }
 
-    return res;
+    if(limit == null){ limit = 300; }
+    else{ limit = Math.min(limit, 300)}
+
+    if(page == null){ page = 0; }
+    query.skip(page * limit)
+    query.take(limit)
+
+    return await query.getMany();
   }
 
   async findAllInArea(minlat: number, minlong: number, maxlat: number, maxlong: number): Promise<Aeroport[] | null> {

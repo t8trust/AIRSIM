@@ -10,6 +10,30 @@ export class StatusError extends Error {
   }
 }
 
+function appendParamsToUrl(url, params){
+  function getUrlFragment(key){
+    let value = params[key]
+    
+    if (Array.isArray(value))
+      value = JSON.stringify(value)
+
+    return `${key}=${value}` 
+  }
+
+  const keys = Object.keys(params)
+  console.log(Object.keys(params))
+
+  if (keys.length >= 1) {
+    url += `?${getUrlFragment(keys[0])}`
+  }
+
+  for (let i = 1; i < keys.length; i++){
+    url += `&${getUrlFragment(keys[i])}`
+  }
+  
+  return url;
+}
+
 /**
  * @param {string} url 
  * @param {RequestInit?} params
@@ -42,6 +66,7 @@ export async function postJSON(url, body, params) {
 export const Auth = {
   token: "",
 
+
   async login(login, password) {
     const resp = await postJSON(burl + "/auth/login", { login, password })
     this.token = resp.access_token
@@ -57,22 +82,21 @@ export const Users = {
 }
 
 
+
 export const Airports = {
   url: burl + "/aeroports",
-  async findAll() {
-    return await fetchJSON(this.url)
-  },
-
-  async findByName(str){
-    return await fetchJSON(this.url + "/" + str)
-  },
-
+  
   /**
-   * @param {[minlon: number, minlat: number, maxlon: number, maxlat: number]} extents
-   */
-  async findByRegion(extents){
-    return await fetchJSON(this.url + "/" + extents[0] + "/" + extents[1] + "/" + extents[2] + "/" + extents[3])
-  }
+   * @param {{
+  *  name: string,
+  *  limits: number,
+  *  bounds: import("ol/extent").Extent,
+  *  page: number
+  * }} params
+  */
+  async findAll(params) {
+    return await fetchJSON(appendParamsToUrl(this.url, params))
+  },
 }
 
 export const Flights = {
