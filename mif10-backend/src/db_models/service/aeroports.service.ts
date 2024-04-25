@@ -22,21 +22,24 @@ export class AeroportsService {
     return this.aeroportsRepository.save(aeroportData);
   }
 
-  async findAll(): Promise<Aeroport[] | null> {
-    return this.aeroportsRepository.find();
+  async findAllWithName(name : string, page : number, limit : number): Promise<Aeroport[] | null> {
+
+    return await this.aeroportsRepository
+      .createQueryBuilder("aeroport")
+      .where("aeroport.nom like :NOM", { NOM:`${name}%` })
+      .skip(page * limit)
+      .take(limit)
+      .getMany();
   }
 
-  async findAllPage(iata: string, page: number): Promise<Aeroport[] | null> {
-    iata = iata.toUpperCase();
 
-    const res = await this.aeroportsRepository
+  async findAllWithoutName(page : number, limit : number): Promise<Aeroport[] | null> {
+
+    return await this.aeroportsRepository
       .createQueryBuilder("aeroport")
-      .where("aeroport.iata like :IATA", { IATA:`${iata}%` })
-      .skip(page * 10)
-      .take(10)
+      .skip(page * limit)
+      .take(limit)
       .getMany();
-
-    return res;
   }
 
   async findAllInArea(minlat: number, minlong: number, maxlat: number, maxlong: number): Promise<Aeroport[] | null> {
