@@ -5,10 +5,34 @@
         @move-end="onMoveEnd"
         />
     </div>
-    <div class="home-forms-container">
-      <HomeForms 
-        @on-travel="onTravel"
-        />
+    <div class="actions-container">
+      <div class="home-forms-container">
+        <HomeForms 
+          @on-travel="onTravel"
+          />
+      </div>
+
+      <div class="map-search">
+        <a-auto-complete
+          class="input"
+          :options="searchOpts"
+          :defaultActiveFirstOption="false"
+          @select="onChange">
+
+          <a-input-search 
+            size="large" 
+            placeholder="Charles de Gaule, Paris, France" 
+            enter-button
+            v-model:value="searchValue"
+            @change="onChange"
+            @search="onSearch"
+            ></a-input-search>
+        </a-auto-complete>
+        <a-button size="large" @click="clear()">
+          <template #icon><CloseOutlined /></template>
+          Clear
+        </a-button>
+      </div>
     </div>
   </div>
 </template>
@@ -17,23 +41,44 @@
 import { Airports } from '@/api'
 import HomeForms from '../components/home/HomeForms.vue'
 import MapComponent from '../components/MapComponent.vue'
+import { AutoComplete, Button, InputSearch } from 'ant-design-vue'
+import { CloseOutlined } from '@ant-design/icons-vue'
 
 export default {
   name: 'HomeView',
   components: {
     HomeForms,
-    MapComponent
+    MapComponent,
+    AAutoComplete: AutoComplete,
+    AInputSearch: InputSearch,
+    AButton: Button,
+    CloseOutlined
+  },
+  data() {
+    return {
+      /** @type { "search" | "travel" | null} */
+      mapMode: null,
+      searchValue: "",
+      searchData: [],
+      searchOpts: [],
+      searchCallback: null
+    }
   },
   methods: {
     map() { return this.$refs.map },
     onTravel(airport_a, airport_b){
       // const test = [{ name: 'Dakar', longitude: -17.4479, latitude: 14.6928 },
       //   { name: 'Londres', longitude: -0.1276, latitude: 51.5074 }]
-      this.map().clearArcs()
+      this.mapMode = "travel"
+      this.map().clear()
+      this.map().addAirportMarker(airport_a)
+      this.map().addAirportMarker(airport_b)
       this.map().traceArc(airport_a, airport_b)
       this.map().move([airport_a, airport_b])
     },
     async onMoveEnd(){
+      if (this.mapMode != null) return;
+
       const map = this.map();
       const extents = map.getExtents()
       const airports = await Airports.findAll({ bounds: extents, limits: 100 });
@@ -42,10 +87,41 @@ export default {
         map.addAirportMarker(airport);
       });
     },
-    reset() { 
-      this.map().clearArcs();
-    }
 
+    async onSearch(){
+      this.mapMode = "search"
+      if (this.searchValue.length >= 3){
+        this.searchData = await Airports.findAll({ name: this.searchValue, limits: 100 })
+        this.searchOpts = this.searchData.map((airport) => ({
+          value: airport.nom,
+          label: `${airport.nom}, ${airport.ville}, ${airport.pays}`
+        }))
+        this.map().clear()
+        this.searchData.forEach(airport => {
+          this.map().addAirportMarker(airport)
+        })
+      }
+    },
+
+    onChange(){
+      clearTimeout(this.searchCallback)
+
+      this.searchCallback = setTimeout(async () => {
+        if (this.searchValue.length >= 3){
+          this.searchData = await Airports.findAll({ name: this.searchValue, limits: 100 })
+          this.searchOpts = this.searchData.map((airport) => ({
+            value: airport.nom,
+            label: `${airport.nom}, ${airport.ville}, ${airport.pays}`
+          }))
+        }
+      }, 200)
+    },
+
+    clear(){
+      this.mapMode = null
+      this.map().clear()
+      this.onMoveEnd()
+    }
   }
 }
 </script>
@@ -60,16 +136,42 @@ export default {
 
 }
 
+.actions-container{
+  display: flex;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  pointer-events: none;
+}
+
+.actions-container > * {
+  pointer-events: all;
+}
+
+.map-search {
+  align-self: end;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1em;
+  width: 100%;
+  gap: 1em
+}
+
+.map-search .input {
+  width: min(100%, 600px);
+}
+
+
 .content {
   position: relative;
+  width: 100%;
 }
 
 .home-forms-container {
-  position: absolute;
   left: 0; 
   top: 0;
   height: 100%;
-  width: 0;
 }
 
 .map-container {

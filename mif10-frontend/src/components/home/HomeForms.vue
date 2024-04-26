@@ -27,10 +27,10 @@ export default {
     MenuOutlined,
   },
   emits: ["onTravel"],
-  
 
   data(){
     return {
+      menuToggle: false,
       input: [
         new TravelInput(),
         new TravelInput()
@@ -110,25 +110,13 @@ export default {
                 show-search>
               </a-select>
             </a-form-item>
-            <!--<a-form-item>
-              <a-button type="primary" html-type="submit" class="centered-button">Submit</a-button>
-            </a-form-item>-->
-            <!--<a-form-item label="Émission de CO2" class="form-item">
-              <a-input placeholder="CO2" readonly />
-            </a-form-item>-->
             <div class="flight-options fo-item">
                 <h3 class="section-title fo-item">Meilleures options de vol</h3>
               <FlightOptions></FlightOptions>
             </div>
-            <!--<a-form-item>
-              <a-button type="primary" html-type="submit" class="centered-button">Favori</a-button>
-            </a-form-item>-->
           </a-form>
         </div>
       </a-col>
-      <!--<a-col :span="16">
-        <div id="mapid" class="map-container"></div>
-      </a-col>-->
     </a-row>
   </div>
   <div class="menu-open-button">
