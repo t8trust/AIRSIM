@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Req, Query, Param, Delete, Put, Body, UseGuards } from '@nestjs/common';
+import { Controller, Get, Post, Req, Query, Param, Delete, Put, Body, UseGuards, Search } from '@nestjs/common';
 import { Request } from 'express';
 import { AeroportsService } from '../service/aeroports.service';
 import { CreateAeroportDto } from '../dto/create-aeroport-dto';
@@ -24,9 +24,10 @@ export class AeroportsController {
     return await this.aeroportsService.create(dto);
   }
 
+  // search = name, country or city
   @Get()
-  async findAll(@Query('name') name : string, @Query('page') page : number, @Query('limit') limit : number, @Query('bounds') bounds : string) {
-    return await this.aeroportsService.findAll(name, page, limit, bounds);
+  async findAll(@Query('search') search : string, @Query('page') page : number, @Query('limit') limit : number, @Query('bounds') bounds : string) {
+    return await this.aeroportsService.findAll(search, page, limit, bounds);
   }
 
   @Put(':iata')

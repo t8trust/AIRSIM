@@ -22,15 +22,16 @@ export class AeroportsService {
     return this.aeroportsRepository.save(aeroportData);
   }
 
-  async findAll(name : string, page : number, limit : number, bounds : string): Promise<Aeroport[] | null> {
+  async findAll(search : string, page : number, limit : number, bounds : string): Promise<Aeroport[] | null> {
     
     const query = this.aeroportsRepository
     .createQueryBuilder("aeroport");
 
-    if(name != null){
-      name = name.toLowerCase()
-      name = name.charAt(0).toUpperCase() + name.slice(1);
-      query.where("aeroport.nom like :NOM", { NOM:`${name}%` });
+    if(search != null){
+      search= search.toLowerCase()
+      query.where("LOWER(aeroport.nom) like :NOM", { NOM:`${search}%` });
+      query.orWhere("LOWER(aeroport.ville) like :VILLE", { VILLE:`${search}%` });
+      query.orWhere("LOWER(aeroport.pays) like :PAYS", { PAYS:`${search}%` });
     }
 
     if(bounds != null){
