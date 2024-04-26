@@ -5,13 +5,13 @@
           <a-avatar :src="imagePath" size="small" style="margin-right: 0.5rem;"></a-avatar>
           <span style="vertical-align: middle;"><router-link to="/">AIRSIM</router-link></span>
         </a-col>
-        <a-button v-if="showFavorisButton" type="primary" shape="round">Favori</a-button>
+        <!--<a-button v-if="showFavorisButton" type="primary" shape="round">Favori</a-button>-->
       </a-row>
     </a-layout-header>
   </template>
   
   <script>
-  import { Layout, Row, Col, Avatar, Button } from 'ant-design-vue';
+  import { Layout, Row, Col, Avatar } from 'ant-design-vue';
   
   export default {
     props: {
@@ -25,7 +25,7 @@
       'a-row': Row,
       'a-col': Col,
       'a-avatar': Avatar,
-      'a-button': Button
+      //'a-button': Button
     },
     data() {
         return {
