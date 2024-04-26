@@ -48,8 +48,24 @@ describe('AeroportsController', () => {
   describe('create', () => {
     it('should create a new aeroport', async () => {
       const requestMock: Partial<Request> = {
+        body: aeroportsMock[1],
+      };
+
+      jest
+        .spyOn(controller, 'create')
+        .mockImplementationOnce(() => aeroportsMock[1] as any);
+
+      const createdAeroport = await controller.create(requestMock as Request);
+
+      expect(createdAeroport).toEqual(aeroportsMock[1]); // Assurez-vous d'adapter cette assertion selon le comportement réel de votre application
+    });
+  });
+
+  describe('update', () => {
+    it('should update an airport', async () => {
+      const requestMock: Partial<Request> = {
         body: {
-          iata: 'CDG',
+          iata: 'CDGU',
           nom: 'Charles de Gaulle',
           pays: 'France',
           ville: 'Paris',
@@ -57,12 +73,32 @@ describe('AeroportsController', () => {
           longitude: 2.5478,
         },
       };
+      const updatedAeroport = {
+        iata: 'CDGU',
+      };
 
-      jest.spyOn(controller, 'create').mockImplementationOnce(() => aeroportsMock[1] as any);
+      jest
+        .spyOn(controller, 'update')
+        .mockImplementationOnce(() => requestMock.body as any);
 
-      const createdAeroport = await controller.create(requestMock as Request);
+      const res = await controller.update(
+        aeroportsMock[1].iata,
+        updatedAeroport,
+      );
 
-      expect(createdAeroport).toEqual(aeroportsMock[1]); // Assurez-vous d'adapter cette assertion selon le comportement réel de votre application
+      expect(res).toEqual(requestMock.body);
+    });
+  });
+
+  describe('remove', () => {
+    it('should remove an airport', async () => {
+      jest
+        .spyOn(controller, 'remove')
+        .mockResolvedValue(aeroportsMock[1] as any);
+
+      const res = await controller.remove(aeroportsMock[1].iata);
+
+      expect(res).toEqual(aeroportsMock[1]);
     });
   });
 });
