@@ -1,28 +1,28 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { AeroportsController } from './db_models/controller/aeroports.controller';
-import { AeroportsService } from './db_models/service/aeroports.service';
-import { AeroportsServiceMock } from './db_models/mocks/aeroports.service.mock';
-import { aeroportsMock } from './db_models/mocks/aeroports.mock';
+import { UtilisateursController } from './db_models/controller/utilisateurs.controller';
+import { UtilisateursService } from './db_models/service/utilisateurs.service';
+import { UtilisateursServiceMock } from './db_models/mocks/utilisateurs.service.mock';
+import { utilisateursFindAllMock } from './db_models/mocks/utilisateurs.mock';
 import { JwtService } from '@nestjs/jwt';
 import { JwtModule } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
 
-describe('AeroportsController', () => {
-  let controller: AeroportsController;
+describe('UtilisateursController', () => {
+  let controller: UtilisateursController;
   let module: TestingModule;
 
   beforeEach(async () => {
     module = await Test.createTestingModule({
-      controllers: [AeroportsController],
+      controllers: [UtilisateursController],
       providers: [
-        { provide: AeroportsService, useClass: AeroportsServiceMock },
+        { provide: UtilisateursService, useClass: UtilisateursServiceMock },
         JwtService, // Add JwtService as a provider
         ConfigService, // Add ConfigService as a provider
       ],
       imports: [JwtModule], // Add JwtModule to the imports array
     }).compile();
 
-    controller = module.get<AeroportsController>(AeroportsController);
+    controller = module.get<UtilisateursController>(UtilisateursController);
   });
 
   afterEach(async () => {
@@ -37,9 +37,9 @@ describe('AeroportsController', () => {
 
   describe('findAll', () => {
     it('should return all the aeroport', () => {
-      const a = aeroportsMock;
+      const a = utilisateursFindAllMock;
       expect(
-        controller.findAll('paris', 0, 2, '[0, 0, 50, 50]'),
+        controller.findAll(),
       ).resolves.toEqual(a);
     });
   });
