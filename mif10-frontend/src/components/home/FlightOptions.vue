@@ -15,10 +15,21 @@
           <div><span class="to">Arrivée:</span> <span>{{ `${travel.airports[1].nom}, ${travel.airports[1].ville}, ${travel.airports[1].pays}` }}</span></div>
         </div>
         <Tag class="tag" :color="index == 0 ? 'green' : 'red'">{{ travel.co2 }}g CO2</Tag>
+        <a-button v-if="index == 0" :icon="h(HeartTwoTone)" @click="handleFavoriteClick(travel)"></a-button>
       </div>  
     </Card>
   </div>
 </template>
+
+<script setup>
+    import { h } from 'vue';
+    import { HeartTwoTone } from '@ant-design/icons-vue';
+    const handleFavoriteClick = (travel) => {
+      let favoritedFlights = JSON.parse(localStorage.getItem('favoritedFlights')) || [];
+      favoritedFlights.push(travel);
+      localStorage.setItem('favoritedFlights', JSON.stringify(favoritedFlights));
+    };
+</script>
 
 <script>
 /**
@@ -28,13 +39,14 @@
   * }} Travel
   */
 
-import { Card, Tag } from 'ant-design-vue';
+import { Card, Tag, Button } from 'ant-design-vue';
 
 export default {
   name: 'FlightOptions',
   components: {
     Card,
     Tag,
+    'a-button': Button
   },
   props: ["travels"],
 };
