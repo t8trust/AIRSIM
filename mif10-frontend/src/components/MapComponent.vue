@@ -189,6 +189,11 @@ export default {
       )
     },
 
+    clear(){
+      this.clearArcs()
+      this.clearMarkers()
+    },
+
     clearArcs(){
       this.arcSource.clear();
     },
