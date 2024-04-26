@@ -1,18 +1,6 @@
 <script>
 import { Row as ARow, Col as ACol, Button as AButton } from 'ant-design-vue'
 import { MenuOutlined } from "@ant-design/icons-vue"
-  import { Airports } from '@/api';
-
-class TravelInput {
-  airport = null
-  fetchCallback = null
-  fetchData = []
-  options = []
-
-  selectAirport(id){
-    this.airport = this.fetchData[id]
-  }
-}
 
 export default {
   components: {
@@ -21,53 +9,12 @@ export default {
     AButton,
     MenuOutlined,
   },
-  emits: ["onTravel"],
 
   data(){
     return {
       menuToggle: false,
-      input: [
-        new TravelInput(),
-        new TravelInput()
-      ]
     }
   },
-
-  methods: {
-    /**
-     * @param {Airport} airport 
-     * */
-    onValueSelected(id, selected){
-      const current = this.input[id]
-      current.selectAirport(selected)
-      this.checkValidTravel()
-    },
-
-    onSearchChange(id, search){
-      const current = this.input[id]
-      current.airport = null
-
-      clearTimeout(current.fetchCallback)
-
-      current.fetchCallback = setTimeout(async () => {
-        if (search.length >= 3){
-          current.fetchData = await Airports.findAll({ name: search, limits: 10 })
-          current.options = current.fetchData.map((airport, index) => ({
-            value: index,
-            label: `${airport.nom}, ${airport.ville}, ${airport.pays}`
-          }))
-        }
-      }, 200)
-    },
-
-    checkValidTravel() {
-      if (!this.input[0].airport || !this.input[1].airport) return;
-      this.$emit("onTravel", this.input[0].airport, this.input[1].airport)
-      console.log(this.input[0].airport)
-    }
-
-  }
-
 };
 </script>
 

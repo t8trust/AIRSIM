@@ -3,12 +3,19 @@
     <div id="mapid" class="map-container">
       <MapComponent ref="map"
         @move-end="onMoveEnd"
+        @set-departure="(d) => $refs.accueil.setDeparture(d)"
+        @set-destination="(d) => $refs.accueil.setDestination(d)"
         />
     </div>
     <div class="actions-container">
       <div class="home-forms-container">
         <HomeForms>
-          <AccueilSlot @on-travel="onTravel"></AccueilSlot>     
+          <AccueilSlot ref="accueil" v-if="showAccueilSlot" @on-travel="onTravel"></AccueilSlot>  
+          <FavorisSlot v-if="showFavoris"></FavorisSlot>
+          <div class="bottom-buttons"> 
+            <a-button type="primary" shape="round" v-if="showFavsButton" @click="toggleFavoris">Favori</a-button>
+            <a-button type="primary" shape="round" v-if="showReturnButton" @click="returnToAccueil">Retour</a-button>
+          </div>     
         </HomeForms>
       </div>
 
@@ -43,6 +50,7 @@ import HomeForms from '../components/home/HomeForms.vue'
 import MapComponent from '../components/MapComponent.vue'
 import { AutoComplete, Button, InputSearch } from 'ant-design-vue'
 import AccueilSlot from "../components/home/AccueilSlot.vue"
+import FavorisSlot from "../components/home/FavorisSlot.vue"
 
 export default {
   name: 'HomeView',
@@ -52,7 +60,8 @@ export default {
     AAutoComplete: AutoComplete,
     AInputSearch: InputSearch,
     AButton: Button,
-    AccueilSlot
+    AccueilSlot,
+    FavorisSlot
   },
   data() {
     return {
@@ -61,11 +70,16 @@ export default {
       searchValue: "",
       searchData: [],
       searchOpts: [],
-      searchCallback: null
+      searchCallback: null,
+      showFavoris: false,
+      showAccueilSlot: true,
+      showReturnButton: false,
+      showFavsButton: true
     }
   },
   methods: {
     map() { return this.$refs.map },
+    accueil() { return this.$refs.accueil },
     onTravel(airport_a, airport_b){
       // const test = [{ name: 'Dakar', longitude: -17.4479, latitude: 14.6928 },
       //   { name: 'Londres', longitude: -0.1276, latitude: 51.5074 }]
@@ -120,7 +134,22 @@ export default {
     clear(){
       this.mapMode = null
       this.map().clear()
+      this.accueil().clear()
       this.onMoveEnd()
+    },
+
+    toggleFavoris() {
+      this.showFavoris = true;
+      this.showAccueilSlot = false;
+      this.showReturnButton = true;
+      this.showFavsButton = false; 
+    },
+
+    returnToAccueil() {
+      this.showFavoris = false;
+      this.showAccueilSlot = true;
+      this.showReturnButton = false; 
+      this.showFavsButton = true; 
     }
   }
 }
@@ -172,6 +201,13 @@ export default {
   left: 0; 
   top: 0;
   height: 100%;
+}
+
+.bottom-buttons {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  margin-bottom: 1em;
 }
 
 .map-container {

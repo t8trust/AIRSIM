@@ -1,5 +1,5 @@
 <template>
-<h2 class="centered-heading info-vols-title">Infos de vols</h2>
+<h2 class="centered-heading info-vols-title">Rechercher un vol</h2>
   <a-form>
     <a-form-item label="Départ" class="form-item">
       <!--<a-input placeholder="Entrez votre point de départ" />-->
@@ -10,6 +10,7 @@
         mode="search" 
         :options="input[0].options"
         :filter-option="false"
+        v-model:value="input[0].value"
         show-search>
       </a-select>
     </a-form-item>
@@ -22,12 +23,12 @@
         mode="search" 
         :options="input[1].options"
         :filter-option="false"
+        v-model:value="input[1].value"
         show-search>
       </a-select>
     </a-form-item>
     <div class="flight-options fo-item">
-      <h3 class="section-title fo-item">Meilleures options de vol</h3>
-      <FlightOptions></FlightOptions>
+      <FlightOptions :travels="travels"></FlightOptions>
     </div>
   </a-form>
 </template>
@@ -35,9 +36,10 @@
 <script>
 import FlightOptions from './FlightOptions.vue'
 import { Form as AForm, Select as ASelect } from 'ant-design-vue'
-  import { Airports } from '@/api';
+  import { Airports, Flights } from '@/api';
 
 class TravelInput {
+  value = undefined
   airport = null
   fetchCallback = null
   fetchData = []
@@ -60,6 +62,7 @@ export default {
   data(){
     return {
       menuToggle: false,
+      travels: [],
       input: [
         new TravelInput(),
         new TravelInput()
@@ -97,7 +100,33 @@ export default {
     checkValidTravel() {
       if (!this.input[0].airport || !this.input[1].airport) return;
       this.$emit("onTravel", this.input[0].airport, this.input[1].airport)
-      console.log(this.input[0].airport)
+      this.onTravel(this.input[0].airport, this.input[1].airport)
+    },
+
+    async onTravel(airport1, airport2) {
+      const data = await Flights.findTravel(airport1.iata, airport2.iata);
+      this.travels = data.map((travel) => ({
+        airports: [airport1, airport2],
+        co2: travel.co2_emissions
+      }))
+    },
+
+    clear(){
+      this.travels = []
+    },
+
+    setDeparture(airport){
+      const current = this.input[0]
+      current.airport = airport;
+      current.value = airport.nom;
+      this.checkValidTravel()
+    },
+
+    setDestination(airport){
+      const current = this.input[1]
+      current.airport = airport;
+      current.value = airport.nom;
+      this.checkValidTravel()
     }
 
   }
@@ -200,9 +229,7 @@ export default {
     margin-top: 20px;
   }
 
-  .info-vols-title {
-    margin-top: 10px; 
-  }
+
 
 
   @media only screen and (max-width: 500px) {

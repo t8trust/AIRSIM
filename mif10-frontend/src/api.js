@@ -66,7 +66,6 @@ export async function postJSON(url, body, params) {
 export const Auth = {
   token: "",
 
-
   async login(login, password) {
     const resp = await postJSON(burl + "/auth/login", { login, password })
     this.token = resp.access_token
@@ -89,7 +88,7 @@ export const Airports = {
   /**
    * @param {{
   *  name: string,
-  *  limits: number,
+  *  limit: number,
   *  bounds: import("ol/extent").Extent,
   *  page: number
   * }} params
@@ -100,5 +99,9 @@ export const Airports = {
 }
 
 export const Flights = {
+  url: burl + "/vols",
 
+  async findTravel(iata1, iata2){
+    return await fetchJSON(appendParamsToUrl(this.url, {depart: iata1, destination: iata2, page: 1}))
+  }
 }

@@ -1,29 +1,29 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { AeroportsController } from './db_models/controller/aeroports.controller';
-import { AeroportsService } from './db_models/service/aeroports.service';
-import { AeroportsServiceMock } from './db_models/mocks/aeroports.service.mock';
-import { aeroportsMock } from './db_models/mocks/aeroports.mock';
+import { VolController } from './db_models/controller/vol.controller';
+import { VolService } from './db_models/service/vol.service';
+import { VolServiceMock } from './db_models/mocks/vol.service.mock';
+import { volMock } from './db_models/mocks/vol.mock';
 import { JwtService } from '@nestjs/jwt';
 import { JwtModule } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
 import { Request } from 'express';
 
-describe('AeroportsController', () => {
-  let controller: AeroportsController;
+describe('VolController', () => {
+  let controller: VolController;
   let module: TestingModule;
 
   beforeEach(async () => {
     module = await Test.createTestingModule({
-      controllers: [AeroportsController],
+      controllers: [VolController],
       providers: [
-        { provide: AeroportsService, useClass: AeroportsServiceMock },
+        { provide: VolService, useClass: VolServiceMock },
         JwtService, // Add JwtService as a provider
         ConfigService, // Add ConfigService as a provider
       ],
       imports: [JwtModule], // Add JwtModule to the imports array
     }).compile();
 
-    controller = module.get<AeroportsController>(AeroportsController);
+    controller = module.get<VolController>(VolController);
   });
 
   afterEach(async () => {
@@ -38,7 +38,7 @@ describe('AeroportsController', () => {
 
   describe('findAll', () => {
     it('should return all the aeroport', () => {
-      const a = aeroportsMock;
+      const a = volMock;
       expect(
         controller.findAll('paris', 0, 2, '[0, 0, 50, 50]'),
       ).resolves.toEqual(a);
@@ -48,16 +48,16 @@ describe('AeroportsController', () => {
   describe('create', () => {
     it('should create a new aeroport', async () => {
       const requestMock: Partial<Request> = {
-        body: aeroportsMock[1],
+        body: volMock[1],
       };
 
       jest
         .spyOn(controller, 'create')
-        .mockImplementationOnce(() => aeroportsMock[1] as any);
+        .mockImplementationOnce(() => volMock[1] as any);
 
       const createdAeroport = await controller.create(requestMock as Request);
 
-      expect(createdAeroport).toEqual(aeroportsMock[1]); // Assurez-vous d'adapter cette assertion selon le comportement réel de votre application
+      expect(createdAeroport).toEqual(volMock[1]); // Assurez-vous d'adapter cette assertion selon le comportement réel de votre application
     });
   });
 
@@ -70,7 +70,7 @@ describe('AeroportsController', () => {
           pays: 'France',
           ville: 'Paris',
           latitude: 49.0097,
-          longitude: 2.5478
+          longitude: 2.5478,
         },
       };
       const updatedAeroport = {
@@ -82,7 +82,7 @@ describe('AeroportsController', () => {
         .mockImplementationOnce(() => requestMock.body as any);
 
       const res = await controller.update(
-        aeroportsMock[1].iata,
+        volMock[1].iata,
         updatedAeroport,
       );
 
@@ -94,7 +94,7 @@ describe('AeroportsController', () => {
     it('should remove an airport', async () => {
       jest
         .spyOn(controller, 'remove')
-        .mockResolvedValue(aeroportsMock[1] as any);
+        .mockResolvedValue(volMock[1] as any);
 
       const res = await controller.remove(aeroportsMock[1].iata);
 
