@@ -54,7 +54,7 @@ describe('AeroportsController', () => {
           pays: 'France',
           ville: 'Paris',
           latitude: 49.0097,
-          longitude: 2.5478,
+          longitude: 2.5478
         },
       };
 

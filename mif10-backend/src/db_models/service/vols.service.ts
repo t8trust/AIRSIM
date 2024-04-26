@@ -23,6 +23,10 @@ export class VolsService {
 
 
   async findTravel(depart: string, destination: string, page: number): Promise<Vol[] | null> {
+
+    if(page == null)
+      page = 0
+
     const res = await this.volsRepository
       .createQueryBuilder("vol")
       .where("vol.depart = :dep", { dep: depart })
