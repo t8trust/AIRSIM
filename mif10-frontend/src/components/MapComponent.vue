@@ -151,11 +151,13 @@ export default {
     },
     
     /**
-     * @param {MapLocation[]} locations An array of locations, if multiple values, the map will zoom to fit all locations 
+     * @param {MapLocation[] | MapLocation} locations An array of locations, if multiple values, the map will zoom to fit all locations 
      */
     move(locations) {
       const view = this.map.getView();
-      const duration = 1000;   
+      const duration = 1000;
+
+      if (!Array.isArray(locations)) locations = [locations]
 
       let center = [locations[0].longitude, locations[0].latitude]   
       let zoom = view.getZoom()

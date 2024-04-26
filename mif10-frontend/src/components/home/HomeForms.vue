@@ -2,8 +2,18 @@
 import FlightOptions from './FlightOptions.vue'
 import { Row as ARow, Col as ACol, Form as AForm, Button as AButton, Select as ASelect } from 'ant-design-vue'
 import { MenuOutlined } from "@ant-design/icons-vue"
-import { ref } from "vue"
-import { Airports } from '@/api';
+  import { Airports } from '@/api';
+
+class TravelInput {
+  airport = null
+  fetchCallback = null
+  fetchData = []
+  options = []
+
+  selectAirport(id){
+    this.airport = this.fetchData[id]
+  }
+}
 
 export default {
   components: {
@@ -18,17 +28,12 @@ export default {
   },
   emits: ["onTravel"],
   
-  setup() {
-    return {
-      menuToggle: ref(false),
-    }
-  },
 
   data(){
     return {
       input: [
-        { search: "", airport: {}, valid: false, fetchCallback: null, options: ref([])},
-        { search: "", airport: {}, valid: false, fetchCallback: null, options: ref([]) },
+        new TravelInput(),
+        new TravelInput()
       ]
     }
   },
@@ -37,43 +42,33 @@ export default {
     /**
      * @param {Airport} airport 
      * */
-    onValueSelected(id, airport){
+    onValueSelected(id, selected){
       const current = this.input[id]
-      current.nom = airport.nom
-      current.airport = airport
-      current.valid = true
+      current.selectAirport(selected)
       this.checkValidTravel()
     },
 
-    onSearchChange(id, str){
+    onSearchChange(id, search){
       const current = this.input[id]
-      current.search = str
-      current.valid = false
-
-      const airport = current.options.find(opt => opt.value.name === current.search);
-      if (airport){
-        current.valid = true
-        current.airport = airport
-        this.checkValidTravel()
-      }
+      current.airport = null
 
       clearTimeout(current.fetchCallback)
 
       current.fetchCallback = setTimeout(async () => {
-        if (current.search.length >= 3){
-          const fetchData = await Airports.findAll({ name: current.search, limits: 10 })
-          current.options = fetchData.map((airport) => ({
-            value: airport,
-            label: airport.nom
+        if (search.length >= 3){
+          current.fetchData = await Airports.findAll({ name: search, limits: 10 })
+          current.options = current.fetchData.map((airport, index) => ({
+            value: index,
+            label: `${airport.nom}, ${airport.ville}, ${airport.pays}`
           }))
-          this.checkValidTravel()
         }
-      }, 1000)
+      }, 200)
     },
 
     checkValidTravel() {
-      if (!this.input[0].valid || !this.input[1].valid) return;
+      if (!this.input[0].airport || !this.input[1].airport) return;
       this.$emit("onTravel", this.input[0].airport, this.input[1].airport)
+      console.log(this.input[0].airport)
     }
 
   }
@@ -95,10 +90,11 @@ export default {
               <!--<a-input placeholder="Entrez votre point de départ" />-->
               <a-select 
                 @search="(str) => onSearchChange(0, str)" 
-                @select="(airport) => onValueSelected(0, airport)" 
-                :options="$data.input[0].options"
+                @select="(selected) => onValueSelected(0, selected)" 
                 placeholder="Entrez votre point de départ" 
                 mode="search" 
+                :options="input[0].options"
+                :filter-option="false"
                 show-search>
               </a-select>
             </a-form-item>
@@ -106,10 +102,11 @@ export default {
               <!--<a-input placeholder="Entrez votre destination" />-->
               <a-select 
                 @search="(str) => onSearchChange(1, str)" 
-                @select="(airport) => onValueSelected(1, airport)" 
-                :options="$data.input[1].options"
+                @select="(selected) => onValueSelected(1, selected)" 
                 placeholder="Entrez votre destination" 
                 mode="search" 
+                :options="input[1].options"
+                :filter-option="false"
                 show-search>
               </a-select>
             </a-form-item>

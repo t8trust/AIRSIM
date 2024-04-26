@@ -31,13 +31,12 @@ export default {
       //   { name: 'Londres', longitude: -0.1276, latitude: 51.5074 }]
       this.map().clearArcs()
       this.map().traceArc(airport_a, airport_b)
-      this.map().move(airport_a, airport_b)
+      this.map().move([airport_a, airport_b])
     },
     async onMoveEnd(){
       const map = this.map();
       const extents = map.getExtents()
       const airports = await Airports.findAll({ bounds: extents, limits: 100 });
-      map.clearArcs()
       map.clearMarkers()
       airports.forEach((airport) => {
         map.addAirportMarker(airport);

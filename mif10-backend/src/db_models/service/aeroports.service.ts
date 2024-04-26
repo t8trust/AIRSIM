@@ -37,10 +37,10 @@ export class AeroportsService {
       bounds = JSON.parse(bounds);
       console.log("test: " + bounds[0]);
       if(bounds.length == 4){
-        query.andWhere("aeroport.latitude >= :MINLAT", { MINLAT: bounds[0] })
-        query.andWhere("aeroport.longitude >= :MINLONG", { MINLONG: bounds[1] })
-        query.andWhere("aeroport.latitude <= :MAXLAT", { MAXLAT: bounds[2] })
-        query.andWhere("aeroport.longitude <= :MAXLONG", { MAXLONG: bounds[3] })
+        query.andWhere("aeroport.longitude >= :MINLONG", { MINLONG: bounds[0] })
+        query.andWhere("aeroport.latitude >= :MINLAT", { MINLAT: bounds[1] })
+        query.andWhere("aeroport.longitude <= :MAXLONG", { MAXLONG: bounds[2] })
+        query.andWhere("aeroport.latitude <= :MAXLAT", { MAXLAT: bounds[3] })
       }
     }
 
