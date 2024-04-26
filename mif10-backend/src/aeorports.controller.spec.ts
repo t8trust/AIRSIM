@@ -6,7 +6,6 @@ import { aeroportsMock } from './db_models/mocks/aeroports.mock';
 import { JwtService } from '@nestjs/jwt';
 import { JwtModule } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
-import { Request } from 'express';
 
 describe('AeroportsController', () => {
   let controller: AeroportsController;
