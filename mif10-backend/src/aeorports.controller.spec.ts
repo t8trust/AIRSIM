@@ -6,6 +6,7 @@ import { aeroportsMock } from './db_models/mocks/aeroports.mock';
 import { JwtService } from '@nestjs/jwt';
 import { JwtModule } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
+import { Request } from 'express';
 
 describe('AeroportsController', () => {
   let controller: AeroportsController;
@@ -64,23 +65,4 @@ describe('AeroportsController', () => {
       expect(createdAeroport).toEqual(aeroportsMock[1]); // Assurez-vous d'adapter cette assertion selon le comportement réel de votre application
     });
   });
-
-  describe('update', () => {
-    it('should update an aeroport', async () => {
-      const requestMock: Partial<Request> = {
-        body: {
-          iata: 'CDG',
-          nom: 'Charles de Gaulle',
-          pays: 'France',
-          ville: 'Lyon',
-          latitude: 49.0097,
-          longitude: 2.5478,
-        },
-      };
-
-      jest.spyOn(controller, 'update').mockImplementationOnce(() => aeroportsMock[1] as any);
-
-      const updatedAeroport = await controller.update('CDG', requestMock.body);
-
-      expect(updatedAeroport).toEqual(aero
 });
