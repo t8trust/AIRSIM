@@ -39,11 +39,13 @@ describe('AeroportsController', () => {
   describe('findAll', () => {
     it('should return all the aeroport', () => {
       const a = aeroportsMock;
-      expect(controller.findAll()).resolves.toEqual(a);
+      expect(
+        controller.findAll('paris', 0, 2, '[0, 0, 50, 50]'),
+      ).resolves.toEqual(a);
     });
   });
 
-  /*describe('create', () => {
+  describe('create', () => {
     it('should create a new aeroport', async () => {
       const requestMock: Partial<Request> = {
         body: {
@@ -60,5 +62,5 @@ describe('AeroportsController', () => {
 
       expect(createdAeroport).toEqual(aeroportsMock); // Assurez-vous d'adapter cette assertion selon le comportement réel de votre application
     });
-  });*/
+  });
 });
