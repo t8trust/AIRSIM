@@ -1,5 +1,5 @@
 <template>
-<h2 class="centered-heading info-vols-title">Infos de vols</h2>
+<h2 class="centered-heading info-vols-title">Rechercher un vol</h2>
   <a-form>
     <a-form-item label="Départ" class="form-item">
       <!--<a-input placeholder="Entrez votre point de départ" />-->
@@ -10,6 +10,7 @@
         mode="search" 
         :options="input[0].options"
         :filter-option="false"
+        v-model:value="input[0].value"
         show-search>
       </a-select>
     </a-form-item>
@@ -22,6 +23,7 @@
         mode="search" 
         :options="input[1].options"
         :filter-option="false"
+        v-model:value="input[1].value"
         show-search>
       </a-select>
     </a-form-item>
@@ -37,6 +39,7 @@ import { Form as AForm, Select as ASelect } from 'ant-design-vue'
   import { Airports, Flights } from '@/api';
 
 class TravelInput {
+  value = undefined
   airport = null
   fetchCallback = null
   fetchData = []
@@ -110,6 +113,20 @@ export default {
 
     clear(){
       this.travels = []
+    },
+
+    setDeparture(airport){
+      const current = this.input[0]
+      current.airport = airport;
+      current.value = airport.nom;
+      this.checkValidTravel()
+    },
+
+    setDestination(airport){
+      const current = this.input[1]
+      current.airport = airport;
+      current.value = airport.nom;
+      this.checkValidTravel()
     }
 
   }

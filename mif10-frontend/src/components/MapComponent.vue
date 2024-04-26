@@ -1,5 +1,16 @@
 <template>
   <div ref="map-root" style="width: 100%; height: 86vh"></div>
+  <div class="popup" ref="marker-overlay">
+    {{popupData.nom}},
+    {{popupData.ville}},
+    {{popupData.pays}}
+
+    <div class="popup-buttons">
+      <a-button type="primary" size="middle" @click="$emit('setDeparture', popupData); overlay.setPosition(undefined)"><ArrowDownOutlined/>Départ</a-button>
+      <a-button type="primary" size="middle" @click="$emit('setDestination', popupData); overlay.setPosition(undefined)"><SendOutlined/>Arrivée</a-button>
+      <a-button size="middle" @click="overlay.setPosition(undefined)"><CloseOutlined/></a-button>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -9,6 +20,7 @@ import TileLayer from 'ol/layer/Tile.js';
 import OSM from 'ol/source/OSM.js';
 import Feature from 'ol/Feature.js';
 import Point from 'ol/geom/Point.js';
+import { Overlay } from 'ol';
 import { transform, transformExtent } from "ol/proj"
 import { fromLonLat } from 'ol/proj.js';
 import { Vector as VectorLayer } from 'ol/layer.js';
@@ -16,6 +28,8 @@ import { Vector as VectorSource } from 'ol/source.js';
 import { Icon, Style } from 'ol/style.js';
 import { LineString } from 'ol/geom.js';
 import { Stroke} from 'ol/style.js';
+import { Button } from 'ant-design-vue';
+import { SendOutlined, CloseOutlined, ArrowDownOutlined } from '@ant-design/icons-vue';
 import arc from 'arc';
 
 
@@ -61,13 +75,21 @@ function getExtentsCenter(extent){
 
 export default {
   name: 'MapComponent',
-  emits: ["moveEnd"],
+  emits: ["moveEnd", "setDeparture", "setDestination"],
+  components: {
+    AButton: Button,
+    SendOutlined,
+    ArrowDownOutlined,
+    CloseOutlined
+  },
   data() {
     return {
       /** @type {Map} */
       map: {},
+      popupData: {},
       arcSource: new VectorSource(),
       airportSource: new VectorSource(),
+      overlay: new Overlay({}),
       airports: []
     };
   },
@@ -111,8 +133,28 @@ export default {
       style: lineStyle,
     });
 
+    this.overlay = new Overlay({
+      element: this.$refs["marker-overlay"],
+      autoPan: {
+        animation: {
+          duration: 250,
+        },
+      },
+    });
+
+
+    this.map.on('click', function (evt) {
+      const feature = this.map.forEachFeatureAtPixel(evt.pixel, feature => feature);
+      if (feature) {
+        const coordinates = feature.getGeometry().getCoordinates();
+        this.popupData = feature.get("data");
+        this.overlay.setPosition(coordinates);
+      }
+    }.bind(this));
+
     this.map.addLayer(airportLayer);
     this.map.addLayer(arcLayer);
+    this.map.addOverlay(this.overlay);
     this.map.addEventListener("moveend", e => this.$emit("moveEnd", e))
   },
   methods: {
@@ -120,7 +162,7 @@ export default {
     addAirportMarker(airport) {
       this.airportSource.addFeature(new Feature({
         geometry: new Point(fromLonLat([airport.longitude, airport.latitude])),
-        name: airport.nom,
+        data: airport,
       }));
     },
 
@@ -205,3 +247,25 @@ export default {
   
 };
 </script>
+
+<style scoped>
+.popup {
+  position: absolute;
+  background-color: white;
+  -webkit-filter: drop-shadow(0 1px 4px rgba(0,0,0,0.2));
+  filter: drop-shadow(0 1px 4px rgba(0,0,0,0.2));
+  padding: 15px;
+  border-radius: 10px;
+  border: 1px solid #cccccc;
+  bottom: 12px;
+  left: -50px;
+  min-width: 280px;
+}
+
+.popup-buttons{
+  display: flex;
+  margin-top: 1em;
+  gap: 0.2em;
+}
+
+</style>

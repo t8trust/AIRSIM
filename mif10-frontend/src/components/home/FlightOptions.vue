@@ -5,7 +5,7 @@
     <Card class="card" v-for="(travel, index) in $props.travels" :key="index" :hoverable="true">
       <template v-slot:title>
         <div class="title">
-          Option de vol 1
+          Option de vol {{ index + 1 }}
           <Tag :color="index == 0 ? 'green' : 'red'">{{ index == 0 ? 'Moins' : 'Plus' }} polluant</Tag>
         </div>
       </template>

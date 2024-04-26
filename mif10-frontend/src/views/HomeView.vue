@@ -3,6 +3,8 @@
     <div id="mapid" class="map-container">
       <MapComponent ref="map"
         @move-end="onMoveEnd"
+        @set-departure="(d) => $refs.accueil.setDeparture(d)"
+        @set-destination="(d) => $refs.accueil.setDestination(d)"
         />
     </div>
     <div class="actions-container">
