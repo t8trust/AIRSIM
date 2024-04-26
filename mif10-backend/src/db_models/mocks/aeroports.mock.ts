@@ -1,10 +1,18 @@
 export const aeroportsMock = [
   {
-    iata: 'CDG',
-    nom: 'Charles de Gaulle',
+    iata: 'BVA',
+    nom: 'Beauvais-Tille',
     pays: 'France',
     ville: 'Paris',
-    latitude: 49.0097,
-    longitude: 2.5478,
+    latitude: 49.45,
+    longitude: 2.116667,
+  },
+  {
+    iata: 'CDG',
+    nom: 'Charles De Gaulle',
+    pays: 'France',
+    ville: 'Paris',
+    latitude: 49.016666,
+    longitude: 2.55,
   },
 ];
