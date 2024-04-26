@@ -1,6 +1,40 @@
+<template>
+<h2 class="centered-heading info-vols-title">Infos de vols</h2>
+  <a-form>
+    <a-form-item label="Départ" class="form-item">
+      <!--<a-input placeholder="Entrez votre point de départ" />-->
+      <a-select 
+        @search="(str) => onSearchChange(0, str)" 
+        @select="(selected) => onValueSelected(0, selected)" 
+        placeholder="Entrez votre point de départ" 
+        mode="search" 
+        :options="input[0].options"
+        :filter-option="false"
+        show-search>
+      </a-select>
+    </a-form-item>
+    <a-form-item label="Arrivée">
+      <!--<a-input placeholder="Entrez votre destination" />-->
+      <a-select 
+        @search="(str) => onSearchChange(1, str)" 
+        @select="(selected) => onValueSelected(1, selected)" 
+        placeholder="Entrez votre destination" 
+        mode="search" 
+        :options="input[1].options"
+        :filter-option="false"
+        show-search>
+      </a-select>
+    </a-form-item>
+    <div class="flight-options fo-item">
+      <h3 class="section-title fo-item">Meilleures options de vol</h3>
+      <FlightOptions></FlightOptions>
+    </div>
+  </a-form>
+</template>
+
 <script>
-import { Row as ARow, Col as ACol, Button as AButton } from 'ant-design-vue'
-import { MenuOutlined } from "@ant-design/icons-vue"
+import FlightOptions from './FlightOptions.vue'
+import { Form as AForm, Select as ASelect } from 'ant-design-vue'
   import { Airports } from '@/api';
 
 class TravelInput {
@@ -16,10 +50,10 @@ class TravelInput {
 
 export default {
   components: {
-    ARow,
-    ACol,
-    AButton,
-    MenuOutlined,
+    AForm,
+    AFormItem: AForm.Item,
+    FlightOptions,
+    ASelect,
   },
   emits: ["onTravel"],
 
@@ -72,24 +106,6 @@ export default {
 </script>
 
 
-<template>
-  <div class="menu-container" :class="{folded: menuToggle}">
-  <div class="full-height-container container-fluid background-light-gray">
-    <!-- Div containing the menu-->
-    <a-row :gutter="4" class="full-height-row">
-      <a-col :span="24">
-        <div class="sidebar">
-          <slot></slot>
-        </div>
-      </a-col>
-    </a-row>
-  </div>
-  <div class="menu-open-button">
-    <a-button shape="circle" size="large" @click="menuToggle = ! menuToggle"><MenuOutlined/></a-button>
-  </div>
-  </div>
-</template>
-  
 <style scoped>
   /** ====== Menu principal  ======= */
 
@@ -197,5 +213,5 @@ export default {
 
 
   
+
 </style>
-  

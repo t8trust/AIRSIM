@@ -7,9 +7,9 @@
     </div>
     <div class="actions-container">
       <div class="home-forms-container">
-        <HomeForms 
-          @on-travel="onTravel"
-          />
+        <HomeForms>
+          <AccueilSlot @on-travel="onTravel"></AccueilSlot>     
+        </HomeForms>
       </div>
 
       <div class="map-search">
@@ -42,7 +42,7 @@ import { Airports } from '@/api'
 import HomeForms from '../components/home/HomeForms.vue'
 import MapComponent from '../components/MapComponent.vue'
 import { AutoComplete, Button, InputSearch } from 'ant-design-vue'
-import { CloseOutlined } from '@ant-design/icons-vue'
+import AccueilSlot from "../components/home/AccueilSlot.vue"
 
 export default {
   name: 'HomeView',
@@ -52,7 +52,7 @@ export default {
     AAutoComplete: AutoComplete,
     AInputSearch: InputSearch,
     AButton: Button,
-    CloseOutlined
+    AccueilSlot
   },
   data() {
     return {
