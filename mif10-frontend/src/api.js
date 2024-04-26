@@ -89,7 +89,7 @@ export const Airports = {
   /**
    * @param {{
   *  name: string,
-  *  limits: number,
+  *  limit: number,
   *  bounds: import("ol/extent").Extent,
   *  page: number
   * }} params

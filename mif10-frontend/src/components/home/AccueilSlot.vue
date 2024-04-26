@@ -26,8 +26,9 @@
       </a-select>
     </a-form-item>
     <div class="flight-options fo-item">
-      <h3 class="section-title fo-item">Meilleures options de vol</h3>
-      <FlightOptions></FlightOptions>
+      <FlightOptions :travels="[
+        { airports: [{nom: 'test', ville: 'test', pays: 'test'}, {nom: 'test', ville: 'test', pays: 'test'}], co2: 123},
+      ]"></FlightOptions>
     </div>
   </a-form>
 </template>
@@ -200,9 +201,7 @@ export default {
     margin-top: 20px;
   }
 
-  .info-vols-title {
-    margin-top: 10px; 
-  }
+
 
 
   @media only screen and (max-width: 500px) {
