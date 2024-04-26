@@ -3,7 +3,7 @@ import { Request } from 'express';
 import { AeroportsService } from '../service/aeroports.service';
 import { CreateAeroportDto } from '../dto/create-aeroport-dto';
 import { UpdateAeroportDto } from '../dto/update-aeroport-dto';
-import { AuthGuard } from '../../auth/auth.guard';
+import { AuthGuard } from 'src/auth/auth.guard';
 
 @Controller('aeroports')
 export class AeroportsController {
