@@ -87,7 +87,7 @@ export const Airports = {
   
   /**
    * @param {{
-  *  name: string,
+  *  search: string,
   *  limit: number,
   *  bounds: import("ol/extent").Extent,
   *  page: number

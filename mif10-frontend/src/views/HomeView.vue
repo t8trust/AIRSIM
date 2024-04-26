@@ -95,7 +95,7 @@ export default {
 
       const map = this.map();
       const extents = map.getExtents()
-      const airports = await Airports.findAll({ bounds: extents, limits: 100 });
+      const airports = await Airports.findAll({ bounds: extents, limit: 300 });
       map.clearMarkers()
       airports.forEach((airport) => {
         map.addAirportMarker(airport);
@@ -105,7 +105,7 @@ export default {
     async onSearch(){
       this.mapMode = "search"
       if (this.searchValue.length >= 3){
-        this.searchData = await Airports.findAll({ name: this.searchValue, limits: 100 })
+        this.searchData = await Airports.findAll({ search: this.searchValue, limit: 100 })
         this.searchOpts = this.searchData.map((airport) => ({
           value: airport.nom,
           label: `${airport.nom}, ${airport.ville}, ${airport.pays}`
@@ -122,7 +122,7 @@ export default {
 
       this.searchCallback = setTimeout(async () => {
         if (this.searchValue.length >= 3){
-          this.searchData = await Airports.findAll({ name: this.searchValue, limits: 100 })
+          this.searchData = await Airports.findAll({ search: this.searchValue, limit: 100 })
           this.searchOpts = this.searchData.map((airport) => ({
             value: airport.nom,
             label: `${airport.nom}, ${airport.ville}, ${airport.pays}`
