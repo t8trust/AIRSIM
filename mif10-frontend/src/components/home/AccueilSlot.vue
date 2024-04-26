@@ -88,7 +88,7 @@ export default {
 
       current.fetchCallback = setTimeout(async () => {
         if (search.length >= 3){
-          current.fetchData = await Airports.findAll({ name: search, limits: 10 })
+          current.fetchData = await Airports.findAll({ search, limit: 10 })
           current.options = current.fetchData.map((airport, index) => ({
             value: index,
             label: `${airport.nom}, ${airport.ville}, ${airport.pays}`

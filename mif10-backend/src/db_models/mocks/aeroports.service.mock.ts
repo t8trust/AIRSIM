@@ -1,8 +1,8 @@
-import { aeroportsMock } from './aeroports.mock';
+import { aeroportsMock, updatedAeroportsMock } from './aeroports.mock';
 
 export class AeroportsServiceMock {
-  create = jest.fn();
+  create = jest.fn().mockResolvedValue(aeroportsMock);
   findAll = jest.fn().mockResolvedValue(aeroportsMock);
-  update = jest.fn();
-  remove = jest.fn();
+  update = jest.fn().mockResolvedValue(updatedAeroportsMock);
+  remove = jest.fn().mockResolvedValue(aeroportsMock[1]);
 }

@@ -2,7 +2,10 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { AeroportsController } from './db_models/controller/aeroports.controller';
 import { AeroportsService } from './db_models/service/aeroports.service';
 import { AeroportsServiceMock } from './db_models/mocks/aeroports.service.mock';
-import { aeroportsMock } from './db_models/mocks/aeroports.mock';
+import {
+  aeroportsMock,
+  updatedAeroportsMock,
+} from './db_models/mocks/aeroports.mock';
 import { JwtService } from '@nestjs/jwt';
 import { JwtModule } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
@@ -51,54 +54,29 @@ describe('AeroportsController', () => {
         body: aeroportsMock[1],
       };
 
-      jest
-        .spyOn(controller, 'create')
-        .mockImplementationOnce(() => aeroportsMock[1] as any);
-
-      const createdAeroport = await controller.create(requestMock as Request);
-
-      expect(createdAeroport).toEqual(aeroportsMock[1]); // Assurez-vous d'adapter cette assertion selon le comportement réel de votre application
+      expect(controller.create(requestMock as Request)).resolves.toEqual(
+        aeroportsMock,
+      );
     });
   });
 
   describe('update', () => {
     it('should update an airport', async () => {
-      const requestMock: Partial<Request> = {
-        body: {
-          iata: 'CDGU',
-          nom: 'Charles de Gaulle',
-          pays: 'France',
-          ville: 'Paris',
-          latitude: 49.0097,
-          longitude: 2.5478
-        },
-      };
       const updatedAeroport = {
         iata: 'CDGU',
       };
 
-      jest
-        .spyOn(controller, 'update')
-        .mockImplementationOnce(() => requestMock.body as any);
-
-      const res = await controller.update(
-        aeroportsMock[1].iata,
-        updatedAeroport,
-      );
-
-      expect(res).toEqual(requestMock.body);
+      expect(
+        controller.update(aeroportsMock[1].iata, updatedAeroport),
+      ).resolves.toEqual(updatedAeroportsMock);
     });
   });
 
   describe('remove', () => {
     it('should remove an airport', async () => {
-      jest
-        .spyOn(controller, 'remove')
-        .mockResolvedValue(aeroportsMock[1] as any);
-
-      const res = await controller.remove(aeroportsMock[1].iata);
-
-      expect(res).toEqual(aeroportsMock[1]);
+      expect(controller.remove(aeroportsMock[1].iata)).resolves.toEqual(
+        aeroportsMock[1],
+      );
     });
   });
 });
