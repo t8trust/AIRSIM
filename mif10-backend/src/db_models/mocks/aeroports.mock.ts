@@ -16,3 +16,14 @@ export const aeroportsMock = [
     longitude: 2.55,
   },
 ];
+
+export const updatedAeroportsMock = [
+  {
+    iata: 'CDGU',
+    nom: 'Charles De Gaulle',
+    pays: 'France',
+    ville: 'Paris',
+    latitude: 49.016666,
+    longitude: 2.55,
+  },
+];

@@ -81,10 +81,7 @@ describe('VolController', () => {
         .spyOn(controller, 'update')
         .mockImplementationOnce(() => requestMock.body as any);
 
-      const res = await controller.update(
-        volMock[1].iata,
-        updatedAeroport,
-      );
+      const res = await controller.update(volMock[1].iata, updatedAeroport);
 
       expect(res).toEqual(requestMock.body);
     });
@@ -92,13 +89,11 @@ describe('VolController', () => {
 
   describe('remove', () => {
     it('should remove an airport', async () => {
-      jest
-        .spyOn(controller, 'remove')
-        .mockResolvedValue(volMock[1] as any);
+      jest.spyOn(controller, 'remove').mockResolvedValue(volMock[1] as any);
 
-      const res = await controller.remove(aeroportsMock[1].iata);
+      const res = await controller.remove(volMock[1].iata);
 
-      expect(res).toEqual(aeroportsMock[1]);
+      expect(res).toEqual(volMock[1]);
     });
   });
 });
