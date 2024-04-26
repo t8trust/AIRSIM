@@ -10,7 +10,7 @@
     <div class="actions-container">
       <div class="home-forms-container">
         <HomeForms>
-          <AccueilSlot v-if="showAccueilSlot" @on-travel="onTravel"></AccueilSlot>  
+          <AccueilSlot ref="accueil" v-if="showAccueilSlot" @on-travel="onTravel"></AccueilSlot>  
           <FavorisSlot v-if="showFavoris"></FavorisSlot>
           <div class="bottom-buttons"> 
             <a-button type="primary" shape="round" v-if="showFavsButton" @click="toggleFavoris">Favori</a-button>
