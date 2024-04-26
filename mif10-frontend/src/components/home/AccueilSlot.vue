@@ -26,9 +26,7 @@
       </a-select>
     </a-form-item>
     <div class="flight-options fo-item">
-      <FlightOptions :travels="[
-        { airports: [{nom: 'test', ville: 'test', pays: 'test'}, {nom: 'test', ville: 'test', pays: 'test'}], co2: 123},
-      ]"></FlightOptions>
+      <FlightOptions :travels="travels"></FlightOptions>
     </div>
   </a-form>
 </template>
@@ -36,7 +34,7 @@
 <script>
 import FlightOptions from './FlightOptions.vue'
 import { Form as AForm, Select as ASelect } from 'ant-design-vue'
-  import { Airports } from '@/api';
+  import { Airports, Flights } from '@/api';
 
 class TravelInput {
   airport = null
@@ -61,6 +59,7 @@ export default {
   data(){
     return {
       menuToggle: false,
+      travels: [],
       input: [
         new TravelInput(),
         new TravelInput()
@@ -98,7 +97,19 @@ export default {
     checkValidTravel() {
       if (!this.input[0].airport || !this.input[1].airport) return;
       this.$emit("onTravel", this.input[0].airport, this.input[1].airport)
-      console.log(this.input[0].airport)
+      this.onTravel(this.input[0].airport, this.input[1].airport)
+    },
+
+    async onTravel(airport1, airport2) {
+      const data = await Flights.findTravel(airport1.iata, airport2.iata);
+      this.travels = data.map((travel) => ({
+        airports: [airport1, airport2],
+        co2: travel.co2_emissions
+      }))
+    },
+
+    clear(){
+      this.travels = []
     }
 
   }

@@ -77,6 +77,7 @@ export default {
   },
   methods: {
     map() { return this.$refs.map },
+    accueil() { return this.$refs.accueil },
     onTravel(airport_a, airport_b){
       // const test = [{ name: 'Dakar', longitude: -17.4479, latitude: 14.6928 },
       //   { name: 'Londres', longitude: -0.1276, latitude: 51.5074 }]
@@ -131,6 +132,7 @@ export default {
     clear(){
       this.mapMode = null
       this.map().clear()
+      this.accueil().clear()
       this.onMoveEnd()
     },
 

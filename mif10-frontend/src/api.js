@@ -100,5 +100,9 @@ export const Airports = {
 }
 
 export const Flights = {
+  url: burl + "/vols",
 
+  async findTravel(iata1, iata2){
+    return await fetchJSON(appendParamsToUrl(this.url, {depart: iata1, destination: iata2, page: 1}))
+  }
 }
