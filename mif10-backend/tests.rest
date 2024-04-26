@@ -1,0 +1,10 @@
+POST http://localhost:3000/auth/login
+content-type: application/json
+
+{
+    "login": "tests@test.com",
+    "password": "oui1"
+}
+
+###
+POST http://localhost:3000/azeae

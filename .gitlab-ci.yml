@@ -81,6 +81,10 @@ sonarqube-check:
     paths:
       - .sonar/cache
   script: 
+    - cd mif10-backend/
+    - sonar-scanner
+    - cd ..
+    - cd mif10-frontend/
     - sonar-scanner
   allow_failure: true
   only:
