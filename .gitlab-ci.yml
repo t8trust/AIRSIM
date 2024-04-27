@@ -51,8 +51,9 @@ test-run:
   only: 
     - main
   artifacts:
+    when: always
     paths:
-      - mif10-backend/coverage
+      - mif10-backend/coverage/
   script:
     - mv $ENV ./.env
     - cd mif10-backend
