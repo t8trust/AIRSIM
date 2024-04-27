@@ -75,6 +75,8 @@ test-run:
     
 sonarqube-check:
   stage: sonarqube
+  dependencies:
+    - test-run
   image: 
     name: sonarsource/sonar-scanner-cli:5.0
     entrypoint: [""]
