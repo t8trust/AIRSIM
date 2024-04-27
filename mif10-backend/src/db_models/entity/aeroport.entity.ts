@@ -14,9 +14,9 @@ export class Aeroport {
   @Column()
   ville: string;
 
-  @Column()
+  @Column('decimal')
   latitude: number;
 
-  @Column()
+  @Column('decimal')
   longitude: number;
 }

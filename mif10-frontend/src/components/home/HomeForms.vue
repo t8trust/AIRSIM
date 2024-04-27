@@ -1,3 +1,24 @@
+<script>
+import { Row as ARow, Col as ACol, Button as AButton } from 'ant-design-vue'
+import { MenuOutlined } from "@ant-design/icons-vue"
+
+export default {
+  components: {
+    ARow,
+    ACol,
+    AButton,
+    MenuOutlined,
+  },
+
+  data(){
+    return {
+      menuToggle: false,
+    }
+  },
+};
+</script>
+
+
 <template>
   <div class="menu-container" :class="{folded: menuToggle}">
   <div class="full-height-container container-fluid background-light-gray">
@@ -5,68 +26,16 @@
     <a-row :gutter="4" class="full-height-row">
       <a-col :span="24">
         <div class="sidebar">
-          <h2 class="centered-heading info-vols-title">Infos de vols</h2>
-          <a-form>
-            <a-form-item label="Départ" class="form-item">
-              <a-input placeholder="Entrez votre point de départ" />
-            </a-form-item>
-            <a-form-item label="Arrivée">
-              <a-input placeholder="Entrez votre destination" />
-            </a-form-item>
-            <a-form-item>
-              <a-button type="primary" html-type="submit" class="centered-button">Submit</a-button>
-            </a-form-item>
-            <a-form-item label="Émission de CO2" class="form-item">
-              <a-input placeholder="CO2" readonly />
-            </a-form-item>
-            <div class="flight-options fo-item">
-                <h3 class="section-title fo-item">Meilleures options de vol</h3>
-              <FlightOptions></FlightOptions>
-            </div>
-            <!--<a-form-item>
-              <a-button type="primary" html-type="submit" class="centered-button">Favori</a-button>
-            </a-form-item>-->
-          </a-form>
+          <slot></slot>
         </div>
       </a-col>
-      <!--<a-col :span="16">
-        <div id="mapid" class="map-container"></div>
-      </a-col>-->
     </a-row>
   </div>
   <div class="menu-open-button">
-    <a-button shape="circle" :icon="h(MenuOutlined)" size="large" @click="menuToggle = ! menuToggle"></a-button>
+    <a-button shape="circle" size="large" @click="menuToggle = ! menuToggle"><MenuOutlined/></a-button>
   </div>
   </div>
 </template>
-
-<script setup>
-    import { Row as ARow, Col as ACol, Form as AForm, Input as AInput, Button as AButton } from 'ant-design-vue'
-    import { h, ref } from "vue"
-
-    let menuToggle = ref(false);
-
-</script>
-
-<script>
-    import FlightOptions from './FlightOptions.vue'
-    import { MenuOutlined } from "@ant-design/icons-vue"
-  
-  export default {
-    components: {
-    ARow,
-    ACol,
-    AForm,
-    AFormItem: AForm.Item,
-    AInput,
-    //AButton,
-    FlightOptions,
-    AButton
-    //ATag
-  }
-    
-  };
-</script>
   
 <style scoped>
   /** ====== Menu principal  ======= */

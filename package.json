@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "nestjs-typegoose": "^7.1.38"
+  }
+}
