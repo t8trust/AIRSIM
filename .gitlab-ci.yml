@@ -50,24 +50,29 @@ test-run:
   allow_failure: true
   only: 
     - main
+  artifacts:
+    paths:
+      - mif10-backend/coverage
   script:
     - mv $ENV ./.env
     - cd mif10-backend
     - npm install
-    - npm run test
+    - npm run test:cov
+    - npm run test:e2e:cov
 
-test-run-e2e:
-  stage: test
-  image: node:20.11.1
-  allow_failure: true
-  only: 
-    - main
-  script:
-    #- mv $ENV ./.env
-    - cd mif10-backend
-    - npm install
-    - npm run test:e2e
+# test-run-e2e:
+#   stage: test
+#   image: node:20.11.1
+#   allow_failure: true
+#   only: 
+#     - main
+#   script:
+#     #- mv $ENV ./.env
+#     - cd mif10-backend
+#     - npm install
+#     - npm run test:e2e
 
+    
 sonarqube-check:
   stage: sonarqube
   image: 
