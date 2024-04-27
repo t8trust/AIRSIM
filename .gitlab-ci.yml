@@ -48,7 +48,7 @@ test-run:
   allow_failure: true
   only: 
     - main
-    - merge-request
+    - merge_requests
     - test-cicd
   artifacts:
     expire_in: 1 day
