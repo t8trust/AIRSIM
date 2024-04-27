@@ -1,4 +1,4 @@
-export const burl = process.env.NODE_ENV == "production" ? "https://192.168.75.63:3000" : "http://127.0.0.1:3000"
+export const burl = process.env.NODE_ENV == "production" ? "https://192.168.75.63/api" : "http://127.0.0.1:3000"
 
 export class StatusError extends Error {
   code = 0
