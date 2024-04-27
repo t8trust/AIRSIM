@@ -9,8 +9,6 @@ stages:
     - sonarqube
     - deploy    
     
-    
-
 deploy:
   stage: deploy
   only:
@@ -50,7 +48,9 @@ test-run:
   allow_failure: true
   only: 
     - main
+    - test-cicd
   artifacts:
+    expire_in: 1 day
     when: always
     paths:
       - mif10-backend/coverage/
@@ -100,6 +100,7 @@ sonarqube-check:
     - master
     - main
     - develop
+    - test-cicd
 
 sonarqube-vulnerability-report:
   stage: sonarqube
@@ -112,6 +113,7 @@ sonarqube-vulnerability-report:
     - master
     - main
     - develop
+    - test-cicd
   artifacts:
     expire_in: 1 day
     reports:
