@@ -147,9 +147,9 @@
 <script>
 import { Airports, Auth, Flights, Users } from '@/api';
 import { InputSearch, Modal, message } from 'ant-design-vue';
-import AirportModal from './modals/AirportModal.vue';
-import FlightModal from './modals/FlightModal.vue';
-import UserModal from './modals/UserModal.vue';
+import AirportModal from '../components/admin/modals/AirportModal.vue';
+import FlightModal from '../components/admin/modals/FlightModal.vue';
+import UserModal from '../components/admin/modals/UserModal.vue';
 
 export default {
   components: {

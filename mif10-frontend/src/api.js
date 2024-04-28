@@ -93,8 +93,6 @@ export function putJSON(url, body, params) { return fetchWithBodyJSON("put", url
 
 
 export const Auth = {
-  connected: false,
-
   token() {
     const token = localStorage.getItem("token")
     this.connected = true
@@ -117,6 +115,7 @@ export const Auth = {
 
   disconnect() {
     localStorage.setItem("token", undefined)
+    this.connected = false
   }
 }
 
