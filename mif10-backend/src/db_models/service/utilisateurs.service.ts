@@ -29,6 +29,10 @@ export class UtilisateursService {
 
   findOne(login: string): Promise<Utilisateur | null> {
     return this.utilisateursRepository.findOneBy({ login });
+    return this.utilisateursRepository.createQueryBuilder('utilisateurs')
+    .addSelect("login")
+    .andWhere("login = :login", { login })
+    .getOne();
   }
 
   update(login: string, updateUtilisateurDto: UpdateUtilisateurDto){

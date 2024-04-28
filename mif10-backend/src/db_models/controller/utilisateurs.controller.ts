@@ -4,21 +4,27 @@ import { UtilisateursService } from '../service/utilisateurs.service';
 import { CreateUtilisateurDto } from '../dto/create-utilisateur-dto';
 import { UpdateUtilisateurDto } from '../dto/update-utilisateur-dto';
 import { AuthGuard } from '../../auth/auth.guard';
+import { AuthService } from 'src/auth/auth.service';
+import { randomBytes } from 'crypto';
 
 @Controller('utilisateurs')
 export class UtilisateursController {
-  constructor(private readonly utilisateursService: UtilisateursService) {}
+  constructor(
+    private readonly utilisateursService: UtilisateursService,
+    private readonly authService: AuthService
+  ) {}
 
   @Post()
   async create(@Req() request: Request) {
     let body = request.body
 
     let createUserDto = new CreateUtilisateurDto();
+    const salt = randomBytes(10).toString("hex");
     createUserDto.login = body.login;
-    createUserDto.mot_de_passe = body.mot_de_passe;
-    createUserDto.salt = body.salt;
+    createUserDto.salt = salt;
+    createUserDto.mot_de_passe = await this.authService.hashPassword(body.mot_de_passe, salt);
 
-    return await this.utilisateursService.create(createUserDto);
+    await this.utilisateursService.create(createUserDto);
   }
 
   @Get()

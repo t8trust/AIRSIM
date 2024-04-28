@@ -21,7 +21,7 @@
           <span class="username">NOM PRENOM</span>
         </a-col>
         <a-col :span="4" class="actions">
-          <a-button>Se déconnecter</a-button>
+          <a-button @click="showDisconnectModal">Se déconnecter</a-button>
           <a-button>Modifier profil</a-button>
         </a-col>
       </a-row>
@@ -144,7 +144,7 @@
 </template>
 
 <script>
-import { Airports, Flights, Users } from '@/api';
+import { Airports, Auth, Flights, Users } from '@/api';
 import { InputSearch, Modal } from 'ant-design-vue';
 import AirportModal from './modals/AirportModal.vue';
 import FlightModal from './modals/FlightModal.vue';
@@ -262,6 +262,17 @@ export default {
         onsuccess: async () => {
           await Flights.delete(vol.id_vol)
           this.vols.splice(id, 1)
+        }
+      })
+    },
+
+    showDisconnectModal(){
+      this.showGenericModal({
+        title: "Déconnexion",
+        content: "Voulez vous vraiment vous déconnecter ?",
+        onsuccess: () => {
+          Auth.disconnect();
+          this.$router.push("/")
         }
       })
     },
