@@ -15,11 +15,11 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
       useFactory: (config: ConfigService) => ({
         global: true,
         secret: config.get("jwt.secret"),
-        signOptions: { expiresIn: '60s' },
+        signOptions: { expiresIn: '1h' },
       })
     }),
   ],
-  providers: [AuthService],
+  providers: [AuthService, ConfigService],
   controllers: [AuthController],
   exports: [AuthService],
 })

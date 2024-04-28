@@ -28,14 +28,17 @@ export class VolsController {
   }
 
   @Get()
-  async findOne(@Query('depart') depart: string, @Query('destination')destination: string, @Query('page') page: number) {
-    return await this.volsService.findTravel(depart, destination, page);
+  async findAll(@Query('depart') depart: string, @Query('destination')destination: string, @Query('page') page: number, @Query("search") search: string) {
+    if (depart && destination){
+      return await this.volsService.findTravel(depart, destination, page);
+    }
+
+    return await this.volsService.findAll(0, search);
   }
 
   @Put(':id_vol')
   @UseGuards(AuthGuard)
   async update(@Param('id_vol') id_vol: number, @Body() updateVolDto: UpdateVolDto) {
-    console.log(id_vol, updateVolDto)
     return await this.volsService.update(id_vol, updateVolDto);
   }
 

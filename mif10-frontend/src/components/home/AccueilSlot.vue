@@ -38,7 +38,7 @@ import FlightOptions from './FlightOptions.vue'
 import { Form as AForm, Select as ASelect } from 'ant-design-vue'
   import { Airports, Flights } from '@/api';
 
-class TravelInput {
+export class TravelInput {
   value = undefined
   airport = null
   fetchCallback = null

@@ -24,10 +24,14 @@
 <script setup>
     import { h } from 'vue';
     import { HeartTwoTone } from '@ant-design/icons-vue';
+    import { message } from 'ant-design-vue';
+
     const handleFavoriteClick = (travel) => {
       let favoritedFlights = JSON.parse(localStorage.getItem('favoritedFlights')) || [];
       favoritedFlights.push(travel);
       localStorage.setItem('favoritedFlights', JSON.stringify(favoritedFlights));
+      message.success("Le trajet à été rajouté dans vos favoris!")
+
     };
 </script>
 

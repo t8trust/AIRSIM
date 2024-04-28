@@ -30,6 +30,11 @@ export class AeroportsController {
     return await this.aeroportsService.findAll(search, page, limit, bounds);
   }
 
+  @Get(':iata')
+  async findOne(@Param('iata') iata: string) {
+    return await this.aeroportsService.findOne(iata);
+  }
+
   @Put(':iata')
   @UseGuards(AuthGuard)
   async update(@Param('iata') iata: string, @Body() updateAeroportDto: UpdateAeroportDto) {

@@ -30,7 +30,7 @@
 //import HeaderComponent from '../HeaderComponent.vue'
 //import FooterComponent from '../FooterComponent.vue'
 import { message } from 'ant-design-vue';
-import { Auth } from '@/api';
+import { Auth, StatusError } from '@/api';
 import { ref } from 'vue';
 
 export default {
@@ -60,10 +60,19 @@ export default {
       if(!this.password) {
         this.passwordError = 'Le mot de passe est obligatoire'
       }
-      else {
+
+      if (this.loginError || this.passwordError) return;
+      
+      try {
         await Auth.login(this.login, this.password);
         message.success('Connexion réussie');
         this.$router.push({name: 'dashboard'});
+      } catch (err) {
+        let msg = "Erreur Inconnue à la connexion"
+        if (err instanceof StatusError){
+          if (err.code === 401) msg = "L'identifiant ou le mot de passe est incorrect"
+        }
+        message.error(msg)
       }
     }
   }
