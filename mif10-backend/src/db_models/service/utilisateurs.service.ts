@@ -22,11 +22,17 @@ export class UtilisateursService {
   }
 
   findAll(): Promise<Utilisateur[]> {
-    return this.utilisateursRepository.find();
+    return this.utilisateursRepository.createQueryBuilder('utilisateur')
+      .select("utilisateur.login")
+      .getMany();
   }
 
   findOne(login: string): Promise<Utilisateur | null> {
     return this.utilisateursRepository.findOneBy({ login });
+    return this.utilisateursRepository.createQueryBuilder('utilisateurs')
+    .select("utilisateurs.login")
+    .andWhere("login = :login", { login })
+    .getOne();
   }
 
   update(login: string, updateUtilisateurDto: UpdateUtilisateurDto){

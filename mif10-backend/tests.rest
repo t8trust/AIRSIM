@@ -1,9 +1,9 @@
-POST http://localhost:3000/auth/login
+POST http://localhost:3000/utilisateurs
 content-type: application/json
 
 {
-    "login": "tests@test.com",
-    "password": "oui1"
+    "login": "admin",
+    "password": "admin"
 }
 
 ###
