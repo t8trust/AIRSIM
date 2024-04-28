@@ -28,8 +28,12 @@ export class VolsController {
   }
 
   @Get()
-  async findOne(@Query('depart') depart: string, @Query('destination')destination: string, @Query('page') page: number) {
-    return await this.volsService.findTravel(depart, destination, page);
+  async findAll(@Query('depart') depart: string, @Query('destination')destination: string, @Query('page') page: number) {
+    if (depart && destination){
+      return await this.volsService.findTravel(depart, destination, page);
+    }
+
+    return await this.volsService.findAll(page);
   }
 
   @Put(':id_vol')

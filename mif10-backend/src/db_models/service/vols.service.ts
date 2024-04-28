@@ -5,7 +5,6 @@ import { Vol } from '../entity/vol.entity';
 import { CreateVolDto } from '../dto/create-vol-dto';
 import { UpdateVolDto } from '../dto/update-vol-dto';
 
-
 @Injectable()
 export class VolsService {
   constructor(
@@ -37,6 +36,21 @@ export class VolsService {
       .getMany();
 
       return res;
+  }
+
+  async findAll(page: number): Promise<Vol[] | null> {
+
+    if(page == null)
+      page = 0
+
+    const res = await this.volsRepository
+      .createQueryBuilder("vol")
+      .orderBy("vol.co2_emissions")
+      .skip(page * 10)
+      .take(10)
+      .getMany();
+
+    return res;
   }
 
   update(id_vol: number, updateVolDto: UpdateVolDto){

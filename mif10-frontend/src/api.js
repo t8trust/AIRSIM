@@ -40,7 +40,10 @@ function appendParamsToUrl(url, params){
  * @returns {Promise<any>}
  */
 export async function fetchJSON(url, params) {
-  return fetch(url, params).then(async (resp) => {
+  return fetch(url, {
+    headers: { 'Authorization': 'Bearer ' + Auth.token },
+    ...params
+  }).then(async (resp) => {
     if (resp.status >= 400) throw new StatusError(resp.url, resp.status)
     return await resp.json()  
   })
@@ -49,7 +52,7 @@ export async function fetchJSON(url, params) {
 async function fetchWithBodyJSON(method, url, body, params) {
   return fetch(url, { method, 
       body: body ? JSON.stringify(body) : undefined, 
-      headers: { "Content-Type": "application/json" },
+      headers: { "Content-Type": "application/json", "Authorization": 'Bearer ' + Auth.token  },
       ...params })
       .then(async (resp) => {
         if (resp.status >= 400) throw new StatusError(resp.url, resp.status)
@@ -81,6 +84,7 @@ export const Auth = {
   async login(login, password) {
     const resp = await postJSON(burl + "/auth/login", { login, password })
     this.token = resp.access_token
+    console.log(this.token)
   },
 
   disconnect() {
@@ -89,16 +93,30 @@ export const Auth = {
 }
 
 export const Users = {
+  url: burl + "/utilisateurs",
 
+  async findAll(){
+    return await fetchJSON(appendParamsToUrl(this.url, {}))
+  },
+
+  async create(user) {
+    return await postJSON(this.url, user);
+  },
+
+  async delete(id) {
+    return await fetchJSON(`${this.url}/${id}`)
+  },
+
+  async update(id, user) {
+    return await putJSON(`${this.url}/${id}`, user)
+  },
 }
-
-
 
 export const Airports = {
   url: burl + "/aeroports",
   
   /**
-   * @param {{
+  * @param {{
   *  search: string,
   *  limit: number,
   *  bounds: import("ol/extent").Extent,
@@ -107,6 +125,10 @@ export const Airports = {
   */
   async findAll(params) {
     return await fetchJSON(appendParamsToUrl(this.url, params))
+  },
+
+  async findOne(iata) {
+    return await fetchJSON(`${this.url}/${iata}`)
   },
 
   /**
@@ -134,5 +156,33 @@ export const Flights = {
 
   async findTravel(iata1, iata2){
     return await fetchJSON(appendParamsToUrl(this.url, {depart: iata1, destination: iata2, page: 0}))
-  }
+  },
+
+  /**
+   * @param {{
+   *  page: number
+   * }} params 
+   */
+  async findAll(params) {
+    return await fetchJSON(appendParamsToUrl(this.url, params))
+  },
+
+  /**
+   * @param {Vol} vol 
+   */
+  async create(vol) {
+    return await postJSON(this.url, vol);
+  },
+
+  async delete(id) {
+    return await fetchJSON(`${this.url}/${id}`)
+  },
+
+  /**
+   * @param {number} id 
+   * @param {Vol} vol 
+   */
+  async update(id, vol) {
+    return await putJSON(`${this.url}/${id}`, vol)
+  },  
 }
