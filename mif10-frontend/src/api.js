@@ -41,7 +41,7 @@ function appendParamsToUrl(url, params){
  */
 export async function fetchJSON(url, params) {
   return fetch(url, {
-    headers: { 'Authorization': 'Bearer ' + Auth.token },
+    headers: { 'Authorization': 'Bearer ' + Auth.token() },
     ...params
   }).then(async (resp) => {
     if (resp.status >= 400) throw new StatusError(resp.url, resp.status)
@@ -49,10 +49,20 @@ export async function fetchJSON(url, params) {
   })
 }
 
+export function deleteJSON(url) {
+  return fetch(url, {
+    method: "DELETE",
+    headers: { 'Authorization': 'Bearer ' + Auth.token() },
+  }).then(async (resp) => {
+    if (resp.status >= 400) throw new StatusError(resp.url, resp.status)
+    return resp  
+  })
+}
+
 async function fetchWithBodyJSON(method, url, body, params) {
   return fetch(url, { method, 
       body: body ? JSON.stringify(body) : undefined, 
-      headers: { "Content-Type": "application/json", "Authorization": 'Bearer ' + Auth.token  },
+      headers: { "Content-Type": "application/json", "Authorization": 'Bearer ' + Auth.token()  },
       ...params })
       .then(async (resp) => {
         if (resp.status >= 400) throw new StatusError(resp.url, resp.status)
@@ -77,18 +87,27 @@ export function postJSON(url, body, params) { return fetchWithBodyJSON("POST", u
  */
 export function putJSON(url, body, params) { return fetchWithBodyJSON("put", url, body, params) }
 
+/**
+ * 
+ */
+
 
 export const Auth = {
-  token: "",
+  connected: false,
+
+  token() {
+    const token = localStorage.getItem("token")
+    this.connected = true
+    return token
+  },
 
   async login(login, password) {
     const resp = await postJSON(burl + "/auth/login", { login, password })
-    this.token = resp.access_token
-    console.log(this.token)
+    localStorage.setItem("token", resp.access_token)
   },
 
   disconnect() {
-    this.token = ""
+    localStorage.setItem("token", undefined)
   }
 }
 
@@ -104,7 +123,7 @@ export const Users = {
   },
 
   async delete(id) {
-    return await fetchJSON(`${this.url}/${id}`)
+    return await deleteJSON(`${this.url}/${id}`)
   },
 
   async update(id, user) {
@@ -139,7 +158,7 @@ export const Airports = {
   },
 
   async delete(iata) {
-    return await fetchJSON(`${this.url}/${iata}`)
+    return await deleteJSON(`${this.url}/${iata}`)
   },
 
   /**
@@ -175,7 +194,7 @@ export const Flights = {
   },
 
   async delete(id) {
-    return await fetchJSON(`${this.url}/${id}`)
+    return await deleteJSON(`${this.url}/${id}`)
   },
 
   /**

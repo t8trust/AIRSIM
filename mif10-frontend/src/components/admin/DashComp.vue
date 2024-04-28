@@ -1,13 +1,17 @@
 <template>
   <!-- Modals -->
   <a-modal
-    :open="openGenericModal"
-    @ok="handleOk(modalType)"
-    @cancel="handleCancel(modalType)"
-  />
-  <airport-modal v-model:open="showAirportModal"/>
-  <flight-modal :open="showFlightModal"/>
-  <user-modal :open="showUserModal"/>
+    v-model:open="genericModal.open"
+    :title="genericModal.title"
+    @ok="genericModal.onsuccess"
+    @cancel="genericModal.onfail"
+  >
+    {{ genericModal.content }}
+  </a-modal>
+
+  <airport-modal v-model:open="airportModalData" @success="onAirportModalSuccess"/>
+  <flight-modal v-model:open="flightModalData" @success="onFlightModalSuccess"/>
+  <user-modal v-model:open="userModalData" @success="onUserModalSuccess"/>
   <!-- Content -->
   <a-layout class="layout">
     <a-layout-header class="header">
@@ -34,7 +38,7 @@
               />
             </a-col>
             <a-col :span="4" class="add-button">
-              <a-button type="primary" @click="showModal">Ajouter</a-button>
+              <a-button type="primary" @click="addOrUpdateItem()">Ajouter</a-button>
             </a-col>
           </a-row>
 
@@ -67,10 +71,9 @@
               </template>
               </a-list-item-meta>
 
-              <!-- Utilisez item pour accéder aux données du vol ici -->
               <a-space>
-                <a-button @click="showModal(airport)">Modifier</a-button>
-                <a-button @click="showDeleteModal(airport)" danger>Supprimer</a-button>
+                <a-button @click="addOrUpdateItem(airport, index)">Modifier</a-button>
+                <a-button @click="showDeleteAirportModal(airport, index)" danger>Supprimer</a-button>
               </a-space>
             </a-list-item>
           </a-list>
@@ -108,10 +111,9 @@
                 </template>
               </a-list-item-meta>
 
-              <!-- Utilisez item pour accéder aux données du vol ici -->
               <a-space>
-                <a-button @click="showModal(airport)">Modifier</a-button>
-                <a-button @click="showDeleteModal(airport)" danger>Supprimer</a-button>
+                <a-button @click="addOrUpdateItem(vol, index)">Modifier</a-button>
+                <a-button @click="showDeleteFlightModal(vol, index)" danger>Supprimer</a-button>
               </a-space>
             </a-list-item>
           </a-list>
@@ -129,8 +131,8 @@
               <a-list-item-meta :title="user.login" description="Administrateur"></a-list-item-meta>
 
               <a-space>
-                <a-button @click="showModal(airport)">Modifier</a-button>
-                <a-button @click="showDeleteModal(airport)" danger>Supprimer</a-button>
+                <a-button @click="addOrUpdateItem(user, index)">Modifier</a-button>
+                <a-button @click="showDeleteUserModal(user, index)" danger>Supprimer</a-button>
               </a-space>
             </a-list-item>
           </a-list>
@@ -162,10 +164,17 @@ export default {
       vols: [],
       users: [],
       selectedList: "Aeroports",
-      showAirportModal: undefined,
-      showFlightModal: false,
-      showUserModal: false,
+      airportModalData: undefined,
+      flightModalData: undefined,
+      userModalData: undefined,
       searchTimeout: null,
+      genericModal: {
+        open: false,
+        title: "",
+        content: "",
+        onsuccess: null,
+        onfail: null
+      }
     };
   },
   async mounted() {
@@ -208,16 +217,102 @@ export default {
     }
 
     },
-    // Shows a the modal for the current selected list type, if item is empty, it causes a "add" modal, else an "edit" modal
-    showModal() {
+    // Shows a modal for the current selected list type, if item is empty, it causes a "add" modal, else an "edit" modal
+    addOrUpdateItem(item, index) {
+      // undefined = do not show modal, null = open with no input data 
       switch (this.selectedList) {
         case "Aeroports":
-          this.showAirportModal = null;
+          this.airportModalData = item ? { airport: item, index } : null;
           break
         case "Vols":
-          this.showFlightModal = true;
+          this.flightModalData = item ? { flight: item, index } : null;
+          break
+        case "Utilisateurs":
+          this.userModalData = item ? { user: item, index } : null;
           break
       }
+    },
+
+    showDeleteAirportModal(airport, id){
+      this.showGenericModal({
+        title: "Suppression d'un vol",
+        content: `Voulez vous vraiment supprimer l'aéroport : ${airport.nom} ?`,
+        onsuccess: async () => {
+          await Airports.delete(airport.iata)
+          this.airports.splice(id, 1)
+        }
+      })
+    },
+
+    showDeleteUserModal(user, id){
+      this.showGenericModal({
+        title: "Suppression d'un utilisateur",
+        content: `Voulez vous vraiment supprimer l'utilisateur au login : ${user.login} ?`,
+        onsuccess: async () => {
+          await Users.delete(user.login)
+          this.users.splice(id, 1)
+        }
+      })
+    },
+
+    showDeleteFlightModal(vol, id){
+      this.showGenericModal({
+        title: "Suppression d'un vol",
+        content: `Voulez vous vraiment supprimer le vol ${vol.depart.iata} : ${vol.depart.nom} vers ${vol.destination.iata} : ${vol.destination.nom} ?`,
+        onsuccess: async () => {
+          await Flights.delete(vol.id_vol)
+          this.vols.splice(id, 1)
+        }
+      })
+    },
+
+    async onAirportModalSuccess(newItem, input){
+      if (input){
+        const id = input.airport.iata;
+        await Airports.update(id, newItem)
+        this.airports[input.index] = newItem
+        return;
+      }
+
+      await Airports.create(newItem)
+      this.airports.unshift(newItem);
+    },
+
+    async onFlightModalSuccess(newItem, input){
+      const dbFlight = { ...newItem, depart: newItem.depart.iata, destination: newItem.destination.iata}
+
+      if (input){
+        const id = input.flight.id_vol;
+        await Flights.update(id, dbFlight)
+        this.vols[input.index] = newItem
+        return;
+      }
+
+      await Flights.create(dbFlight)
+      this.vols.unshift(newItem);
+    },
+    
+    async onUserModalSuccess(newItem, input){
+      if (input){
+        const id = input.flight.id_vol;
+        await Users.update(id, newItem)
+        this.users[input.index] = newItem
+        return;
+      }
+
+      await Users.create(newItem)
+      this.users.unshift(newItem);
+    },
+
+    /**
+     * @param {{title, content, onsuccess, onfail}} params 
+     */
+    showGenericModal(params){
+      params.open = true;
+      const {onsuccess, onfail} = params;
+      params.onsuccess = () => { if (onsuccess) onsuccess(); this.genericModal.open = false }
+      params.onfail = () => { if (onfail) onfail(); this.genericModal.open = false }
+      this.genericModal = params;
     }
   },
 };

@@ -3,7 +3,7 @@
     <a-layout-footer class="footer">
       <a-row :gutter="16">
         <a-col :span="8" class="text-left">
-          <a-button v-if="!Auth.token" type="primary" shape="round" :icon="h(LoginOutlined)">
+          <a-button v-if="!Auth.connected" type="primary" shape="round" :icon="h(LoginOutlined)">
             <router-link to="/login">
               Login
             </router-link>

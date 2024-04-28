@@ -53,12 +53,17 @@
       AModal: Modal
     },
     watch: {
-      open(val) {
-        this.airport = {...val}
+      open(data) {
+        this.withData = false
+        if (data){
+          this.withData = true
+          this.airport = {...data.airport}
+        }
       }
     },
     data() {
       return {
+        withData: false,
         errorIata: ref(""),
         errorNom: ref(""),
         errorVille: ref(""),
@@ -80,7 +85,7 @@
         this.errorVille = ""
         this.errorPays = ""
 
-        if (this.airport.iata.length <= 3) this.errorIata = "error"
+        if (this.airport.iata.length < 3) this.errorIata = "error"
         if (this.airport.nom.length == 0) this.errorNom = "error"
         if (this.airport.ville.length == 0) this.errorVille = "error"
         if (this.airport.pays.length == 0) this.errorPays = "error"
@@ -88,8 +93,8 @@
         if (this.errorIata || this.errorNom || this.errorPays || this.errorVille)
           return
 
+        this.$emit("success", this.airport, this.$props.open)
         this.$emit("update:open", undefined)
-        this.$emit("success", this.airport, this.$props.input)
         this.reset()
       },
       cancel() {

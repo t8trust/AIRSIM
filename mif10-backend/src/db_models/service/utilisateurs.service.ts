@@ -22,7 +22,9 @@ export class UtilisateursService {
   }
 
   findAll(): Promise<Utilisateur[]> {
-    return this.utilisateursRepository.find();
+    return this.utilisateursRepository.createQueryBuilder('utilisateurs')
+      .addSelect("login")
+      .getMany();
   }
 
   findOne(login: string): Promise<Utilisateur | null> {

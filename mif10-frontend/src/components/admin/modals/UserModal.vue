@@ -1,7 +1,7 @@
 <template>
 <a-modal
     title="Modifier le profil"
-    :open="showDialog"
+    :open="$props.open !== undefined"
     @ok="ok"
     @cancel="cancel"
 >
@@ -11,11 +11,11 @@
         </a-form-item>
 
         <a-form-item label="Nouveau mot de passe">
-            <a-input-password v-model:value="password" placeholder="Entrez votre nouveau mot de passe"></a-input-password>
+            <a-input-password v-model:value="password" placeholder="Entrez le nouveau mot de passe"></a-input-password>
         </a-form-item>
 
         <a-form-item label="Confirmation">
-            <a-input-password v-model:value="password" placeholder="Confirmez votre nouveau mot de passe"></a-input-password>
+            <a-input-password v-model:value="password" placeholder="Confirmez le nouveau mot de passe"></a-input-password>
         </a-form-item>
     </a-form>
 </a-modal>
@@ -23,18 +23,15 @@
 <script>
   import { Modal } from 'ant-design-vue';
   export default {
-    emits: ["success"],
-    props: ["open", "input"],
+    emits: ["success", "update:open"],
+    props: ["open"],
     components: {
       AModal: Modal
     },
     watch: {
       open(val) {
-        this.$data.showDialog = val;
-      },
-      input(val) {
         this.airport = {...val};
-      }
+      },
     },
     data() {
       return {
@@ -46,11 +43,17 @@
     },
     methods: {
       ok() {
-        this.showDialog = false
+        this.$emit("update:open", undefined)
         this.$emit("success", { login: this.login, password: this.password }, this.$props.input)
+        this.reset()
       },
       cancel() {
-        this.showDialog = false
+        this.$emit("update:open", undefined)
+        this.reset()
+      },
+      reset() {
+        this.login = ""
+        this.password = ""
       }
     }
   }
