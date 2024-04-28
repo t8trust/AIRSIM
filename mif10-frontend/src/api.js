@@ -46,13 +46,8 @@ export async function fetchJSON(url, params) {
   })
 }
 
-/**
- * @param {string} url 
- * @param {RequestInit?} params
- * @returns {Promise<any>}
- */
-export async function postJSON(url, body, params) {
-  return fetch(url, { method: "POST", 
+async function fetchWithBodyJSON(method, url, body, params) {
+  return fetch(url, { method, 
       body: body ? JSON.stringify(body) : undefined, 
       headers: { "Content-Type": "application/json" },
       ...params })
@@ -62,6 +57,23 @@ export async function postJSON(url, body, params) {
       }
   )
 }
+
+
+/**
+ * @param {string} url 
+ * @param {RequestInit?} params
+ * @returns {Promise<any>}
+ */
+export function postJSON(url, body, params) { return fetchWithBodyJSON("POST", url, body, params) }
+
+
+/**
+ * @param {string} url 
+ * @param {RequestInit?} params
+ * @returns {Promise<any>}
+ */
+export function putJSON(url, body, params) { return fetchWithBodyJSON("put", url, body, params) }
+
 
 export const Auth = {
   token: "",
@@ -95,6 +107,25 @@ export const Airports = {
   */
   async findAll(params) {
     return await fetchJSON(appendParamsToUrl(this.url, params))
+  },
+
+  /**
+   * @param {Airport} airport 
+   */
+  async create(airport) {
+    return await postJSON(this.url, airport);
+  },
+
+  async delete(iata) {
+    return await fetchJSON(`${this.url}/${iata}`)
+  },
+
+  /**
+   * @param {string} iata 
+   * @param {Airport} airport 
+   */
+  async update(iata, airport) {
+    return await putJSON(`${this.url}/${iata}`, airport)
   },
 }
 

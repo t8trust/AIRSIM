@@ -27,6 +27,7 @@
 
   <script>
   import { Card, Tag } from 'ant-design-vue';
+  import { message } from 'ant-design-vue';
   
   export default {
     name: 'FavorisSlot',
@@ -49,6 +50,7 @@
       removeFavorite(index) {
         this.favoritedFlights.splice(index, 1);
         localStorage.setItem('favoritedFlights', JSON.stringify(this.favoritedFlights));
+        message.success("Trajet favoris supprimé!")
       }
     }
   };

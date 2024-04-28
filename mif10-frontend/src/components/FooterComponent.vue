@@ -3,7 +3,7 @@
     <a-layout-footer class="footer">
       <a-row :gutter="16">
         <a-col :span="8" class="text-left">
-          <a-button v-if="showLoginButton" type="primary" shape="round" :icon="h(LoginOutlined)">
+          <a-button v-if="!Auth.token" type="primary" shape="round" :icon="h(LoginOutlined)">
             <router-link to="/login">
               Login
             </router-link>
@@ -23,18 +23,13 @@
   <script setup>
     import { h } from 'vue';
     import { LoginOutlined } from '@ant-design/icons-vue';
+    import { Auth } from '@/api';
   </script>
 
   <script>
   import { Layout, Row, Col, Button } from 'ant-design-vue';
 
   export default {
-    props: {
-      showLoginButton: {
-        type: Boolean,
-        default: true
-      }
-    },
     components: {
       'a-layout-footer': Layout.Footer,
       'a-row': Row,
