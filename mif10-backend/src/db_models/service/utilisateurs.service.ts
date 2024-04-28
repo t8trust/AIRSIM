@@ -22,15 +22,15 @@ export class UtilisateursService {
   }
 
   findAll(): Promise<Utilisateur[]> {
-    return this.utilisateursRepository.createQueryBuilder('utilisateurs')
-      .addSelect("login")
+    return this.utilisateursRepository.createQueryBuilder('utilisateur')
+      .select("utilisateur.login")
       .getMany();
   }
 
   findOne(login: string): Promise<Utilisateur | null> {
     return this.utilisateursRepository.findOneBy({ login });
     return this.utilisateursRepository.createQueryBuilder('utilisateurs')
-    .addSelect("login")
+    .select("utilisateurs.login")
     .andWhere("login = :login", { login })
     .getOne();
   }

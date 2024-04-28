@@ -12,6 +12,7 @@
   <airport-modal v-model:open="airportModalData" @success="onAirportModalSuccess"/>
   <flight-modal v-model:open="flightModalData" @success="onFlightModalSuccess"/>
   <user-modal v-model:open="userModalData" @success="onUserModalSuccess"/>
+
   <!-- Content -->
   <a-layout class="layout">
     <a-layout-header class="header">
@@ -22,7 +23,7 @@
         </a-col>
         <a-col :span="4" class="actions">
           <a-button @click="showDisconnectModal">Se déconnecter</a-button>
-          <a-button>Modifier profil</a-button>
+          <a-button @click="modifyProfile"> Modifier profil</a-button>
         </a-col>
       </a-row>
     </a-layout-header>
@@ -145,7 +146,7 @@
 
 <script>
 import { Airports, Auth, Flights, Users } from '@/api';
-import { InputSearch, Modal } from 'ant-design-vue';
+import { InputSearch, Modal, message } from 'ant-design-vue';
 import AirportModal from './modals/AirportModal.vue';
 import FlightModal from './modals/FlightModal.vue';
 import UserModal from './modals/UserModal.vue';
@@ -282,11 +283,14 @@ export default {
         const id = input.airport.iata;
         await Airports.update(id, newItem)
         this.airports[input.index] = newItem
+        message.success("Aeroport modifié!")
         return;
       }
 
       await Airports.create(newItem)
       this.airports.unshift(newItem);
+      message.success("Aeroport crée!")
+
     },
 
     async onFlightModalSuccess(newItem, input){
@@ -296,23 +300,36 @@ export default {
         const id = input.flight.id_vol;
         await Flights.update(id, dbFlight)
         this.vols[input.index] = newItem
+        message.success("Vol modifié!")
         return;
       }
 
       await Flights.create(dbFlight)
       this.vols.unshift(newItem);
+      message.success("Vol crée!")
     },
     
     async onUserModalSuccess(newItem, input){
-      if (input){
-        const id = input.flight.id_vol;
-        await Users.update(id, newItem)
+      let id;
+      if (input && input.user) id = input.user.login
+      if (input && input.self) id = newItem.login
+      
+      if (id){
+        const resp = await Users.update(id, newItem)
+        if (resp && resp.access_token) Auth.storeToken(resp)
         this.users[input.index] = newItem
+        message.success("Utilisateur modifié!")
         return;
       }
+      
 
       await Users.create(newItem)
       this.users.unshift(newItem);
+      message.success("Utilisateur crée!")
+    },
+
+    async modifyProfile(){
+      this.userModalData = { user: await Auth.whoAmI() }
     },
 
     /**

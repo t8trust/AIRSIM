@@ -39,7 +39,6 @@ export class VolsController {
   @Put(':id_vol')
   @UseGuards(AuthGuard)
   async update(@Param('id_vol') id_vol: number, @Body() updateVolDto: UpdateVolDto) {
-    console.log(id_vol, updateVolDto)
     return await this.volsService.update(id_vol, updateVolDto);
   }
 

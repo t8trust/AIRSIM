@@ -101,9 +101,18 @@ export const Auth = {
     return token
   },
 
+  storeToken(resp){
+    this.connected = true
+    localStorage.setItem("token", resp.access_token)
+  },
+
   async login(login, password) {
     const resp = await postJSON(burl + "/auth/login", { login, password })
-    localStorage.setItem("token", resp.access_token)
+    this.storeToken(resp)
+  },
+
+  async whoAmI(){
+    return await fetchJSON(burl + "/auth/whoami")
   },
 
   disconnect() {

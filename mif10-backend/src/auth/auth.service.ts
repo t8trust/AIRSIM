@@ -3,6 +3,7 @@ import { UtilisateursService as UsersService } from '../db_models/service/utilis
 import { JwtService } from '@nestjs/jwt';
 import * as argon2 from "argon2";
 import { ConfigService } from '@nestjs/config';
+import { Request as ERequest } from 'express';
 
 @Injectable()
 export class AuthService {
@@ -31,15 +32,31 @@ export class AuthService {
     pass: string,
   ): Promise<{ access_token: string }> {
     const user = await this.usersService.findOne(username);
-    console.log(await this.hashPassword(pass, user.salt))
-    console.log(user?.mot_de_passe)
     if (await this.verify(user?.mot_de_passe, pass, user.salt)) {
       throw new UnauthorizedException();
     }
-    const payload = { sub: user.login };
+    return this.makePayload(user.login)
+  }
+
+  async makePayload(login){
+    const payload = { sub: login };
     return {
       access_token: await this.jwtService.signAsync(payload),
     };
+  }
+  
+  extractTokenFromHeader(request: ERequest): string | undefined {
+    const [type, token] = request.headers.authorization?.split(' ') ?? [];
+    return type === 'Bearer' ? token : undefined;
+  }
+
+  getTokenInfoFromReq(request: ERequest){
+    const [type, token] = request.headers.authorization?.split(' ') ?? [];
+    let jwt = type === 'Bearer' ? token : undefined;
+
+    if (!jwt) return {};
+
+    return this.jwtService.decode(jwt);
   }
 }
 

@@ -40,9 +40,23 @@ export class UtilisateursController {
 
   @Put(':login')
   @UseGuards(AuthGuard)
-  async update(@Param('login') login: string, @Body() updateUserDto: UpdateUtilisateurDto) {
-    console.log(login, updateUserDto)
-    return await this.utilisateursService.update(login, updateUserDto);
+  async update(@Req() req: Request, @Param('login') login: string, @Body() updateUserDto: UpdateUtilisateurDto) {
+    const user = this.authService.getTokenInfoFromReq(req);
+    if (updateUserDto?.mot_de_passe){
+      updateUserDto.salt = randomBytes(10).toString("hex")
+      updateUserDto.mot_de_passe = await this.authService.hashPassword(updateUserDto.mot_de_passe, updateUserDto.salt);
+    } else updateUserDto.mot_de_passe = undefined
+
+    const update = await this.utilisateursService.update(login, updateUserDto);
+
+    console.log(user.sub)
+    console.log(login)
+
+    if (user.sub == login){
+      return await this.authService.makePayload(updateUserDto.login);
+    }
+
+    return {};
   }
 
   @Delete(':login')

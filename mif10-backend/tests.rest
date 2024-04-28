@@ -2,8 +2,8 @@ POST http://localhost:3000/utilisateurs
 content-type: application/json
 
 {
-    "login": "admintest",
-    "password": "admintest"
+    "login": "admin",
+    "password": "admin"
 }
 
 ###
