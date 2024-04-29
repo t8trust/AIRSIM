@@ -14,25 +14,28 @@ import { UtilisateursService } from '../service/utilisateurs.service';
 import { CreateUtilisateurDto } from '../dto/create-utilisateur-dto';
 import { UpdateUtilisateurDto } from '../dto/update-utilisateur-dto';
 import { AuthGuard } from '../../auth/auth.guard';
-import { AuthService } from 'src/auth/auth.service';
+import { AuthService } from '../../auth/auth.service';
 import { randomBytes } from 'crypto';
 
 @Controller('utilisateurs')
 export class UtilisateursController {
   constructor(
     private readonly utilisateursService: UtilisateursService,
-    private readonly authService: AuthService
+    private readonly authService: AuthService,
   ) {}
 
   @Post()
   async create(@Req() request: Request) {
-    let body = request.body;
+    const body = request.body;
 
-    let createUserDto = new CreateUtilisateurDto();
-    const salt = randomBytes(10).toString("hex");
+    const createUserDto = new CreateUtilisateurDto();
+    const salt = randomBytes(10).toString('hex');
     createUserDto.login = body.login;
     createUserDto.salt = salt;
-    createUserDto.mot_de_passe = await this.authService.hashPassword(body.mot_de_passe, salt);
+    createUserDto.mot_de_passe = await this.authService.hashPassword(
+      body.mot_de_passe,
+      salt,
+    );
 
     await this.utilisateursService.create(createUserDto);
   }
@@ -50,19 +53,27 @@ export class UtilisateursController {
 
   @Put(':login')
   @UseGuards(AuthGuard)
-  async update(@Req() req: Request, @Param('login') login: string, @Body() updateUserDto: UpdateUtilisateurDto) {
+  async update(
+    @Req() req: Request,
+    @Param('login') login: string,
+    @Body() updateUserDto: UpdateUtilisateurDto,
+  ) {
     const user = this.authService.getTokenInfoFromReq(req);
-    if (updateUserDto?.mot_de_passe){
-      updateUserDto.salt = randomBytes(10).toString("hex")
-      updateUserDto.mot_de_passe = await this.authService.hashPassword(updateUserDto.mot_de_passe, updateUserDto.salt);
-    } else updateUserDto.mot_de_passe = undefined
+    if (updateUserDto?.mot_de_passe) {
+      updateUserDto.salt = randomBytes(10).toString('hex');
+      updateUserDto.mot_de_passe = await this.authService.hashPassword(
+        updateUserDto.mot_de_passe,
+        updateUserDto.salt,
+      );
+    } else updateUserDto.mot_de_passe = undefined;
 
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const update = await this.utilisateursService.update(login, updateUserDto);
 
-    console.log(user.sub)
-    console.log(login)
+    console.log(user.sub);
+    console.log(login);
 
-    if (user.sub == login){
+    if (user.sub == login) {
       return await this.authService.makePayload(updateUserDto.login);
     }
 

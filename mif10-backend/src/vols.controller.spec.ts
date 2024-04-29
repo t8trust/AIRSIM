@@ -3,9 +3,12 @@ import { VolsController } from './db_models/controller/vols.controller';
 import { VolsService } from './db_models/service/vols.service';
 import { VolsServiceMock } from './db_models/mocks/vols.service.mock';
 import { volsMock, volsMockUpdated } from './db_models/mocks/vols.mock';
+
+import { AuthGuard } from './auth/auth.guard';
+import { AuthService } from './auth/auth.service';
+import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 import { JwtModule } from '@nestjs/jwt';
-import { ConfigService } from '@nestjs/config';
 import { Request } from 'express';
 
 describe('VolsController', () => {
@@ -17,8 +20,10 @@ describe('VolsController', () => {
       controllers: [VolsController],
       providers: [
         { provide: VolsService, useClass: VolsServiceMock },
-        JwtService, // Add JwtService as a provider
-        ConfigService, // Add ConfigService as a provider
+        { provide: AuthService, useValue: {} },
+        { provide: JwtService, useValue: {} },
+        { provide: ConfigService, useValue: {} },
+        AuthGuard,
       ],
       imports: [JwtModule], // Add JwtModule to the imports array
     }).compile();
@@ -36,9 +41,11 @@ describe('VolsController', () => {
     expect(controller).toBeDefined();
   });
 
-  describe('findOne', () => {
+  describe('findAll', () => {
     it('should return one aeroport', () => {
-      expect(controller.findOne('MNL', 'BOG', 0)).resolves.toEqual(volsMock);
+      expect(controller.findAll('MNL', 'BOG', 0, 'MNL')).resolves.toEqual(
+        volsMock,
+      );
     });
   });
 
