@@ -1,4 +1,14 @@
-import { Controller, Get, Post, Req, Param, Delete, Put, Body, UseGuards } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Req,
+  Param,
+  Delete,
+  Put,
+  Body,
+  UseGuards,
+} from '@nestjs/common';
 import { Request } from 'express';
 import { UtilisateursService } from '../service/utilisateurs.service';
 import { CreateUtilisateurDto } from '../dto/create-utilisateur-dto';
@@ -16,7 +26,7 @@ export class UtilisateursController {
 
   @Post()
   async create(@Req() request: Request) {
-    let body = request.body
+    let body = request.body;
 
     let createUserDto = new CreateUtilisateurDto();
     const salt = randomBytes(10).toString("hex");

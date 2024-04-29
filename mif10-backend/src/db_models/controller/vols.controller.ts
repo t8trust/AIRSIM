@@ -3,7 +3,7 @@ import { Request } from 'express';
 import { VolsService } from '../service/vols.service';
 import { CreateVolDto } from '../dto/create-vol-dto';
 import { UpdateVolDto } from '../dto/update-vol-dto';
-import { AuthGuard } from 'src/auth/auth.guard';
+import { AuthGuard } from '../../auth/auth.guard';
 
 @Controller('vols')
 export class VolsController {
