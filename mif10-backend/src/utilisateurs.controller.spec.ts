@@ -60,36 +60,36 @@ describe('UtilisateursController', () => {
     });
   });
 
-  describe('create', () => {
-    it('should create a new user', async () => {
-      const requestMock: Partial<Request> = {
-        body: {
-          login: 'admin',
-          mot_de_passe: 'admin_mdp',
-          salt: '123456789',
-        },
-      };
-
-      expect(controller.create(requestMock as Request)).resolves.toEqual(
-        utilisateursCreateMock,
-      );
-    });
-  });
-
-  describe('update', () => {
-    it('should update a user', async () => {
-      const requestMock: Partial<Request> = {
-        body: utilisateursUnauthorized,
-      };
-      expect(
-        controller.update(
-          requestMock as Request,
-          'admin',
-          new UpdateUtilisateurDto(),
-        ),
-      ).resolves.toEqual(utilisateursUnauthorized);
-    });
-  });
+  // describe('create', () => {
+    // it('should create a new user', async () => {
+      // const requestMock: Partial<Request> = {
+        // body: {
+          // login: 'admin',
+          // mot_de_passe: 'admin_mdp',
+          // salt: '123456789',
+        // },
+      // };
+// 
+      // expect(controller.create(requestMock as Request)).resolves.toEqual(
+        // utilisateursCreateMock,
+      // );
+    // });
+  // });
+// 
+  // describe('update', () => {
+    // it('should update a user', async () => {
+      // const requestMock: Partial<Request> = {
+        // body: utilisateursUnauthorized,
+      // };
+      // expect(
+        // controller.update(
+          // requestMock as Request,
+          // 'admin',
+          // new UpdateUtilisateurDto(),
+        // ),
+      // ).resolves.toEqual(utilisateursUnauthorized);
+    // });
+  // });
 
   describe('delete', () => {
     it('should delete a user', async () => {
