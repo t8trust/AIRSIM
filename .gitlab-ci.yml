@@ -44,7 +44,7 @@ deploy:
 
 test-run:
   stage: test
-  image: node:20.11.1
+  image: $IMAGE_VAR
   allow_failure: true
   only: 
     - main
