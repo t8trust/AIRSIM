@@ -5,7 +5,6 @@ import { Repository } from 'typeorm';
 import { Vol } from '../entity/vol.entity';
 import { CreateVolDto } from '../dto/create-vol-dto';
 import { UpdateVolDto } from '../dto/update-vol-dto';
-import { Aeroport } from '../entity/aeroport.entity';
 
 @Injectable()
 export class VolsService {

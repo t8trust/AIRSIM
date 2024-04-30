@@ -19,7 +19,7 @@
       <a-row justify="space-between" align="middle">
         <a-col :span="4">
           <a-avatar size="large" icon="user" />
-          <span class="username">NOM PRENOM</span>
+          <span class="username">{{ $data.userLogin }}</span>
         </a-col>
         <a-col :span="4" class="actions">
           <a-button @click="showDisconnectModal">Se déconnecter</a-button>
@@ -150,7 +150,6 @@ import { InputSearch, Modal, message } from 'ant-design-vue';
 import AirportModal from '../components/admin/modals/AirportModal.vue';
 import FlightModal from '../components/admin/modals/FlightModal.vue';
 import UserModal from '../components/admin/modals/UserModal.vue';
-
 export default {
   components: {
     AInputSearch: InputSearch,
@@ -169,19 +168,21 @@ export default {
       flightModalData: undefined,
       userModalData: undefined,
       searchTimeout: null,
+      userLogin: "",
       genericModal: {
         open: false,
         title: "",
         content: "",
         onsuccess: null,
         onfail: null
-      }
+      },
     };
   },
   async mounted() {
     this.getData("Aeroports", { limit: 10, page: 0 })
     this.getData("Utilisateurs", { limit: 10, page: 0 })
     this.getData("Vols", { limit: 10, page: 0 })
+    this.userLogin =  (await Auth.whoAmI()).login
     // this.showFlightModal = true;
   },
   methods: {
@@ -341,7 +342,8 @@ export default {
       params.onsuccess = () => { if (onsuccess) onsuccess(); this.genericModal.open = false }
       params.onfail = () => { if (onfail) onfail(); this.genericModal.open = false }
       this.genericModal = params;
-    }
+    },
+    
   },
 };
 </script>

@@ -106,6 +106,7 @@ export default {
     async onTravel(airport1, airport2) {
       const data = await Flights.findTravel(airport1.iata, airport2.iata);
       this.travels = data.map((travel) => ({
+        ...travel,
         airports: [airport1, airport2],
         co2: travel.co2_emissions
       }))

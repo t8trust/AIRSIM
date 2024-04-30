@@ -17,6 +17,8 @@
  *  co2_average: any,
  *  co2_emissions: any,
  *  duree: number,
+ *  heure_depart: string,
+ *  heure_destination: string,
  * }} Vol
  */
 

@@ -5,4 +5,5 @@ export class AeroportsServiceMock {
   findAll = jest.fn().mockResolvedValue(aeroportsMock);
   update = jest.fn().mockResolvedValue(updatedAeroportsMock);
   remove = jest.fn().mockResolvedValue(aeroportsMock[1]);
+  findOne = jest.fn().mockResolvedValue(aeroportsMock[0]);
 }
