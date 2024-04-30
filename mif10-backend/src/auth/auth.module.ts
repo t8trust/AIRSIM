@@ -1,4 +1,3 @@
-
 import { Module } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { UtilisateursModule as UsersModule } from '../db_models/module/utilisateurs.module';
@@ -14,14 +13,13 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
       inject: [ConfigService],
       useFactory: (config: ConfigService) => ({
         global: true,
-        secret: config.get("jwt.secret"),
-        signOptions: { expiresIn: '60s' },
-      })
+        secret: config.get('jwt.secret'),
+        signOptions: { expiresIn: '1h' },
+      }),
     }),
   ],
-  providers: [AuthService],
+  providers: [AuthService, ConfigService],
   controllers: [AuthController],
   exports: [AuthService],
 })
 export class AuthModule {}
-

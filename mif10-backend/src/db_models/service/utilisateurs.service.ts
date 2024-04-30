@@ -5,7 +5,6 @@ import { Utilisateur } from '../entity/utilisateur.entity';
 import { CreateUtilisateurDto } from '../dto/create-utilisateur-dto';
 import { UpdateUtilisateurDto } from '../dto/update-utilisateur-dto';
 
-
 @Injectable()
 export class UtilisateursService {
   constructor(
@@ -13,23 +12,31 @@ export class UtilisateursService {
     private utilisateursRepository: Repository<Utilisateur>,
   ) {}
 
-  async create(createUtilisateurDto: CreateUtilisateurDto): Promise<Utilisateur> {
+  async create(
+    createUtilisateurDto: CreateUtilisateurDto,
+  ): Promise<Utilisateur> {
     const userData =
-      await this.utilisateursRepository.create(
-        createUtilisateurDto,
-      );
+      await this.utilisateursRepository.create(createUtilisateurDto);
     return this.utilisateursRepository.save(userData);
   }
 
   findAll(): Promise<Utilisateur[]> {
-    return this.utilisateursRepository.find();
+    return this.utilisateursRepository
+      .createQueryBuilder('utilisateur')
+      .select('utilisateur.login')
+      .getMany();
   }
 
   findOne(login: string): Promise<Utilisateur | null> {
     return this.utilisateursRepository.findOneBy({ login });
+    return this.utilisateursRepository
+      .createQueryBuilder('utilisateurs')
+      .select('utilisateurs.login')
+      .andWhere('login = :login', { login })
+      .getOne();
   }
 
-  update(login: string, updateUtilisateurDto: UpdateUtilisateurDto){
+  update(login: string, updateUtilisateurDto: UpdateUtilisateurDto) {
     return this.utilisateursRepository.update(login, updateUtilisateurDto);
   }
 

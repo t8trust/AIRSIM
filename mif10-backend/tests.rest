@@ -1,0 +1,10 @@
+POST http://localhost:3000/utilisateurs
+content-type: application/json
+
+{
+    "login": "admin",
+    "password": "admin"
+}
+
+###
+POST http://localhost:3000/azeae

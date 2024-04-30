@@ -1,10 +1,10 @@
+/* eslint-disable prettier/prettier */
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Vol } from '../entity/vol.entity';
 import { CreateVolDto } from '../dto/create-vol-dto';
 import { UpdateVolDto } from '../dto/update-vol-dto';
-
 
 @Injectable()
 export class VolsService {
@@ -37,6 +37,31 @@ export class VolsService {
       .getMany();
 
       return res;
+  }
+
+  async findAll(page: number, search?: string): Promise<Vol[] | null> {
+
+    if(page == null)
+      page = 0
+
+    const res = await this.volsRepository
+      .createQueryBuilder("vol")
+
+    if (search){
+      res.leftJoin("aeroport", "a", "depart = a.iata")
+        .leftJoin("aeroport", "b", "destination = b.iata")
+        .where("a.nom like :nom", { nom: `${search}%` })
+        .orWhere("a.ville like :nom", { nom: `${search}%` })
+        .orWhere("a.pays like :nom", { nom: `${search}%` })
+        .orWhere("b.nom like :nom", { nom: `${search}%` })
+        .orWhere("b.ville like :nom", { nom: `${search}%` })
+        .orWhere("b.pays like :nom", { nom: `${search}%` })
+    }
+
+    return res.orderBy("vol.co2_emissions")
+    .skip(page * 10)
+    .take(10)
+    .getMany();
   }
 
   update(id_vol: number, updateVolDto: UpdateVolDto){

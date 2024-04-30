@@ -9,8 +9,6 @@ stages:
     - sonarqube
     - deploy    
     
-    
-
 deploy:
   stage: deploy
   only:
@@ -50,26 +48,37 @@ test-run:
   allow_failure: true
   only: 
     - main
+    - merge_requests
+    - test-cicd
+  artifacts:
+    expire_in: 1 day
+    when: always
+    paths:
+      - mif10-backend/coverage/
   script:
     - mv $ENV ./.env
     - cd mif10-backend
     - npm install
-    - npm run test
+    - npm run test:cov
+    - npm run test:e2e:cov
 
-test-run-e2e:
-  stage: test
-  image: node:20.11.1
-  allow_failure: true
-  only: 
-    - main
-  script:
-    #- mv $ENV ./.env
-    - cd mif10-backend
-    - npm install
-    - npm run test:e2e
+# test-run-e2e:
+#   stage: test
+#   image: node:20.11.1
+#   allow_failure: true
+#   only: 
+#     - main
+#   script:
+#     #- mv $ENV ./.env
+#     - cd mif10-backend
+#     - npm install
+#     - npm run test:e2e
 
+    
 sonarqube-check:
   stage: sonarqube
+  dependencies:
+    - test-run
   image: 
     name: sonarsource/sonar-scanner-cli:5.0
     entrypoint: [""]
@@ -81,6 +90,10 @@ sonarqube-check:
     paths:
       - .sonar/cache
   script: 
+    - cd mif10-backend/
+    - sonar-scanner
+    - cd ..
+    - cd mif10-frontend/
     - sonar-scanner
   allow_failure: true
   only:
@@ -88,6 +101,7 @@ sonarqube-check:
     - master
     - main
     - develop
+    - test-cicd
 
 sonarqube-vulnerability-report:
   stage: sonarqube
@@ -100,6 +114,7 @@ sonarqube-vulnerability-report:
     - master
     - main
     - develop
+    - test-cicd
   artifacts:
     expire_in: 1 day
     reports:

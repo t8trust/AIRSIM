@@ -1,4 +1,15 @@
-import { Controller, Get, Post, Req, Query, Param, Delete, Put, Body, UseGuards, Search } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Req,
+  Query,
+  Param,
+  Delete,
+  Put,
+  Body,
+  UseGuards,
+} from '@nestjs/common';
 import { Request } from 'express';
 import { AeroportsService } from '../service/aeroports.service';
 import { CreateAeroportDto } from '../dto/create-aeroport-dto';
@@ -12,27 +23,40 @@ export class AeroportsController {
   @Post()
   @UseGuards(AuthGuard)
   async create(@Req() request: Request) {
-    let body = request.body
-    let dto = new CreateAeroportDto();
-    dto.iata = body.iata
-    dto.nom = body.nom
-    dto.pays = body.pays
-    dto.ville = body.ville
-    dto.latitude = body.latitude
-    dto.longitude = body.longitude
+    const body = request.body;
+    const dto = new CreateAeroportDto();
+    dto.iata = body.iata;
+    dto.nom = body.nom;
+    dto.pays = body.pays;
+    dto.ville = body.ville;
+    dto.latitude = body.latitude;
+    dto.longitude = body.longitude;
 
     return await this.aeroportsService.create(dto);
   }
 
   // search = name, country or city
   @Get()
-  async findAll(@Query('search') search : string, @Query('page') page : number, @Query('limit') limit : number, @Query('bounds') bounds : string) {
+  async findAll(
+    @Query('search') search: string,
+    @Query('page') page: number,
+    @Query('limit') limit: number,
+    @Query('bounds') bounds: string,
+  ) {
     return await this.aeroportsService.findAll(search, page, limit, bounds);
+  }
+
+  @Get(':iata')
+  async findOne(@Param('iata') iata: string) {
+    return await this.aeroportsService.findOne(iata);
   }
 
   @Put(':iata')
   @UseGuards(AuthGuard)
-  async update(@Param('iata') iata: string, @Body() updateAeroportDto: UpdateAeroportDto) {
+  async update(
+    @Param('iata') iata: string,
+    @Body() updateAeroportDto: UpdateAeroportDto,
+  ) {
     return await this.aeroportsService.update(iata, updateAeroportDto);
   }
 

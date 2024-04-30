@@ -6,9 +6,12 @@ import {
   aeroportsMock,
   updatedAeroportsMock,
 } from './db_models/mocks/aeroports.mock';
+
+import { AuthGuard } from './auth/auth.guard';
+import { AuthService } from './auth/auth.service';
+import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 import { JwtModule } from '@nestjs/jwt';
-import { ConfigService } from '@nestjs/config';
 import { Request } from 'express';
 
 describe('AeroportsController', () => {
@@ -20,10 +23,12 @@ describe('AeroportsController', () => {
       controllers: [AeroportsController],
       providers: [
         { provide: AeroportsService, useClass: AeroportsServiceMock },
-        JwtService, // Add JwtService as a provider
-        ConfigService, // Add ConfigService as a provider
+        { provide: AuthService, useValue: {} },
+        { provide: JwtService, useValue: {} },
+        { provide: ConfigService, useValue: {} },
+        AuthGuard,
       ],
-      imports: [JwtModule], // Add JwtModule to the imports array
+      imports: [JwtModule],
     }).compile();
 
     controller = module.get<AeroportsController>(AeroportsController);
