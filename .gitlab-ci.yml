@@ -2,7 +2,7 @@
 # Not strictly necessary, but speeds up the builds.
 
 variables:
-  IMAGE_VAR: "node:20.11.1"
+  IMAGE_VAR: "node:18.10.0"
 
 stages:
     - test
@@ -44,7 +44,7 @@ deploy:
 
 test-run:
   stage: test
-  image: node:20.11.1
+  image: $IMAGE_VAR
   allow_failure: true
   only: 
     - main
