@@ -204,10 +204,11 @@ export default {
 }
 
 .bottom-buttons {
-  position: absolute;
+  position: sticky;
   bottom: 0;
   right: 0;
   margin-bottom: 1em;
+  margin-left: 250px;
 }
 
 .map-container {
