@@ -84,4 +84,18 @@ describe('AeroportsController', () => {
       );
     });
   });
+
+  describe('findOne', () => {
+    it('should return an aeroport', () => {
+      const a = {
+        iata: 'BVA',
+        nom: 'Beauvais-Tille',
+        pays: 'France',
+        ville: 'Paris',
+        latitude: 49.45,
+        longitude: 2.116667,
+      };
+      expect(controller.findOne(a.iata)).resolves.toEqual(aeroportsMock[0]);
+    });
+  });
 });
