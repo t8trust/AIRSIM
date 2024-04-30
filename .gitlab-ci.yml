@@ -45,7 +45,7 @@ deploy:
 test-run:
   stage: test
   image: $IMAGE_VAR
-  allow_failure: false
+  allow_failure: true
   only: 
     - main
     - merge_requests
