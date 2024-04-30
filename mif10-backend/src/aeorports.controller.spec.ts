@@ -6,9 +6,12 @@ import {
   aeroportsMock,
   updatedAeroportsMock,
 } from './db_models/mocks/aeroports.mock';
+
+import { AuthGuard } from './auth/auth.guard';
+import { AuthService } from './auth/auth.service';
+import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 import { JwtModule } from '@nestjs/jwt';
-import { ConfigService } from '@nestjs/config';
 import { Request } from 'express';
 
 describe('AeroportsController', () => {
@@ -20,10 +23,12 @@ describe('AeroportsController', () => {
       controllers: [AeroportsController],
       providers: [
         { provide: AeroportsService, useClass: AeroportsServiceMock },
-        JwtService, // Add JwtService as a provider
-        ConfigService, // Add ConfigService as a provider
+        { provide: AuthService, useValue: {} },
+        { provide: JwtService, useValue: {} },
+        { provide: ConfigService, useValue: {} },
+        AuthGuard,
       ],
-      imports: [JwtModule], // Add JwtModule to the imports array
+      imports: [JwtModule],
     }).compile();
 
     controller = module.get<AeroportsController>(AeroportsController);
@@ -77,6 +82,20 @@ describe('AeroportsController', () => {
       expect(controller.remove(aeroportsMock[1].iata)).resolves.toEqual(
         aeroportsMock[1],
       );
+    });
+  });
+
+  describe('findOne', () => {
+    it('should return an aeroport', () => {
+      const a = {
+        iata: 'BVA',
+        nom: 'Beauvais-Tille',
+        pays: 'France',
+        ville: 'Paris',
+        latitude: 49.45,
+        longitude: 2.116667,
+      };
+      expect(controller.findOne(a.iata)).resolves.toEqual(aeroportsMock[0]);
     });
   });
 });

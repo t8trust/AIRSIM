@@ -42,10 +42,20 @@ import { JwtService } from '@nestjs/jwt';
     UtilisateursModule,
     VolsModule,
     AeroportsModule,
-    AuthModule
+    AuthModule,
   ],
-  controllers: [AppController, UtilisateursController, VolsController, AeroportsController],
-  providers: [AppService, UtilisateursService, VolsService, AeroportsModule, JwtService],
+  controllers: [
+    AppController,
+    UtilisateursController,
+    VolsController,
+    AeroportsController,
+  ],
+  providers: [
+    AppService,
+    UtilisateursService,
+    VolsService,
+    AeroportsModule,
+    JwtService,
+  ],
 })
-
 export class AppModule {}

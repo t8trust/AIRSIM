@@ -1,4 +1,12 @@
-import { Body, Controller, Post, HttpCode, HttpStatus, Get, Req } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Post,
+  HttpCode,
+  HttpStatus,
+  Get,
+  Req,
+} from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { Request } from 'express';
 @Controller('auth')
@@ -13,10 +21,10 @@ export class AuthController {
 
   @HttpCode(HttpStatus.OK)
   @Get('whoami')
-  whoAmI(@Req() request: Request){
-    const user = this.authService.getTokenInfoFromReq(request)
+  whoAmI(@Req() request: Request) {
+    const user = this.authService.getTokenInfoFromReq(request);
     return {
       login: user.sub,
-    }
+    };
   }
 }
